@@ -3,11 +3,11 @@
 ## Run Dev Environment Locally
 
 ``` bash
-cd fff-api
+cd api
 dotnet restore
 func start
 
-cd ../fff-ux
+cd ../ux
 npm install
 npm start
 ```
