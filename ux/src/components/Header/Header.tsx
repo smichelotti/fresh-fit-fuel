@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Header: React.FunctionComponent = () => {
     return (
         <>
             <div className="site-branding-area">
                 <div className="logo">
-                    <h1><a><img src=".\jenna-logo.jpg" /><span className="text-nowrap">Fresh Fit Meals</span></a></h1>
+                    <h1><img src=".\jenna-logo.jpg" alt="logo"/><span className="text-nowrap">Fresh Fit Meals</span></h1>
                 </div>
             </div>
 

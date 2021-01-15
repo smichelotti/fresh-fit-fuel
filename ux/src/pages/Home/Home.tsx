@@ -1,14 +1,11 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import BigTitle from '../../components/BigTitle/BigTitle';
 import { Link } from 'react-router-dom';
 
 export const Home: React.FunctionComponent = () => {
   return (
     <>
 
-      <img src=".\meal-prep.png" />
+      <img src=".\meal-prep.png" alt=""/>
 
       <div className="align-center">
         <Link to="/order" className="btn btn-lg" style={{ backgroundColor: '#1ABC9C', color: 'black' }}>Order Now</Link>

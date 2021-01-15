@@ -1,6 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import BigTitle from '../../components/BigTitle/BigTitle';
 
 export const Contact: React.FunctionComponent = () => {
@@ -17,7 +15,7 @@ export const Contact: React.FunctionComponent = () => {
               <h2>Social Media</h2>
               <ul className="list-unstyled">
                 <li>
-                  <a href="https://www.instagram.com/jennamichelotti_cf/" target="_blank">
+                  <a href="https://www.instagram.com/jennamichelotti_cf/">
                     <i className="fa fa-instagram"></i> Instagram
                             </a>
                 </li>
