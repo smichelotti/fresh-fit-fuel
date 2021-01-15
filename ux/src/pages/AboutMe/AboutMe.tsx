@@ -1,6 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import BigTitle from '../../components/BigTitle/BigTitle';
 
 export const AboutMe: React.FunctionComponent = () => {
@@ -24,7 +22,7 @@ export const AboutMe: React.FunctionComponent = () => {
                 </div>
 
                 <div style={{ display: 'flex' }}>
-                    <img style={{ margin: 'auto' }} src="jennaRowing.jpg" />
+                    <img style={{ margin: 'auto' }} src="jennaRowing.jpg" alt=""/>
                 </div>
 
                 <div style={{ display: 'flex' }}>
