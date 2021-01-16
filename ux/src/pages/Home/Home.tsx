@@ -8,7 +8,7 @@ export const Home: React.FunctionComponent = () => {
       <img src=".\meal-prep.png" alt=""/>
 
       <div className="align-center">
-        <Link to="/order" className="btn btn-lg" style={{ backgroundColor: '#1ABC9C', color: 'black' }}>Order Now</Link>
+        <Link to="/order" className="btn btn-lg order-btn">Order Now</Link>
       </div>
 
       <div className="promo-area">
@@ -51,7 +51,7 @@ export const Home: React.FunctionComponent = () => {
               <div className="latest-product">
                 <h2 className="section-title">Next Week/This Week?</h2>
                 <div style={{ display: 'flix' }}>
-                  <p style={{ margin: 'auto' }}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
+                  <p style={{ margin: 'auto' }} className="customer-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
                   quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
                   iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
                                 veritatis magni at?</p>
