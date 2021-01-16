@@ -8,7 +8,7 @@ export const MenuItems: React.FunctionComponent = () => {
   return (
     <>
       <h4>Admin Menu Items page!</h4>
-      {!loading && <h5>Count: {data.length}</h5>}
+      {!loading && <h5>xCount: {data.length}</h5>}
     </>
   );
 }
