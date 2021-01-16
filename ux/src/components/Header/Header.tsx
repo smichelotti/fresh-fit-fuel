@@ -22,7 +22,6 @@ export const Header: React.FunctionComponent = () => {
                                 <span className="icon-bar"></span>
                             </button>
 
-                            <a className="navbar-brand" href="#"><img src="images/logo.jpg" alt="" /></a>
                         </div>
 
                         <div id="Navbar" className="navbar-collapse collapse">
