@@ -15,7 +15,6 @@ export const Footer: React.FunctionComponent = () => {
                                 iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
                                 veritatis magni at?
                                 </p>
-                                <img src=".\jenna-logo.jpg" alt="logo"/>
                             </div>
                         </div>
                     </div>
