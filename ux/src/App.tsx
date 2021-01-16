@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Home, AboutMe, HowItWorks, Contact, MenuItems } from './pages/';
+import { Home, AboutMe, HowItWorks, Contact, MenuItems, Order } from './pages/';
 import './App.css';
 import './styles.css';
 import { Header, Footer } from './components';
@@ -27,6 +27,9 @@ function App() {
             </Route>
             <Route exact path="/contact">
               <Contact />
+            </Route>
+            <Route exact path="/order">
+              <Order />
             </Route>
             <Route render={() => <h1>Page not found</h1>} />
           </Switch>

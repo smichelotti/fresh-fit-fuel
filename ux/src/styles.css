@@ -972,3 +972,35 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .contact-link {
     font-size: 30px;
 }
+
+.menu-item {
+    background-color: green;
+}
+
+.menu-item-name {
+    padding: 15px;
+    font-size: 25px;
+    color: white;
+    text-align: left;
+}
+
+.menu-item-desc {
+    color: white;
+    text-align: center;
+}
+
+.add-to-cart-btn {
+    font-size: 40px;
+    background-color: red;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.cd-customization .color, .cd-customization .size, .cd-customization .add-to-cart {
+    height: 34px;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+  }

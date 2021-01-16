@@ -1,0 +1,40 @@
+@baseUri = http://localhost:7071
+
+### Get ALL Menu items
+GET {{baseUri}}/api/menu-items
+
+### Get Menu item
+GET {{baseUri}}/api/menu-items/3
+
+### Insert item
+POST {{baseUri}}/api/menu-items
+{
+    "name": "test4",
+    "description": "test desc",
+    "carbs": 50,
+    "protein": 40,
+    "fat": 30,
+    "calories": 60,
+    "imageUrl": "test url",
+    "category": "meal",
+    "price": 5.00
+}
+
+### Update item
+PUT {{baseUri}}/api/menu-items/1
+{
+  "id": 4,
+  "name": "test4",
+  "description": "test desc4",
+  "carbs": 50,
+  "protein": 40,
+  "fat": 30,
+  "calories": 60,
+  "imageUrl": "test url",
+  "category": "meal",
+  "price": 5.00
+}
+
+### DELETE item
+
+DELETE {{baseUri}}/api/menu-items/4
