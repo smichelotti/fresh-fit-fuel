@@ -4,35 +4,37 @@
 GET {{baseUri}}/api/menu-items
 
 ### Get Menu item
-GET {{baseUri}}/api/menu-items/3
+GET {{baseUri}}/api/menu-items/1
 
 ### Insert item
 POST {{baseUri}}/api/menu-items
+
 {
-    "name": "test4",
-    "description": "test desc",
+    "name": "Blackened Chicken",
+    "description": "Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description",
     "carbs": 50,
     "protein": 40,
     "fat": 30,
     "calories": 60,
-    "imageUrl": "test url",
+    "imageUrl": "/chicken.jpg",
     "category": "meal",
     "price": 5.00
 }
 
 ### Update item
 PUT {{baseUri}}/api/menu-items/1
+
 {
-  "id": 4,
-  "name": "test4",
-  "description": "test desc4",
-  "carbs": 50,
-  "protein": 40,
-  "fat": 30,
-  "calories": 60,
-  "imageUrl": "test url",
-  "category": "meal",
-  "price": 5.00
+    "id": 2,
+    "name": "Honey Mustard Chicken",
+    "description": "tosaoetutaohuntoaehut",
+    "carbs": 50,
+    "protein": 40,
+    "fat": 30,
+    "calories": 60,
+    "imageUrl": "/chicken.jpg",
+    "category": "meal",
+    "price": 5.00
 }
 
 ### DELETE item

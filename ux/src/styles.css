@@ -1027,3 +1027,18 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     position: relative;
     overflow: hidden;
   }
+
+.macro-info {
+    padding-top: 25px;
+    color: orange;
+}
+
+.accordion-proceed {
+    margin-left: auto;
+    background-color: #1ABC9C;
+}
+
+.accordion-previous {
+    margin-right: auto;
+    background-color: #1ABC9C;
+}
