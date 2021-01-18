@@ -2,13 +2,14 @@ import React from 'react';
 import { BigTitle, MenuItemDisplay, AccordionToggle, DistributionInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
 import { useFetch } from '../../services/useFetch';
-import { Accordion, Alert, Card } from 'react-bootstrap';
+import { Accordion, Alert, Card, Spinner } from 'react-bootstrap';
 
 export const Order: React.FunctionComponent = () => {
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
+    if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
 
-    console.log(JSON.stringify(data));
+    console.log('asoethu', JSON.stringify(data));
 
     return (
         <>
@@ -24,9 +25,7 @@ export const Order: React.FunctionComponent = () => {
                                 <div>
                                     {data.map((item, i) => {
                                         return (
-                                            <div key={i}>
-                                                <MenuItemDisplay item={item} />
-                                            </div>
+                                            <MenuItemDisplay item={item} />
                                         );
                                     })}
                                 </div>
