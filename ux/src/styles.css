@@ -137,7 +137,7 @@ z-index: 999;}
 }
 
 
-.mainmenu-area ul.navbar-nav li a {
+/* .mainmenu-area ul.navbar-nav li a {
     color: #fff;
     font-size: 16px;
     font-weight: 700;
@@ -145,7 +145,30 @@ z-index: 999;}
 }
 
 .mainmenu-area ul.navbar-nav li:hover a, .mainmenu-area ul.navbar-nav li.active a {background: #222}
-.mainmenu-area .nav > li > a:focus {color: #000}
+.mainmenu-area .nav > li > a:focus {color: #000} */
+
+/* #region mainmenu */
+
+.mainmenu-area .navbar-light .navbar-nav a.nav-link  {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 20px;
+}
+
+.mainmenu-area .navbar-light .navbar-nav a.nav-link.active, .mainmenu-area .navbar-light .navbar-nav a.nav-link:hover  {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 20px;
+  background: #222
+}
+
+.navbar {
+  padding: 0px!important;
+}
+
+/* #endregion */
 
 .slider-area {clear: both}
 .slider-area, .promo-area, .brands-area, .maincontent-area, .footer-top-area, .product-widget-area, .product-breadcroumb-area, .single-product-area {position: relative;overflow: hidden}
