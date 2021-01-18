@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 // import { GetConfiguration } from './ConfigurationService';
 
 
-//export default function useFetch(url) {
 export const useFetch = <T>(url: string) => {
   const isMounted = useRef(false);
   const [data, setData] = useState<T>({} as T);

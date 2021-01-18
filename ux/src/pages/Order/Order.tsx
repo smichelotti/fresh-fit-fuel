@@ -5,7 +5,7 @@ import { useFetch } from '../../services/useFetch';
 import { Accordion, Alert, Card } from 'react-bootstrap';
 
 export const Order: React.FunctionComponent = () => {
-    const { data, loading, error } = useFetch<MenuItem>('/api/menu-items');
+    const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
     if (error) throw error;
 
     console.log(JSON.stringify(data));

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import { useHistory, useParams } from 'react-router-dom';
 import { BigTitle } from '../../../components';
-// import { useFetch, useWebApi } from '../../../services/useFetch';
 import { Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/esm/Form';
@@ -10,40 +9,32 @@ import Col from 'react-bootstrap/esm/Col';
 import { getMenuItem, addMenuItem, updateMenuItem } from '../../../services/ClientApi';
 import Button from 'react-bootstrap/esm/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
+import { MenuItem } from '../../../models/MenuItem';
+import { LoadingState } from '../../../models/LoadingState';
 
-enum LoadingState { NotLoaded, Loading, Loaded, Error };
 
-interface MenuItemInfo { 
-  id: number,
-  name: string,
-  price: number,
-  description: string, 
-  category: string,
-  carbs: number,
-  fat: number,
-  protein: number,
-  calories: number,
-  imageUrl: string
-};
 interface MIParams { id: string }
 
-interface MenuItemInfo { id: number, name: string, description: string, category: string }
-
-const emptyMenuItem: MenuItemInfo = {
+const emptyMenuItem: MenuItem = {
   id: 0, name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: ''
 };
+
+const schema = yup.object({
+  name: yup.string().required(),
+  category: yup.string().required(),
+  description: yup.string().required(),
+  imageUrl: yup.string().required(),
+  price: yup.number().required(),
+  carbs: yup.number(),
+  fat: yup.number(),
+  protein: yup.number(),
+  calories: yup.number()
+});
 
 export const EditMenuItem: React.FunctionComponent = () => {
   const { id } = useParams<MIParams>();
   const [isNew] = useState(id === 'new');
-  // const { data, loading, error } = useFetch<MenuItemInfo>(`/api/menu-items/${id}`);
-  // const [ loadingState, setLoadingState ] = useState(LoadingState.NotLoaded);
-  // const { data, loading, error } = useWebApi<MenuItemInfo>(getMenuItemFunc(id));
-  // if (loading) return <Spinner animation="border" variant="primary" />
-  // if (error) throw error;
-  // if (loadingState === LoadingState.Loading) return <Spinner animation="border" variant="primary" />
-
-  const [menuItem, setMenuItem] = useState<MenuItemInfo>(emptyMenuItem);
+  const [menuItem, setMenuItem] = useState<MenuItem>(emptyMenuItem);
   const [loading, setLoading] = useState(LoadingState.NotLoaded);
   const history = useHistory();
 
@@ -54,7 +45,6 @@ export const EditMenuItem: React.FunctionComponent = () => {
       try {
         setLoading(LoadingState.Loading);
         const item = await getMenuItem(id);
-        console.log('**about to set menu item', item);
         setMenuItem(item);
         setLoading(LoadingState.Loaded);
       } catch (e) {
@@ -65,25 +55,10 @@ export const EditMenuItem: React.FunctionComponent = () => {
     getItems();
   }, [id, isNew]);
  
-  console.log('**data', menuItem);
-  const schema = yup.object({
-    name: yup.string().required(),
-    category: yup.string().required(),
-    description: yup.string().required(),
-    imageUrl: yup.string().required(),
-    price: yup.number().required(),
-    carbs: yup.number(),
-    fat: yup.number(),
-    protein: yup.number(),
-    calories: yup.number()
-  });
-
-  const handleSubmit = async(item: MenuItemInfo, formikProps: FormikHelpers<MenuItemInfo>) => {
-    console.log('**inside handleSubmit', item, formikProps);
-
-    setLoading(LoadingState.Loading);
+  const handleSubmit = async(item: MenuItem, formikProps: FormikHelpers<MenuItem>) => {
     try {
-      var response = await (isNew ? addMenuItem(item) : updateMenuItem(item));
+      setLoading(LoadingState.Loading);
+      const response = await (isNew ? addMenuItem(item) : updateMenuItem(item));
       console.log('**successful response', response);
       setLoading(LoadingState.Loaded);
       history.push('/admin/menu-items');
@@ -91,8 +66,6 @@ export const EditMenuItem: React.FunctionComponent = () => {
       console.error(e);
       setLoading(LoadingState.Error);
     }
-    
-
   };
 
   return (
@@ -106,7 +79,6 @@ export const EditMenuItem: React.FunctionComponent = () => {
           validationSchema={schema}
           onSubmit={handleSubmit}
         >
-
           {({
             handleSubmit,
             handleChange,
@@ -251,7 +223,6 @@ export const EditMenuItem: React.FunctionComponent = () => {
 
             </Form>
         )}
-
         </Formik>
         
       </div>
