@@ -25,7 +25,7 @@ export const Header: React.FunctionComponent = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mr-auto">
                     {links.map(l => (
-                      <LinkContainer to={l.url} exact={true}>
+                      <LinkContainer key={l.url} to={l.url} exact={true}>
                         <Nav.Link>{l.title}</Nav.Link>
                       </LinkContainer>
                     ))}

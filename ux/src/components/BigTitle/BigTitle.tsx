@@ -7,7 +7,7 @@ export const BigTitle: React.FunctionComponent<titleProps> = (props) => {
     return (
         <>
             <div style={{backgroundImage: "url(/crossword.png)", backgroundColor: '#1ABC9C'}}>
-                <div className="container">
+                <div className="container mb-2">
                     <div className="row">
                         <div className="col-md-12">
                             <div className="product-bit-title text-center">
