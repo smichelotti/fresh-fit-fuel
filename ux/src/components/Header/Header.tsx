@@ -15,7 +15,7 @@ export const Header: React.FunctionComponent = () => {
         <>
           <div className="site-branding-area">
             <div className="logo">
-                <h1><img src="/jenna-logo.jpg" alt="logo" /><span className="text-nowrap">Fresh Fit Meals</span></h1>
+              <img src="/logo-411x224.png" alt="logo" />
             </div>
           </div>
           <div className="mainmenu-area">
