@@ -16,7 +16,6 @@ export const Order: React.FunctionComponent = () => {
             <BigTitle name='Order Now' />
             <div className="container">
 
-                {!loading && <h4>This is the order now page</h4>}
                 <Accordion defaultActiveKey="0">
                     <Card>
                         <Card.Header>Menu</Card.Header>
