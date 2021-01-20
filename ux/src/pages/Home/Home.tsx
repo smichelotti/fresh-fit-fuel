@@ -7,7 +7,7 @@ export const Home: React.FunctionComponent = () => {
 
       <img src=".\meal-prep.png" alt=""/>
 
-      <div className="align-center">
+      <div className="d-flex justify-content-center">
         <Link to="/order" className="btn btn-lg order-btn">Order Now</Link>
       </div>
 
@@ -17,26 +17,26 @@ export const Home: React.FunctionComponent = () => {
           <div className="row">
             <div className="col-md-3 col-sm-6">
               <div className="single-promo">
-                <i className="fa fa-refresh"></i>
-                <p>Something here</p>
+                <i className="fa fa-lemon-o"></i>
+                <p>Clean ingredients</p>
+              </div>
+            </div>
+            <div className="col-md-3 col-sm-6">
+              <div className="single-promo">
+                <i className="fa fa-cutlery"></i>
+                <p>Sanitized area</p>
               </div>
             </div>
             <div className="col-md-3 col-sm-6">
               <div className="single-promo">
                 <i className="fa fa-truck"></i>
-                <p>Free shipping</p>
+                <p>Delivery or pick-up</p>
               </div>
             </div>
             <div className="col-md-3 col-sm-6">
               <div className="single-promo">
-                <i className="fa fa-lock"></i>
-                <p>Secure payments</p>
-              </div>
-            </div>
-            <div className="col-md-3 col-sm-6">
-              <div className="single-promo">
-                <i className="fa fa-gift"></i>
-                <p>Whatever you want</p>
+                <i className="fa fa-calculator"></i>
+                <p>Macros provided</p>
               </div>
             </div>
           </div>
@@ -47,16 +47,11 @@ export const Home: React.FunctionComponent = () => {
         <div className="zigzag-bottom"></div>
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
-              <div className="latest-product">
-                <h2 className="section-title">Next Week/This Week?</h2>
-                <div style={{ display: 'flix' }}>
-                  <p style={{ margin: 'auto' }} className="customer-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                  quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                  iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                                veritatis magni at?</p>
-                </div>
-              </div>
+            <div className="col-md-6">
+              <img src="https://freshfitfuel.blob.core.windows.net/images/jenna-cooking-480-640.jpg" alt="" />
+            </div>
+            <div className="col-md-6">
+              <img src="https://freshfitfuel.blob.core.windows.net/images/stove-480-640.jpg" alt="" />
             </div>
           </div>
         </div>
