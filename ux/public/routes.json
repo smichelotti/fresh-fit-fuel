@@ -6,11 +6,7 @@
       "statusCode": 200
     },
     {
-      "route": "/admin",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/admin/*",
+      "route": "/admin*",
       "allowedRoles": ["admin"]
     },
     {
