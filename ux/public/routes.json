@@ -2,7 +2,8 @@
   "routes": [
     {
       "route": "/admin/*",
-      "allowedRoles": ["admin"]
+      "allowedRoles": ["admin"],
+      "serve": "/index.html"
     },
     {
       "route": "/login",
