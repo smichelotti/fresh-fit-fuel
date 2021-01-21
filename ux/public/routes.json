@@ -1,9 +1,29 @@
 {
   "routes": [
     {
+      "route": "/admin/*",
+      "allowedRoles": ["admin"],
+      "serve": "/index.html"
+    },
+    {
+      "route": "/login",
+      "serve": "/.auth/login/google"
+    },
+    {
+      "route": "/logout",
+      "serve": "/.auth/logout"
+    },
+    {
       "route": "/*",
       "serve": "/index.html",
       "statusCode": 200
+    }
+  ],
+  "platformErrorOverrides": [
+    {
+      "errorType": "Unauthenticated",
+      "statusCode": "302",
+      "serve": "/login"
     }
   ]
 }
