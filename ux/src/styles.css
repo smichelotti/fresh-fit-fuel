@@ -1057,3 +1057,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     float: right;
     margin-bottom: 1%;
 }
+
+.accordion-card {
+    padding-bottom: 2%;
+}

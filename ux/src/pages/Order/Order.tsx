@@ -21,7 +21,7 @@ export const Order: React.FunctionComponent = () => {
             <div className="container">
 
                 <Accordion activeKey={currKey}>
-                    <Card>
+                    <Card className="accordion-card">
                         {
                             (menuVar)
                                 ? <Accordion.Toggle as={Card.Header} eventKey="Menu" onClick={() => setCurrKey("Menu")}>
@@ -44,7 +44,7 @@ export const Order: React.FunctionComponent = () => {
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
-                    <Card>
+                    <Card className="accordion-card">
                         {
                             (disVar)
                                 ? <Accordion.Toggle as={Card.Header} eventKey="Distribution" onClick={() => setCurrKey("Distribution")}>
@@ -61,7 +61,7 @@ export const Order: React.FunctionComponent = () => {
                         <div>
                         </div>
                     </Card>
-                    <Card>
+                    <Card className="accordion-card">
                         <Card.Header>Venmo</Card.Header>
                         <Accordion.Collapse eventKey="Venmo">
                             <Card.Body>
