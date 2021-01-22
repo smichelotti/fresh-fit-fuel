@@ -26,7 +26,7 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                                 <p className="menu-item-desc">{props.item.description}</p>
                             </div>
                         </div>
-                        <div className="col-md-3 mt-1" style={{ marginRight: '2%' }}>
+                        <div className="col-md-3" style={{ margin: '1%' }}>
                             <label style={{ color: 'white', float: 'left' }} htmlFor="quantity">Quantity:</label>
                             <Form.Control as="select" id="quantity" size="sm">
                                 <option>1</option>

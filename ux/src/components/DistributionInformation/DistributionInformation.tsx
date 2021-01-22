@@ -11,7 +11,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
         <>
             <p>How would you prefer to recieve your food:</p>
             <div className="d-flex justify-content-center">
-                <select className="form-control col-3" onChange={onDeliveryMethodChange}>
+                <select className="form-control" onChange={onDeliveryMethodChange} style={{ maxWidth: '35%'}}>
                     <option value="pick-up">Pick-Up</option>
                     <option value="delivery">Delivery</option>
                 </select>
