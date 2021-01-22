@@ -1,17 +1,18 @@
 @baseUri = http://localhost:7071
+@id = c9e2382c-8b0e-4867-bd38-ac120b93dfaf
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items
 
 ### Get Menu item
-GET {{baseUri}}/api/menu-items/1
+GET {{baseUri}}/api/menu-items/{{id}}
 
 ### Insert item
 POST {{baseUri}}/api/menu-items
 
 {
     "name": "Blackened Chicken",
-    "description": "Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description",
+    "description": "Description description ",
     "carbs": 50,
     "protein": 40,
     "fat": 30,
@@ -22,12 +23,12 @@ POST {{baseUri}}/api/menu-items
 }
 
 ### Update item
-PUT {{baseUri}}/api/menu-items/1
+PUT {{baseUri}}/api/menu-items/{{id}}
 
 {
-    "id": 2,
+    "id": "{{id}}",
     "name": "Honey Mustard Chicken",
-    "description": "tosaoetutaohuntoaehut",
+    "description": "updated tosaoetutaohuntoaehut",
     "carbs": 50,
     "protein": 40,
     "fat": 30,
@@ -39,4 +40,4 @@ PUT {{baseUri}}/api/menu-items/1
 
 ### DELETE item
 
-DELETE {{baseUri}}/api/menu-items/4
+DELETE {{baseUri}}/api/menu-items/{{id}}

@@ -1,7 +1,6 @@
-﻿using System.Data;
-using System.Threading.Tasks;
-using Dapper.Contrib.Extensions;
+﻿using System.Threading.Tasks;
 using FreshFitFuel.Api.Models;
+using FreshFitFuel.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -13,9 +12,9 @@ namespace FreshFitFuel.Api.MenuItems
 {
     public class InsertMenuItem
     {
-        private IDbConnection db;
+        private TableStorageContext db;
 
-        public InsertMenuItem(IDbConnection db) => this.db = db;
+        public InsertMenuItem(TableStorageContext db) => this.db = db;
 
         [FunctionName("InsertMenuItem")]
         public async Task<IActionResult> Run(
@@ -25,8 +24,7 @@ namespace FreshFitFuel.Api.MenuItems
             log.LogInformation("Insert Menu Item");
             var json = await req.ReadAsStringAsync();
             var item = JsonConvert.DeserializeObject<MenuItem>(json);
-            var id = await this.db.InsertAsync(item);
-            item.Id = (int)id;
+            await this.db.MenuItems.AddItem(item);
             return new OkObjectResult(item);
         }
     }

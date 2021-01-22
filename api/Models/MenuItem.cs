@@ -1,8 +1,8 @@
 ﻿namespace FreshFitFuel.Api.Models
 {
-    public class MenuItem
+    public class MenuItem : IItem
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Carbs { get; set; }
