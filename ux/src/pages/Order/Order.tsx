@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BigTitle, MenuItemDisplay, DistributionInformation } from '../../components'
+import { BigTitle, MenuItemDisplay, AccordionToggle, DistributionInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
 import { useFetch } from '../../services/useFetch';
 import { Accordion, Alert, Button, Card, Spinner } from 'react-bootstrap';
@@ -8,6 +8,8 @@ import { Accordion, Alert, Button, Card, Spinner } from 'react-bootstrap';
 export const Order: React.FunctionComponent = () => {
     const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
+    const [menuVar, setMenuVar] = useState(false);
+    const [disVar, setDisVar] = useState(false);
     if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
 
@@ -20,7 +22,13 @@ export const Order: React.FunctionComponent = () => {
 
                 <Accordion activeKey={currKey}>
                     <Card>
-                        <Card.Header>Menu</Card.Header>
+                        {
+                            (menuVar)
+                                ? <Accordion.Toggle as={Card.Header} eventKey="Menu" onClick={() => setCurrKey("Menu")}>
+                                    Menu
+                                  </Accordion.Toggle>
+                                : <Card.Header>Menu</Card.Header>
+                        }
                         <Accordion.Collapse eventKey="Menu">
                             <Card.Body>
                                 <div>
@@ -32,23 +40,29 @@ export const Order: React.FunctionComponent = () => {
                                         );
                                     })}
                                 </div>
-                                <Button onClick={() => setCurrKey('Distribution')} className="continue-btn">Continue</Button>
+                                <Button onClick={() => { setCurrKey("Distribution"); setMenuVar(true); }} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                     <Card>
-                        <Card.Header>Distribution Information</Card.Header>
+                        {
+                            (disVar)
+                                ? <Accordion.Toggle as={Card.Header} eventKey="Distribution" onClick={() => setCurrKey("Distribution")}>
+                                    Distribution Information
+                                  </Accordion.Toggle>
+                                : <Card.Header>Distribution Information</Card.Header>
+                        }
                         <Accordion.Collapse eventKey="Distribution">
                             <Card.Body>
                                 <DistributionInformation />
-                                <Button onClick={() => setCurrKey('Venmo')} className="continue-btn">Continue</Button>
+                                <Button onClick={() => { setCurrKey("Venmo"); setDisVar(true); }} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
                         <div>
                         </div>
                     </Card>
                     <Card>
-                        <Card.Header>Venmo Information</Card.Header>
+                        <Card.Header>Venmo</Card.Header>
                         <Accordion.Collapse eventKey="Venmo">
                             <Card.Body>
                                 <div className="form-group">

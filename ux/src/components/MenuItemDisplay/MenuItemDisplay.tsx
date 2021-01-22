@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import { MenuItem } from '../../models/MenuItem';
 
 interface MenuItemDisplayProps {
@@ -25,10 +26,16 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                                 <p className="menu-item-desc">{props.item.description}</p>
                             </div>
                         </div>
-                        <div className="col-md-3 mt-1" style={{ marginRight: '2%'}}>
+                        <div className="col-md-3 mt-1" style={{ marginRight: '2%' }}>
                             <label style={{ color: 'white', float: 'left' }} htmlFor="quantity">Quantity:</label>
-                            <input type="number" id="quantity" min="0" max="100" placeholder="0" />
-                            <label style={{ color: 'white'}} htmlFor="subtotal">Subtotal:</label>
+                            <Form.Control as="select" id="quantity" size="sm">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </Form.Control>
+                            <label style={{ color: 'white' }} htmlFor="subtotal">Subtotal:</label>
                             <p id="subtotal" style={{ color: 'white', float: 'right' }}>$test</p>
 
 
