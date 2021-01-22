@@ -1,10 +1,12 @@
-import React from 'react';
-import { BigTitle, MenuItemDisplay, AccordionToggle, DistributionInformation } from '../../components'
+import React, { useState } from 'react';
+import { BigTitle, MenuItemDisplay, DistributionInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
 import { useFetch } from '../../services/useFetch';
-import { Accordion, Alert, Card, Spinner } from 'react-bootstrap';
+import { Accordion, Alert, Button, Card, Spinner } from 'react-bootstrap';
+
 
 export const Order: React.FunctionComponent = () => {
+    const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
     if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
@@ -16,37 +18,38 @@ export const Order: React.FunctionComponent = () => {
             <BigTitle name='Order Now' />
             <div className="container">
 
-                <Accordion defaultActiveKey="0">
+                <Accordion activeKey={currKey}>
                     <Card>
                         <Card.Header>Menu</Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="Menu">
                             <Card.Body>
                                 <div>
                                     {data.map((item, i) => {
                                         return (
-                                            <MenuItemDisplay item={item} />
+                                            <div key={i}>
+                                                <MenuItemDisplay item={item} />
+                                            </div>
                                         );
                                     })}
                                 </div>
+                                <Button onClick={() => setCurrKey('Distribution')} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
-                        <AccordionToggle eventKey="1" navType="accordion-proceed pull-right" text="Continue to Distribution Information" />
                     </Card>
                     <Card>
                         <Card.Header>Distribution Information</Card.Header>
-                        <Accordion.Collapse eventKey="1">
+                        <Accordion.Collapse eventKey="Distribution">
                             <Card.Body>
                                 <DistributionInformation />
+                                <Button onClick={() => setCurrKey('Venmo')} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
                         <div>
-                            <AccordionToggle eventKey="0" navType="accordion-previous pull-left" text="Go Back to Menu" />
-                            <AccordionToggle eventKey="2" navType="accordion-proceed pull-right" text="Continue to Venmo Information" />
                         </div>
                     </Card>
                     <Card>
                         <Card.Header>Venmo Information</Card.Header>
-                        <Accordion.Collapse eventKey="2">
+                        <Accordion.Collapse eventKey="Venmo">
                             <Card.Body>
                                 <div className="form-group">
                                     <label className="control-label">Venmo Username</label>
@@ -55,12 +58,9 @@ export const Order: React.FunctionComponent = () => {
                                 <Alert className="mt-2" variant="info">
                                     You will recieve a Venmo request after checkout. You must complete the request BEFORE your order is filled!
                                 </Alert>
+                                <Button onClick={() => setCurrKey('Venmo')} className="continue-btn">Checkout</Button>
                             </Card.Body>
                         </Accordion.Collapse>
-                        <div>
-                            <AccordionToggle eventKey="1" navType="accordion-previous pull-left" text="Go Back to Distribution Information" />
-                            <button className="accordion-proceed pull-right">Checkout</button>
-                        </div>
                     </Card>
                 </Accordion>
             </div>

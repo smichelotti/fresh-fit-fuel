@@ -1013,7 +1013,6 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 .menu-item-desc {
     color: white;
-    text-align: center;
 }
 
 .add-to-cart-btn {
@@ -1033,8 +1032,9 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
   }
 
 .macro-info {
-    padding-top: 25px;
-    color: orange;
+    margin: auto;
+    padding: 4%;
+    color: white;
 }
 
 .accordion-proceed {
@@ -1045,4 +1045,15 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .accordion-previous {
     margin-right: auto;
     background-color: #1ABC9C;
+}
+
+.menu-item-image {
+    padding: 4%;
+}
+
+.continue-btn {
+    background-color: #ff9899;
+    color: white;
+    float: right;
+    margin-bottom: 1%;
 }
