@@ -16,7 +16,7 @@ import { LoadingState } from '../../../models/LoadingState';
 interface MIParams { id: string }
 
 const emptyMenuItem: MenuItem = {
-  id: 0, name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: ''
+  name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: ''
 };
 
 const schema = yup.object({

@@ -41,3 +41,26 @@ PUT {{baseUri}}/api/menu-items/{{id}}
 ### DELETE item
 
 DELETE {{baseUri}}/api/menu-items/{{id}}
+
+
+### Insert new Customer Order
+POST {{baseUri}}/api/customer/order
+
+{
+    "lineItems": [
+      { menuItemId: "111", quantity: 1, subTotal: 5 },
+      { menuItemId: "222", quantity: 3, subTotal: 15 },
+      { menuItemId: "333", quantity: 5, subTotal: 25.5 }
+    ],
+    "grandTotal": 45.5,
+    "fullName": "Bob Smith",
+    "email": "bob.smith@gmail.com",
+    "venmoHandle": "bobsmithiscool",
+    "distributionMethod": "delivery",
+    "streetAddress": "123 Main Street",
+    "city": "Baltimore",
+    "zipCode": "22222"
+}
+
+### Get ALL Order
+GET {{baseUri}}/api/orders
