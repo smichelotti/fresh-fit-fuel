@@ -8,7 +8,7 @@ export const Home: React.FunctionComponent = () => {
       <img src=".\meal-prep.png" alt=""/>
 
       <div className="d-flex justify-content-center">
-        <Link to="/order" className="btn btn-lg order-btn">Order Now</Link>
+        <Link to="/order" className="btn btn-lg order-btn">View Menu</Link>
       </div>
 
       <div className="promo-area">

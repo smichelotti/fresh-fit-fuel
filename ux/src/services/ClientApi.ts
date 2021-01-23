@@ -1,6 +1,16 @@
 import { MenuItem } from "../models/MenuItem";
+import { CustomerOrder } from "../models/Order";
+
+/***** Customer endpoints *****/
+
+export const getCurrentMenu = async (): Promise<MenuItem[]> => httpGet(`/api/customer/current-menu`);
+
+export const submitOrder = async(order: CustomerOrder): Promise<CustomerOrder> => httpSend('/api/customer/order', 'POST', order);
 
 
+/***** Admin endpoints *****/
+
+// Menu Items
 export const getMenuItems = async (): Promise<MenuItem[]> => httpGet(`/api/menu-items`);
 
 export const getMenuItem = async (id: string): Promise<MenuItem> => httpGet(`/api/menu-items/${id}`);
@@ -8,6 +18,10 @@ export const getMenuItem = async (id: string): Promise<MenuItem> => httpGet(`/ap
 export const addMenuItem = async (item: MenuItem): Promise<MenuItem> => await httpSend(`/api/menu-items`, 'POST', item);
 
 export const updateMenuItem = async (item: MenuItem): Promise<MenuItem> => await httpSend(`/api/menu-items/${item.id}`, 'PUT', item);
+
+// Order
+
+export const getOrders = async(): Promise<CustomerOrder[]> => httpGet('/api/orders');
 
 
 // #region Private Methods

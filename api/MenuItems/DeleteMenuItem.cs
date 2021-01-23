@@ -1,7 +1,6 @@
-﻿using System.Data;
-using System.Threading.Tasks;
-using Dapper.Contrib.Extensions;
+﻿using System.Threading.Tasks;
 using FreshFitFuel.Api.Models;
+using FreshFitFuel.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -12,17 +11,17 @@ namespace FreshFitFuel.Api.MenuItems
 {
     public class DeleteMenuItem
     {
-        private IDbConnection db;
+        private TableStorageContext db;
 
-        public DeleteMenuItem(IDbConnection db) => this.db = db;
+        public DeleteMenuItem(TableStorageContext db) => this.db = db;
 
         [FunctionName("DeleteMenuItem")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "menu-items/{id}")] HttpRequest req, int id,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "menu-items/{id}")] HttpRequest req, string id,
             ILogger log)
         {
             log.LogInformation("Delete Menu Item");
-            await this.db.DeleteAsync(new MenuItem { Id = id });
+            await this.db.MenuItems.DeleteEntityAsync(partitionKey: Constants.DefaultPartitionKey, rowKey: id);
             return new NoContentResult();
         }
     }
