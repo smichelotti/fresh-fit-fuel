@@ -21,8 +21,7 @@ namespace FreshFitFuel.Api.MenuItems
             ILogger log)
         {
             log.LogInformation("Get Menu Items.");
-            var entities = this.db.MenuItems.Query<TableEntity>("PartitionKey eq 'default'");
-            var items = entities.FromTableEntities<MenuItem>();
+            var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'");
             return new OkObjectResult(items);
         }
     }

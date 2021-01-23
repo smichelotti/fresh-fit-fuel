@@ -1,5 +1,5 @@
 @baseUri = http://localhost:7071
-@id = c9e2382c-8b0e-4867-bd38-ac120b93dfaf
+@id = 5e2703cd-a271-4051-9b4b-edeae52398c0
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items

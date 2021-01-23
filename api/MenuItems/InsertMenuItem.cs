@@ -24,7 +24,7 @@ namespace FreshFitFuel.Api.MenuItems
             log.LogInformation("Insert Menu Item");
             var json = await req.ReadAsStringAsync();
             var item = JsonConvert.DeserializeObject<MenuItem>(json);
-            await this.db.MenuItems.AddItem(item);
+            await this.db.MenuItems.AddEntityAsync(item);
             return new OkObjectResult(item);
         }
     }
