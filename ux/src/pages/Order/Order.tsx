@@ -40,19 +40,19 @@ export const Order: React.FunctionComponent = () => {
                                         );
                                     })}
                                 </div>
-                                <Button onClick={() => { setCurrKey("Distribution"); setMenuVar(true); }} className="continue-btn">Continue</Button>
+                                <Button onClick={() => { setCurrKey("Personal"); setMenuVar(true); }} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                     <Card className="accordion-card">
                         {
                             (disVar)
-                                ? <Accordion.Toggle as={Card.Header} eventKey="Distribution" onClick={() => setCurrKey("Distribution")}>
-                                    Distribution Information
+                                ? <Accordion.Toggle as={Card.Header} eventKey="Personal" onClick={() => setCurrKey("Personal")}>
+                                    Personal Information
                                   </Accordion.Toggle>
-                                : <Card.Header>Distribution Information</Card.Header>
+                                : <Card.Header>Personal Information</Card.Header>
                         }
-                        <Accordion.Collapse eventKey="Distribution">
+                        <Accordion.Collapse eventKey="Personal">
                             <Card.Body>
                                 <DistributionInformation />
                                 <Button onClick={() => { setCurrKey("Venmo"); setDisVar(true); }} className="continue-btn">Continue</Button>
@@ -60,21 +60,6 @@ export const Order: React.FunctionComponent = () => {
                         </Accordion.Collapse>
                         <div>
                         </div>
-                    </Card>
-                    <Card className="accordion-card">
-                        <Card.Header>Venmo</Card.Header>
-                        <Accordion.Collapse eventKey="Venmo">
-                            <Card.Body>
-                                <div className="form-group">
-                                    <label className="control-label">Venmo Username</label>
-                                    <input type="text" id="venmo-username" className="form-control" placeholder="Username" />
-                                </div>
-                                <Alert className="mt-2" variant="info">
-                                    You will recieve a Venmo request after checkout. You must complete the request BEFORE your order is filled!
-                                </Alert>
-                                <Button onClick={() => setCurrKey('Venmo')} className="continue-btn">Checkout</Button>
-                            </Card.Body>
-                        </Accordion.Collapse>
                     </Card>
                 </Accordion>
             </div>
