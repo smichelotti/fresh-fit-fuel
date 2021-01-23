@@ -15,7 +15,10 @@ export const AdminHeader: React.FunctionComponent = () => {
       <>
         <div className="site-branding-area">
             <div className="logo">
-                <h1><img src="/jenna-logo.jpg" alt="logo" /><span className="text-nowrap">Fresh Fit Meals Admin</span></h1>
+                <h1>
+                  <a href="/"><img src="/jenna-logo.jpg" alt="logo" /></a>
+                  <span className="text-nowrap">Fresh Fit Meals Admin</span>
+                </h1>
             </div>
         </div>
         <div className="mainmenu-area">

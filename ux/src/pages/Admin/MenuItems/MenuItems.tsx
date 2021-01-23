@@ -25,7 +25,6 @@ export const MenuItems: React.FunctionComponent = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Description</th>
               <th>Category</th>
               <th></th>
             </tr>
@@ -34,7 +33,6 @@ export const MenuItems: React.FunctionComponent = () => {
             {data.map(x => (
               <tr key={x.id}>
                 <td>{x.name}</td>
-                <td>{x.description}</td>
                 <td>{x.category}</td>
                 <td>
                   <LinkContainer to={`/admin/menu-items/${x.id}`} exact={true}>

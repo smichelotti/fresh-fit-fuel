@@ -1,17 +1,18 @@
 @baseUri = http://localhost:7071
+@id = 5e2703cd-a271-4051-9b4b-edeae52398c0
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items
 
 ### Get Menu item
-GET {{baseUri}}/api/menu-items/1
+GET {{baseUri}}/api/menu-items/{{id}}
 
 ### Insert item
 POST {{baseUri}}/api/menu-items
 
 {
     "name": "Blackened Chicken",
-    "description": "Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description Description description",
+    "description": "Description description ",
     "carbs": 50,
     "protein": 40,
     "fat": 30,
@@ -22,12 +23,12 @@ POST {{baseUri}}/api/menu-items
 }
 
 ### Update item
-PUT {{baseUri}}/api/menu-items/1
+PUT {{baseUri}}/api/menu-items/{{id}}
 
 {
-    "id": 2,
+    "id": "{{id}}",
     "name": "Honey Mustard Chicken",
-    "description": "tosaoetutaohuntoaehut",
+    "description": "updated tosaoetutaohuntoaehut",
     "carbs": 50,
     "protein": 40,
     "fat": 30,
@@ -39,4 +40,27 @@ PUT {{baseUri}}/api/menu-items/1
 
 ### DELETE item
 
-DELETE {{baseUri}}/api/menu-items/4
+DELETE {{baseUri}}/api/menu-items/{{id}}
+
+
+### Insert new Customer Order
+POST {{baseUri}}/api/customer/order
+
+{
+    "lineItems": [
+      { menuItemId: "111", quantity: 1, subTotal: 5 },
+      { menuItemId: "222", quantity: 3, subTotal: 15 },
+      { menuItemId: "333", quantity: 5, subTotal: 25.5 }
+    ],
+    "grandTotal": 45.5,
+    "fullName": "Bob Smith",
+    "email": "bob.smith@gmail.com",
+    "venmoHandle": "bobsmithiscool",
+    "distributionMethod": "delivery",
+    "streetAddress": "123 Main Street",
+    "city": "Baltimore",
+    "zipCode": "22222"
+}
+
+### Get ALL Order
+GET {{baseUri}}/api/orders

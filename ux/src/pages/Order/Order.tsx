@@ -24,7 +24,7 @@ export const Order: React.FunctionComponent = () => {
                                 <div>
                                     {data.map((item, i) => {
                                         return (
-                                            <MenuItemDisplay item={item} />
+                                            <MenuItemDisplay item={item} key={i} />
                                         );
                                     })}
                                 </div>
