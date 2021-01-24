@@ -28,38 +28,25 @@ namespace FreshFitFuel.Api.Orders
         {
             log.LogInformation("Get Orders.");
             // TODO: eventually will need to provide filters for active/complete, etc.
-            var orders = this.db.Orders.Query<Order>("PartitionKey eq 'default'");
-            var items = this.mapper.Map<List<CustomerOrderResult>>(orders);
+            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "Email", "GrandTotal" });
+            var items = this.mapper.Map<List<AdminOrderResult>>(orders);
             return new OkObjectResult(items);
         }
 
-        public class CustomerOrderResult
+        public class AdminOrderResult
         {
-            public List<LineItem> LineItems { get; set; } = new List<LineItem>();
+            public string Id { get; set; }
             public double GrandTotal { get; set; }
             public string FullName { get; set; }
             public string Email { get; set; }
-            public string VenmoHandle { get; set; }
-            public string DistributionMethod { get; set; }
-
-            public string StreetAddress { get; set; }
-            public string City { get; set; }
-            public string ZipCode { get; set; }
-
-            public class LineItem
-            {
-                public string MenuItemId { get; set; }
-                public int Quantity { get; set; }
-                public double SubTotal { get; set; }
-            }
         }
-
+        
         public class MappingProfile : Profile
         {
             public MappingProfile()
             {
-                this.CreateMap<Order, CustomerOrderResult>()
-                    .ForMember(dest => dest.LineItems, opt => opt.MapFrom(src => JsonConvert.DeserializeObject(src.MenuItemsJson)));
+                this.CreateMap<Order, AdminOrderResult>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RowKey));
             }
         }
     }

@@ -8,6 +8,7 @@ import { Menus } from './pages/Admin/Menus/Menus';
 import { Orders } from './pages/Admin/Orders/Orders';
 import { AdminHome } from './pages/Admin/AdminHome/AdminHome';
 import { EditMenuItem } from './pages/Admin/MenuItems/EditMenuItem';
+import { OrderDetail } from './pages/Admin/Orders/OrderDetail';
 
 function App() {
   const isAdmin = window.location.pathname.includes('/admin');
@@ -41,6 +42,9 @@ function App() {
             </Route>
             <Route exact path="/admin/orders">
               <Orders />
+            </Route>
+            <Route exact path="/admin/orders/:id">
+              <OrderDetail />
             </Route>
             <Route exact path="/admin/menus">
               <Menus />
