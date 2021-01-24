@@ -91,7 +91,6 @@ export const EditMenuItem: React.FunctionComponent = () => {
           
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Row>
-                <Button type="submit">Save</Button>
                 <LinkContainer to={`/admin/menu-items`} exact={true}>
                   <Button className="ml-2" variant="secondary">Cancel</Button>
                 </LinkContainer>

@@ -1,65 +1,87 @@
-import React from 'react';
-import { BigTitle, MenuItemDisplay, AccordionToggle, DistributionInformation } from '../../components'
+import React, { useState } from 'react';
+import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
+import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
-import { Accordion, Alert, Card, Spinner } from 'react-bootstrap';
+import { Accordion,  Button, Card, Spinner } from 'react-bootstrap';
+import { CustomerOrder, LineItem } from '../../models/Order';
+import { submitOrder } from '../../services/ClientApi';
 
 export const Order: React.FunctionComponent = () => {
+    const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
+    const [menuVar, setMenuVar] = useState(false);
+    let disVar = false;
+    
+
+    const onMenuItemCompleted = (info: LineItem) => {
+        lineItems = lineItems.map(item => item.menuItemId === info.menuItemId ? info : item);
+    }
+    const onPersonalInfoCompleted = async(info: PersonalInfo) => {
+        console.log('Personal:', info);
+        const ord: CustomerOrder = {
+            lineItems: lineItems,
+            grandTotal: 45.5,
+            fullName: info.name,
+            email: info.email,
+            venmoHandle: info.venmo,
+            distributionMethod: "delivery",
+            streetAddress: info.streetAddress1,
+            city: info.city,
+            zipCode: info.zip
+        }
+        const response = await submitOrder(ord);
+        console.log(response);
+    }
+
     if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
-
-    console.log('asoethu', JSON.stringify(data));
+    let lineItems: LineItem[] = data.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', subTotal: 0, quantity: 0}));
+    console.log('li', lineItems);
 
     return (
         <>
             <BigTitle name='Order Now' />
             <div className="container">
 
-                <Accordion defaultActiveKey="0">
-                    <Card>
-                        <Card.Header>Menu</Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                <Accordion activeKey={currKey}>
+                    <Card className="accordion-card">
+                        {
+                            (menuVar)
+                                ? <Accordion.Toggle as={Card.Header} eventKey="Menu" onClick={() => setCurrKey("Menu")}>
+                                    Menu
+                                  </Accordion.Toggle>
+                                : <Card.Header>Menu</Card.Header>
+                        }
+                        <Accordion.Collapse eventKey="Menu">
                             <Card.Body>
                                 <div>
                                     {data.map((item, i) => {
                                         return (
-                                            <MenuItemDisplay item={item} key={i} />
+                                            <div key={i}>
+                                                <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted}/>
+                                            </div>
                                         );
                                     })}
                                 </div>
+                                <Button onClick={() => { setCurrKey("Personal"); setMenuVar(true); }} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
-                        <AccordionToggle eventKey="1" navType="accordion-proceed pull-right" text="Continue to Distribution Information" />
                     </Card>
-                    <Card>
-                        <Card.Header>Distribution Information</Card.Header>
-                        <Accordion.Collapse eventKey="1">
+                    <Card className="accordion-card">
+                        {
+                            (disVar)
+                                ? <Accordion.Toggle as={Card.Header} eventKey="Personal" onClick={() => setCurrKey("Personal")}>
+                                    Personal Information
+                                  </Accordion.Toggle>
+                                : <Card.Header>Personal Information</Card.Header>
+                        }
+                        <Accordion.Collapse eventKey="Personal">
                             <Card.Body>
-                                <DistributionInformation />
+                                <PersonalInformation onPersonalInfoCompleted={onPersonalInfoCompleted} />
                             </Card.Body>
                         </Accordion.Collapse>
                         <div>
-                            <AccordionToggle eventKey="0" navType="accordion-previous pull-left" text="Go Back to Menu" />
-                            <AccordionToggle eventKey="2" navType="accordion-proceed pull-right" text="Continue to Venmo Information" />
-                        </div>
-                    </Card>
-                    <Card>
-                        <Card.Header>Venmo Information</Card.Header>
-                        <Accordion.Collapse eventKey="2">
-                            <Card.Body>
-                                <div className="form-group">
-                                    <label className="control-label">Venmo Username</label>
-                                    <input type="text" id="venmo-username" className="form-control" placeholder="Username" />
-                                </div>
-                                <Alert className="mt-2" variant="info">
-                                    You will recieve a Venmo request after checkout. You must complete the request BEFORE your order is filled!
-                                </Alert>
-                            </Card.Body>
-                        </Accordion.Collapse>
-                        <div>
-                            <AccordionToggle eventKey="1" navType="accordion-previous pull-left" text="Go Back to Distribution Information" />
-                            <button className="accordion-proceed pull-right">Checkout</button>
                         </div>
                     </Card>
                 </Accordion>
