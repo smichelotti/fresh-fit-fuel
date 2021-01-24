@@ -1,5 +1,5 @@
 import { Formik, FormikHelpers } from 'formik';
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import { Alert, Button, Col, Form } from 'react-bootstrap';
 import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
@@ -31,15 +31,6 @@ const schema = yup.object({
 });
 
 export const PersonalInformation: React.FunctionComponent<PersonalInformationProps> = (props) => {
-    const [isDelivery, setIsDelivery] = useState(false);
-
-    const onDeliveryMethodChange = (event: ChangeEvent<HTMLSelectElement>) => { 
-        let { name, value } = event.target;
-        setIsDelivery(event.target.value === 'delivery');
-        console.log('vals', event, event.target.innerText);
-        console.log('nv', name, value);
-    }
-
     const handleSubmit = (item: PersonalInfo, formikProps: FormikHelpers<PersonalInfo>) => {
         props.onPersonalInfoCompleted(item);
     }
@@ -104,24 +95,12 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
 
                         <Form.Row>
                             <Form.Group as={Col} md="6" className="offset-md-3">
-                                {/* <label htmlFor="distributionMethod">
-                                    How would you like to receive your food?
-                                </label> */}
-                                {/* <select
-                                    name="distributionType"
-                                    value={values.distributionMethod}
-                                    onChange={onDeliveryMethodChange}
-                                    className="ml-4"
-                                >
-                                    <option value="pick-up" label="Pick-Up">Pick-Up</option>
-                                    <option value="delivery" label="Delivery">Delivery</option>
-                                </select> */}
                                 <Form.Label>Distribution Method</Form.Label>
                                 <Form.Control 
                                     as="select" 
+                                    name="distributionMethod"
                                     value={values.distributionMethod} 
-                                    onChange={onDeliveryMethodChange} 
-                                    // value={state.groupSelectValue || defaultValue}
+                                    onChange={handleChange} 
                                 >
                                     <option value="pick-up" label="Pick-Up">Pick-Up</option>
                                     <option value="delivery" label="Delivery">Delivery</option>
@@ -132,7 +111,7 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                             </Form.Group>
                         </Form.Row>
 
-                        {isDelivery &&
+                        {(values.distributionMethod === "delivery") &&
                             <div>
                                 <Form.Row>
                                     <Form.Group as={Col} md="12">
