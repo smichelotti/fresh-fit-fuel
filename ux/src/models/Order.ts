@@ -25,6 +25,7 @@ export interface Order {
 
 export interface LineItem {
   menuItemId: string;
+  name: string;
   quantity: number;
   subTotal: number;
 }

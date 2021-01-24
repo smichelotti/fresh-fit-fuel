@@ -4,7 +4,6 @@ export interface PersonalInfo {
     venmo: string,
     distributionMethod: string,
     streetAddress1: string,
-    streetAddress2: string,
     city: string,
-    zip: number
+    zip: string
 }

@@ -1,20 +1,30 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { MenuItem } from '../../models/MenuItem';
+import { LineItem } from '../../models/Order';
 
 interface MenuItemDisplayProps {
-    item: MenuItem;
+    item: MenuItem,
+    onMenuCompleted(lineItem: LineItem): void;
 }
 
 
 
 export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (props) => {
     var n = props.item.price.toFixed(2);
-    const [currQuan, setCurrQuan] = useState(0);
+    const [subtotal, setSubtotal] = useState("0.00");
 
-    const onQuantityChange = (event: ChangeEvent<HTMLSelectElement>) => setCurrQuan(parseInt(event.target.value));
-
-    var n2 = (parseInt(n) * currQuan).toFixed(2);
+    const onQuantityChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const st = (parseInt(n) * parseInt(event.target.value)).toFixed(2);
+        setSubtotal(st);
+        const lineItem: LineItem = {
+            menuItemId: props.item.id || '',
+            name: props.item.name,
+            quantity: parseInt(event.target.value),
+            subTotal: parseFloat(st)
+        };
+        props.onMenuCompleted(lineItem);
+    }
 
     return (
         <>
@@ -47,7 +57,7 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                                 <option value="10">10</option>
                             </Form.Control>
                             <label style={{ color: 'white' }} htmlFor="subtotal">Subtotal:</label>
-                            <p id="subtotal" style={{ color: 'white', float: 'right' }}>${n2}</p>
+                            <p id="subtotal" style={{ color: 'white', float: 'right' }}>${subtotal}</p>
 
 
                             <table className="table table-sm macro-info table-bordered">

@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
-import { BigTitle, MenuItemDisplay, AccordionToggle, DistributionInformation } from '../../components'
+import { BigTitle, MenuItemDisplay, AccordionToggle, PersonalInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
+import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
 import { Accordion, Alert, Button, Card, Spinner } from 'react-bootstrap';
-
+import { CustomerOrder, LineItem } from '../../models/Order';
+import { submitOrder } from '../../services/ClientApi';
 
 export const Order: React.FunctionComponent = () => {
     const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
     const [menuVar, setMenuVar] = useState(false);
     const [disVar, setDisVar] = useState(false);
+    
+
+    const onMenuItemCompleted = (info: LineItem) => {
+        lineItems = lineItems.map(item => item.menuItemId === info.menuItemId ? info : item);
+    }
+    const onPersonalInfoCompleted = async(info: PersonalInfo) => {
+        console.log('Personal:', info);
+        const ord: CustomerOrder = {
+            lineItems: lineItems,
+            grandTotal: 45.5,
+            fullName: info.name,
+            email: info.email,
+            venmoHandle: info.venmo,
+            distributionMethod: "delivery",
+            streetAddress: info.streetAddress1,
+            city: info.city,
+            zipCode: info.zip
+        }
+        const response = await submitOrder(ord);
+        console.log(response);
+    }
+
     if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
-
-    console.log('asoethu', JSON.stringify(data));
+    let lineItems: LineItem[] = data.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', subTotal: 0, quantity: 0}));
+    console.log('li', lineItems);
 
     return (
         <>
@@ -35,7 +59,7 @@ export const Order: React.FunctionComponent = () => {
                                     {data.map((item, i) => {
                                         return (
                                             <div key={i}>
-                                                <MenuItemDisplay item={item} />
+                                                <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted}/>
                                             </div>
                                         );
                                     })}
@@ -54,8 +78,7 @@ export const Order: React.FunctionComponent = () => {
                         }
                         <Accordion.Collapse eventKey="Personal">
                             <Card.Body>
-                                <DistributionInformation />
-                                <Button onClick={() => { setCurrKey("Venmo"); setDisVar(true); }} className="continue-btn">Continue</Button>
+                                <PersonalInformation onPersonalInfoCompleted={onPersonalInfoCompleted} />
                             </Card.Body>
                         </Accordion.Collapse>
                         <div>

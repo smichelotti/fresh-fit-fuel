@@ -1,50 +1,59 @@
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikHelpers } from 'formik';
 import React, { ChangeEvent, useState } from 'react';
-import { Alert, Col, Form } from 'react-bootstrap';
+import { Alert, Button, Col, Form } from 'react-bootstrap';
 import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
+import { LoadingState } from '../../models/LoadingState';
+import { submitOrder } from '../../services/ClientApi';
 
 const emptyPersonalInfo: PersonalInfo = {
-    name: '', email: '', venmo: '', distributionMethod: '', streetAddress1: '', streetAddress2: '', city: '', zip: 0
+    name: '', email: '', venmo: '', distributionMethod: 'pick-up', streetAddress1: '', city: '', zip: ''
 };
+export interface PersonalInformationProps {
+    onPersonalInfoCompleted(info: PersonalInfo): void; 
+}
 
 const schema = yup.object({
     name: yup.string().required(),
     email: yup.string().required().email(),
     venmo: yup.string().required(),
-    distributionMethod: yup.string().required(),
-    streetAddress1: yup.string().required(),
-    streetAddress2: yup.string(),
-    city: yup.string().required(),
-    zip: yup.string().required().matches(/^[0-9]+$/, "Must be only digits").min(5, 'Must be exactly 5 digits').max(5, 'Must be exactly 5 digits')
+    distributionMethod: yup.string(),
+    streetAddress1: yup.string().when("name", {
+        is: "Bob",
+        then: yup.string().required()
+      }),
+    city: yup.string().when("name", {
+        is: "Bob",
+        then: yup.string().required()
+      }),
+    zip: yup.string().matches(/^[0-9]+$/, "Must be only digits").min(5, 'Must be exactly 5 digits').max(5, 'Must be exactly 5 digits').when("name", {
+        is: "Bob",
+        then: yup.string().required()
+      }),
 });
 
-export const DistributionInformation: React.FunctionComponent = () => {
+export const PersonalInformation: React.FunctionComponent<PersonalInformationProps> = (props) => {
     const [isDelivery, setIsDelivery] = useState(false);
-    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(emptyPersonalInfo);
+    const [loading, setLoading] = useState(LoadingState.NotLoaded);
 
-    const onDeliveryMethodChange = (event: ChangeEvent<HTMLSelectElement>) => setIsDelivery(event.target.value === 'delivery');
+    const onDeliveryMethodChange = (event: ChangeEvent<HTMLSelectElement>) => { 
+        let { name, value } = event.target;
+        setIsDelivery(event.target.value === 'delivery');
+        console.log('vals', event, event.target.innerText);
+        console.log('nv', name, value);
+    }
 
-    // const handleSubmit = async(item: MenuItem, formikProps: FormikHelpers<MenuItem>) => {
-    //     try {
-    //       setLoading(LoadingState.Loading);
-    //       const response = await (isNew ? addMenuItem(item) : updateMenuItem(item));
-    //       console.log('**successful response', response);
-    //       setLoading(LoadingState.Loaded);
-    //       history.push('/admin/menu-items');
-    //     } catch (e) {
-    //       console.error(e);
-    //       setLoading(LoadingState.Error);
-    //     }
-    //   };
+    const handleSubmit = (item: PersonalInfo, formikProps: FormikHelpers<PersonalInfo>) => {
+        props.onPersonalInfoCompleted(item);
+    }
 
 
     return (
         <>
             <Formik
-                initialValues={personalInfo}
+                initialValues={emptyPersonalInfo}
                 validationSchema={schema}
-                onSubmit={() => console.log('clicked!!')}
+                onSubmit={handleSubmit}
             >
                 {({
                     handleSubmit,
@@ -57,16 +66,15 @@ export const DistributionInformation: React.FunctionComponent = () => {
                 }) => (
 
                     <Form noValidate onSubmit={handleSubmit}>
-
                         <Form.Row className="mt-2">
                             <Form.Group as={Col} md="4">
-                                <Form.Label>Name</Form.Label>
+                                <Form.Label>Full Name</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="name"
                                     value={values.name}
                                     onChange={handleChange}
-                                    isInvalid={!!errors.name}
+                                    isInvalid={!!errors.name && touched.name}
                                     placeholder="Jane Doe"
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
@@ -78,7 +86,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                     name="email"
                                     value={values.email}
                                     onChange={handleChange}
-                                    isInvalid={!!errors.email}
+                                    isInvalid={!!errors.email && touched.email}
                                     placeholder="darth.vader@example.com"
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
@@ -90,7 +98,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                     name="venmo"
                                     value={values.venmo}
                                     onChange={handleChange}
-                                    isInvalid={!!errors.venmo}
+                                    isInvalid={!!errors.venmo && touched.venmo}
                                     placeholder="Username"
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.venmo}</Form.Control.Feedback>
@@ -99,10 +107,10 @@ export const DistributionInformation: React.FunctionComponent = () => {
 
                         <Form.Row>
                             <Form.Group as={Col} md="6" className="offset-md-3">
-                                <label htmlFor="distributionMethod">
+                                {/* <label htmlFor="distributionMethod">
                                     How would you like to receive your food?
-                                </label>
-                                <select
+                                </label> */}
+                                {/* <select
                                     name="distributionType"
                                     value={values.distributionMethod}
                                     onChange={onDeliveryMethodChange}
@@ -110,7 +118,17 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                 >
                                     <option value="pick-up" label="Pick-Up">Pick-Up</option>
                                     <option value="delivery" label="Delivery">Delivery</option>
-                                </select>
+                                </select> */}
+                                <Form.Label>Distribution Method</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    value={values.distributionMethod} 
+                                    onChange={onDeliveryMethodChange} 
+                                    // value={state.groupSelectValue || defaultValue}
+                                >
+                                    <option value="pick-up" label="Pick-Up">Pick-Up</option>
+                                    <option value="delivery" label="Delivery">Delivery</option>
+                                </Form.Control>
                                 <Alert className="mt-2" variant="info">
                                     Delivery will be an extra $5 charge. We delivery within 20 miles!
                                 </Alert>
@@ -127,25 +145,10 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                             name="streetAddress1"
                                             value={values.streetAddress1}
                                             onChange={handleChange}
-                                            isInvalid={!!errors.streetAddress1}
+                                            isInvalid={!!errors.streetAddress1 && touched.streetAddress1}
                                             placeholder="Street address, P.O. box, company name, c/o"
                                         />
                                         <Form.Control.Feedback type="invalid">{errors.streetAddress1}</Form.Control.Feedback>
-                                    </Form.Group>
-                                </Form.Row>
-
-                                <Form.Row>
-                                    <Form.Group as={Col} md="12">
-                                        <Form.Label>Street Address 2</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            name="streetAddress2"
-                                            value={values.streetAddress2}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors.streetAddress2}
-                                            placeholder="Apartment, suite, unit, building, floor, etc."
-                                        />
-                                        <Form.Control.Feedback type="invalid">{errors.streetAddress2}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
 
@@ -157,7 +160,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                             name="city"
                                             value={values.city}
                                             onChange={handleChange}
-                                            isInvalid={!!errors.city}
+                                            isInvalid={!!errors.city && touched.city}
                                             placeholder="Smallville"
                                         />
                                         <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
@@ -172,7 +175,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                             name="zip"
                                             value={values.zip}
                                             onChange={handleChange}
-                                            isInvalid={!!errors.zip}
+                                            isInvalid={!!errors.zip && touched.zip}
                                             placeholder="#####"
                                         />
                                         <Form.Control.Feedback type="invalid">{errors.zip}</Form.Control.Feedback>
@@ -180,7 +183,7 @@ export const DistributionInformation: React.FunctionComponent = () => {
                                 </Form.Row>
                             </div>
                         }
-
+                        <Button type="submit" className="continue-btn">Submit</Button>
                     </Form>
                 )}
             </Formik>
@@ -190,4 +193,4 @@ export const DistributionInformation: React.FunctionComponent = () => {
     );
 }
 
-export default DistributionInformation
+export default PersonalInformation
