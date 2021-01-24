@@ -1,3 +1,7 @@
+.order-progress {
+  height: 30px;
+}
+
 .floatleft { float: left }
 .floatright { float: right }
 .alignleft {
