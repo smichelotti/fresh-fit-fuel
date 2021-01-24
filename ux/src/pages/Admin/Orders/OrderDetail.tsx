@@ -1,22 +1,21 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Form from 'react-bootstrap/esm/Form';
 import Col from 'react-bootstrap/esm/Col';
 import { Alert, Button, ProgressBar, Row, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { LoadingState } from '../../../models/LoadingState';
+// import { LoadingState } from '../../../models/LoadingState';
 import { Order } from '../../../models/Order';
-import { getOrder } from '../../../services/ClientApi';
+// import { getOrder } from '../../../services/ClientApi';
 import { useFetch } from '../../../services/useFetch';
 import { LineItems } from './LineItems';
-import { setIn } from 'formik';
 
 
 interface MIParams { id: string }
 
 export const OrderDetail: React.FunctionComponent = () => {
   const { id } = useParams<MIParams>();
-  const [loading, setLoading] = useState(LoadingState.NotLoaded);
+  // const [loading, setLoading] = useState(LoadingState.NotLoaded);
   // const [order, setOrder] = useState<Order>({} as Order);
   const { data: order, loading: loadingInit, error } = useFetch<Order>(`/api/orders/${id}`);
 
@@ -44,7 +43,10 @@ export const OrderDetail: React.FunctionComponent = () => {
   // }, [id]);
 
   const Address : React.FunctionComponent = () => {
-    if (order.distributionMethod === 'pick-up' || loading !== LoadingState.Loaded) {
+    // if (order.distributionMethod === 'pick-up' || loadingInit !== LoadingState.Loaded) {
+    //   return null;
+    // }
+    if (loadingInit) {
       return null;
     }
 
@@ -80,7 +82,8 @@ export const OrderDetail: React.FunctionComponent = () => {
 
   return (
     <div className="container">
-      {(loading === LoadingState.Loading) && <Spinner animation="border" variant="primary" />}
+      {/* {(loading === LoadingState.Loading) && <Spinner animation="border" variant="primary" />} */}
+      {(loadingInit) && <Spinner animation="border" variant="primary" />}
 
 
       <Alert variant="primary">
