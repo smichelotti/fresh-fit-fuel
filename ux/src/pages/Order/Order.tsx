@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { BigTitle, MenuItemDisplay, AccordionToggle, PersonalInformation } from '../../components'
+import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
 import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
-import { Accordion, Alert, Button, Card, Spinner } from 'react-bootstrap';
+import { Accordion,  Button, Card, Spinner } from 'react-bootstrap';
 import { CustomerOrder, LineItem } from '../../models/Order';
 import { submitOrder } from '../../services/ClientApi';
 
@@ -11,7 +11,7 @@ export const Order: React.FunctionComponent = () => {
     const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
     const [menuVar, setMenuVar] = useState(false);
-    const [disVar, setDisVar] = useState(false);
+    let disVar = false;
     
 
     const onMenuItemCompleted = (info: LineItem) => {

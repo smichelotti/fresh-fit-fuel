@@ -1,10 +1,8 @@
-import { Field, Formik, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import React, { ChangeEvent, useState } from 'react';
 import { Alert, Button, Col, Form } from 'react-bootstrap';
 import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
-import { LoadingState } from '../../models/LoadingState';
-import { submitOrder } from '../../services/ClientApi';
 
 const emptyPersonalInfo: PersonalInfo = {
     name: '', email: '', venmo: '', distributionMethod: 'pick-up', streetAddress1: '', city: '', zip: ''
@@ -34,7 +32,6 @@ const schema = yup.object({
 
 export const PersonalInformation: React.FunctionComponent<PersonalInformationProps> = (props) => {
     const [isDelivery, setIsDelivery] = useState(false);
-    const [loading, setLoading] = useState(LoadingState.NotLoaded);
 
     const onDeliveryMethodChange = (event: ChangeEvent<HTMLSelectElement>) => { 
         let { name, value } = event.target;
