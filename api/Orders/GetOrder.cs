@@ -39,6 +39,7 @@ namespace FreshFitFuel.Api.Orders
         {
             public string Id { get; set; }
             public List<LineItem> LineItems { get; set; } = new List<LineItem>();
+            public OrderStatus OrderStatus { get; set; }
             public double GrandTotal { get; set; }
             public string FullName { get; set; }
             public string Email { get; set; }
@@ -53,7 +54,9 @@ namespace FreshFitFuel.Api.Orders
         public class LineItem
         {
             public string MenuItemId { get; set; }
+            public string Name { get; set; }
             public int Quantity { get; set; }
+            public double Price { get; set; }
             public double SubTotal { get; set; }
         }
 

@@ -12,7 +12,8 @@ export interface CustomerOrder {
 
 export interface Order {
   id: string;
-  lineItems: LineItem[]
+  lineItems: LineItem[],
+  orderStatus: OrderStatus,
   grandTotal: number;
   fullName: string;
   email: string;
@@ -27,5 +28,14 @@ export interface LineItem {
   menuItemId: string;
   name: string;
   quantity: number;
+  price: number;
   subTotal: number;
+}
+
+export enum OrderStatus {
+  OrderReceived,
+  InvoiceSent,
+  PaymentReceived,
+  OrderReady,
+  DistributionComplete
 }

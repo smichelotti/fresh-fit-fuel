@@ -1,5 +1,5 @@
 @baseUri = http://localhost:7071
-@id = 5e2703cd-a271-4051-9b4b-edeae52398c0
+@id = 4a491024-9970-4f48-942e-863254947e8d
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items
@@ -64,3 +64,11 @@ POST {{baseUri}}/api/customer/order
 
 ### Get ALL Order
 GET {{baseUri}}/api/orders
+
+
+### Update order status
+PUT {{baseUri}}/api/orders/{{id}}/status
+
+{
+  "orderStatus": 1
+}
