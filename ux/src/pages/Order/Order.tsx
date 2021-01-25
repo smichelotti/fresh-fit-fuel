@@ -9,7 +9,7 @@ import { submitOrder } from '../../services/ClientApi';
 
 export const Order: React.FunctionComponent = () => {
     const [currKey, setCurrKey] = useState('Menu');
-    const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
+    const { data, loading, error } = useFetch<MenuItem[]>('/api/customer/current-menu');
     const [lineItems, setLineItems] = useState([] as LineItem[]);
     let disVar = false;
 
