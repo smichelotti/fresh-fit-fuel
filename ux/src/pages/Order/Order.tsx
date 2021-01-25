@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
 import { MenuItem } from '../../models/MenuItem';
 import { PersonalInfo } from '../../models/PersonalInfo';
@@ -10,22 +10,27 @@ import { submitOrder } from '../../services/ClientApi';
 export const Order: React.FunctionComponent = () => {
     const [currKey, setCurrKey] = useState('Menu');
     const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
-    const [menuVar, setMenuVar] = useState(false);
+    const [lineItems, setLineItems] = useState([] as LineItem[]);
     let disVar = false;
-    
+
+    useEffect(() => {
+      if (data.length) {
+        setLineItems(data.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
+      }
+    }, [data]);
 
     const onMenuItemCompleted = (info: LineItem) => {
-        lineItems = lineItems.map(item => item.menuItemId === info.menuItemId ? info : item);
+        setLineItems(lineItems.map(item => item.menuItemId === info.menuItemId ? info : item));
     }
     const onPersonalInfoCompleted = async(info: PersonalInfo) => {
-        console.log('Personal:', info);
+        console.log('Personal:', info, lineItems);
         const ord: CustomerOrder = {
             lineItems: lineItems,
             grandTotal: 45.5,
             fullName: info.name,
             email: info.email,
             venmoHandle: info.venmo,
-            distributionMethod: "delivery",
+            distributionMethod: info.distributionMethod,
             streetAddress: info.streetAddress1,
             city: info.city,
             zipCode: info.zip
@@ -34,10 +39,10 @@ export const Order: React.FunctionComponent = () => {
         console.log(response);
     }
 
+    const onContinue = () => setCurrKey("Personal"); 
+
     if (loading) return <Spinner animation="border" variant="primary" />;
     if (error) throw error;
-    let lineItems: LineItem[] = data.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', subTotal: 0, quantity: 0}));
-    console.log('li', lineItems);
 
     return (
         <>
@@ -46,13 +51,18 @@ export const Order: React.FunctionComponent = () => {
 
                 <Accordion activeKey={currKey}>
                     <Card className="accordion-card">
-                        {
+                      <Accordion.Toggle as={Card.Header} eventKey="Menu" onClick={() => setCurrKey("Menu")}>
+                        Menu
+                      </Accordion.Toggle>
+                      {/* <Card.Header>Menu</Card.Header> */}
+                        
+                        {/* {
                             (menuVar)
                                 ? <Accordion.Toggle as={Card.Header} eventKey="Menu" onClick={() => setCurrKey("Menu")}>
                                     Menu
                                   </Accordion.Toggle>
                                 : <Card.Header>Menu</Card.Header>
-                        }
+                        } */}
                         <Accordion.Collapse eventKey="Menu">
                             <Card.Body>
                                 <div>
@@ -64,7 +74,7 @@ export const Order: React.FunctionComponent = () => {
                                         );
                                     })}
                                 </div>
-                                <Button onClick={() => { setCurrKey("Personal"); setMenuVar(true); }} className="continue-btn">Continue</Button>
+                                <Button onClick={onContinue} className="continue-btn">Continue</Button>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>

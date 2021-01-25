@@ -24,8 +24,8 @@ export const LineItems: React.FunctionComponent<LineItemsProps> = (props) => {
       <tbody>
         {props.lineItems.map(x => (
           <tr key={x.menuItemId}>
-            <td>{x.menuItemId}</td>
-            <td>$5.00</td>
+            <td>{x.name}</td>
+            <td>${x.price.toFixed(2)}</td>
             <td>{x.quantity}</td>
             <th><span className="float-right">${x.subTotal.toFixed(2)}</span></th>
           </tr>

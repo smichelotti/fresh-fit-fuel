@@ -28,7 +28,7 @@ namespace FreshFitFuel.Api.Orders
         {
             log.LogInformation("Get Orders.");
             // TODO: eventually will need to provide filters for active/complete, etc.
-            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "Email", "GrandTotal" });
+            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal" });
             var items = this.mapper.Map<List<AdminOrderResult>>(orders);
             return new OkObjectResult(items);
         }
@@ -38,7 +38,7 @@ namespace FreshFitFuel.Api.Orders
             public string Id { get; set; }
             public double GrandTotal { get; set; }
             public string FullName { get; set; }
-            public string Email { get; set; }
+            public OrderStatus OrderStatus { get; set; }
         }
         
         public class MappingProfile : Profile

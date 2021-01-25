@@ -8,19 +8,17 @@ interface MenuItemDisplayProps {
     onMenuCompleted(lineItem: LineItem): void;
 }
 
-
-
 export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (props) => {
-    var n = props.item.price.toFixed(2);
     const [subtotal, setSubtotal] = useState("0.00");
 
     const onQuantityChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const st = (parseInt(n) * parseInt(event.target.value)).toFixed(2);
+        const st = (props.item.price * parseInt(event.target.value)).toFixed(2);
         setSubtotal(st);
         const lineItem: LineItem = {
             menuItemId: props.item.id || '',
             name: props.item.name,
             quantity: parseInt(event.target.value),
+            price: props.item.price,
             subTotal: parseFloat(st)
         };
         props.onMenuCompleted(lineItem);
@@ -36,7 +34,7 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                         </div>
                         <div className="col-md-5">
                             <div>
-                                <p className="menu-item-name text-start">{props.item.name} - ${n}</p>
+                                <p className="menu-item-name text-start">{props.item.name} - ${props.item.price.toFixed(2)}</p>
 
                                 <p className="menu-item-desc">{props.item.description}</p>
                             </div>

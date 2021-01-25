@@ -10,6 +10,7 @@ namespace FreshFitFuel.Api.Models
         [JsonProperty("id")]
         public string RowKey { get; set; } = Guid.NewGuid().ToString();
         public string MenuItemsJson { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public double GrandTotal { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
@@ -29,5 +30,14 @@ namespace FreshFitFuel.Api.Models
         public DateTimeOffset? Timestamp { get; set; }
         [JsonIgnore]
         public ETag ETag { get; set; }
+    }
+
+    public enum OrderStatus
+    {
+        OrderReceived,
+        InvoiceSent,
+        PaymentReceived,
+        OrderReady,
+        DistributionComplete
     }
 }

@@ -1,15 +1,16 @@
 import React from 'react';
 import Button from 'react-bootstrap/esm/Button';
-import Spinner from 'react-bootstrap/esm/Spinner';
 import Table from 'react-bootstrap/esm/Table';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import { BigTitle } from '../../../components';
+import { AppSpinner } from '../../../components/AppSpinner/AppSpinner';
 import { Order } from '../../../models/Order';
 import { useFetch } from '../../../services/useFetch';
+import { OrderStatusBadge } from './OrderStatusBadge';
 
 export const Orders: React.FunctionComponent = () => {
   const { data, loading, error } = useFetch<Order[]>('/api/orders');
-  if (loading) return <Spinner animation="border" variant="primary" />
+  if (loading) return <AppSpinner text="Loadding..." />
   if (error) throw error;
   
   return (
@@ -22,7 +23,7 @@ export const Orders: React.FunctionComponent = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Email</th>
+              <th>Order Status</th>
               <td>Grand Total</td>
               <th></th>
             </tr>
@@ -31,7 +32,9 @@ export const Orders: React.FunctionComponent = () => {
             {data.map(x => (
               <tr key={x.id}>
                 <td>{x.fullName}</td>
-                <td>{x.email}</td>
+                <td>
+                  <OrderStatusBadge status={x.orderStatus} />
+                </td>
                 <td>${x.grandTotal.toFixed(2)}</td>
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
