@@ -237,6 +237,10 @@ z-index: 9;
   font-size: 50px;
 }
 
+.green-bg {
+  background: #1abc9c;
+}
+
 /* .single-promo:hover {color: #fff;background: #222;border-color: #222} */
 
 .section-title {

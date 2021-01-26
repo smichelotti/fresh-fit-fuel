@@ -1,43 +1,50 @@
 import React from 'react';
+import Card from 'react-bootstrap/esm/Card';
 import BigTitle from '../../components/BigTitle/BigTitle';
 
 export const HowItWorks: React.FunctionComponent = () => {
-    return (
-        <>
-            <BigTitle name='How It Works' />
+  const steps = [
+    { step: 1, title: 'View Menu', text: 'The menu for the week will go live each week by 10pm on Sunday.' },
+    { step: 2, title: 'Checkout', text: 'At checkout, you will enter the required info. (Name, pick up or delivery, Venmo, etc)' },
+    { step: 3, title: 'Venmo Invoice', text: 'You will receive a request for payment via Venmo and that is HOW you will pay - due Friday 8pm.' },
+    { step: 4, title: 'Sunday pick-up or delivery', text: 'Food will be prepared and ready to pick up or deliver on Sunday.' }
+  ];
 
-            <div id="how-it-works-content" className="container">
-                <div style={{ display: 'flex' }}>
-                    <p className="customer-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                    veritatis magni at? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                    veritatis magni at? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                veritatis magni at?</p>
-                </div>
+  return (
+    <>
+      <BigTitle name='How It Works' />
 
-                <div style={{ display: 'flex' }}>
-                    <img style={{ margin: 'auto' }} src="meal-prep2.jpg" alt=""/>
-                </div>
-
-                <div style={{ display: 'flex' }}>
-                    <p className="customer-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                    veritatis magni at? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                    veritatis magni at? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero
-                    quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi
-                    iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi
-                veritatis magni at?</p>
-                </div>
+      <div id="how-it-works-content" className="container">
+        
+        {steps.map(x => (
+          <>
+            <div className="row">
+              <div className="col-4 mx-auto">
+                <Card key={x.step} text="white" className="mb-2 green-bg">
+                  <Card.Header as="h5">Step {x.step} - {x.title}</Card.Header>
+                  <Card.Body>
+                    <Card.Text>{x.text}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
             </div>
 
-        </>
-    );
+            {(x.step !== (steps.length)) && <div className="row">
+              <div className="col text-center">
+                <i className="fa fa-arrow-down text-center" style={{fontSize: '50px'}}></i>
+              </div>
+            </div>}
+
+          </>
+        ))}
+
+        <div className="row">
+          <div className="col-4 mx-auto">
+            <h3 className="text-center">Repeat for the next week!</h3>
+          </div>
+        </div>
+
+      </div>
+    </>
+  );
 }

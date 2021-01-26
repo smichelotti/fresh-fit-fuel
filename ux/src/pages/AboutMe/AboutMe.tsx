@@ -15,7 +15,8 @@ export const AboutMe: React.FunctionComponent = () => {
                 I am an elite level CrossFit teen athlete who trains 2-4 hours 6 days/week and I need to eat ALL. THE. TIME.
               </p>
               <p className="">
-                <b>The only thing that people don’t tell you about meal prepping for yourself is that it is time consuming and stressful to put together/measure out. </b>
+                The only thing that people don’t tell you about meal prepping is that it can be time consuming and stressful to put together. 
+                That is why I created Fresh Fit Fuel… so you can have all the benefits of meal prep with none of the hassle.
                 That is why I created Fresh Fit Fuel… so you can have all the benefits of meal prep with no hassle. 
 
                 We have all experienced having “no food in the house” or you “don’t know what to eat” for a meal and end up just eating a bowl of cereal. 
