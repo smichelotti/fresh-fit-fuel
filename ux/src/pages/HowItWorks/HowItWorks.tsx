@@ -4,9 +4,9 @@ import BigTitle from '../../components/BigTitle/BigTitle';
 
 export const HowItWorks: React.FunctionComponent = () => {
   const steps = [
-    { step: 1, title: 'View Menu', text: 'The menu for the week will go live each week by 10pm on Sunday.' },
-    { step: 2, title: 'Checkout', text: 'At checkout, you will enter the required info. (Name, pick up or delivery, Venmo, etc)' },
-    { step: 3, title: 'Venmo Invoice', text: 'You will receive a request for payment via Venmo and that is HOW you will pay - due Friday 8pm.' },
+    { step: 1, title: 'New menu each week', text: 'The menu for the week will go live each week by 10pm on Sunday.' },
+    { step: 2, title: 'Place order', text: 'At checkout, you will enter the required info. (Name, pick up or delivery, Venmo, etc)' },
+    { step: 3, title: 'Venmo invoice', text: 'You will receive a request for payment via Venmo and that is HOW you will pay - due Friday 8pm.' },
     { step: 4, title: 'Sunday pick-up or delivery', text: 'Food will be prepared and ready to pick up or deliver on Sunday.' }
   ];
 
@@ -19,7 +19,7 @@ export const HowItWorks: React.FunctionComponent = () => {
         {steps.map(x => (
           <>
             <div className="row">
-              <div className="col-4 mx-auto">
+              <div className="col-5 mx-auto">
                 <Card key={x.step} text="white" className="mb-2 green-bg">
                   <Card.Header as="h5">Step {x.step} - {x.title}</Card.Header>
                   <Card.Body>
@@ -31,7 +31,7 @@ export const HowItWorks: React.FunctionComponent = () => {
 
             {(x.step !== (steps.length)) && <div className="row">
               <div className="col text-center">
-                <i className="fa fa-arrow-down text-center" style={{fontSize: '50px'}}></i>
+                <i className="fa fa-arrow-down text-center pink" style={{fontSize: '50px'}}></i>
               </div>
             </div>}
 

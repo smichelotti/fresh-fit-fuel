@@ -1012,6 +1012,10 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
   background-color: #ff9899;
 }
 
+.pink {
+  color: #ff9899;
+}
+
 .menu-item-name {
     padding: 15px;
     font-size: 25px;
