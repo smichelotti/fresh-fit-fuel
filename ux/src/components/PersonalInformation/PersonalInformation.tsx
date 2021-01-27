@@ -8,7 +8,8 @@ const emptyPersonalInfo: PersonalInfo = {
     name: '', email: '', venmo: '', distributionMethod: 'pick-up', streetAddress1: '', city: '', zip: ''
 };
 export interface PersonalInformationProps {
-    onPersonalInfoCompleted(info: PersonalInfo): void; 
+    onPersonalInfoCompleted(info: PersonalInfo): void;
+    onBack(): void;
 }
 
 const schema = yup.object({
@@ -159,7 +160,8 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                 </Form.Row>
                             </div>
                         }
-                        <Button type="submit" className="continue-btn">Submit</Button>
+                        <Button variant="secondary" onClick={props.onBack}>Back to Menu</Button>
+                        <Button type="submit" className="continue-btn">Review Order</Button>
                     </Form>
                 )}
             </Formik>

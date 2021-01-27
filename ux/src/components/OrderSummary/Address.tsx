@@ -1,6 +1,6 @@
 import Col from "react-bootstrap/esm/Col";
 import Form from "react-bootstrap/esm/Form";
-import { Order } from "../../../models/Order";
+import { Order } from "../../models/Order";
 
 interface AddressProps { order: Order };
 

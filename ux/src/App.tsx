@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Home, AboutMe, HowItWorks, Contact, MenuItems, Order } from './pages/';
+import { Home, AboutMe, HowItWorks, Contact, MenuItems, OrderScreen } from './pages/';
 import './App.css';
 import { Header, Footer } from './components';
 import { AdminHeader } from './pages/Admin/components/AdminHeader/AdminHeader';
@@ -33,7 +33,7 @@ function App() {
               <Contact />
             </Route>
             <Route exact path="/order">
-              <Order />
+              <OrderScreen />
             </Route>
 
             {/* Admin screens */}
