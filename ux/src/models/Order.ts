@@ -1,19 +1,8 @@
-export interface CustomerOrder {
-  lineItems: LineItem[]
-  grandTotal: number;
-  fullName: string;
-  email: string;
-  venmoHandle: string;
-  distributionMethod: string;
-  streetAddress?: string;
-  city?: string;
-  zipCode?: string;
-}
-
 export interface Order {
-  id: string;
+  id?: string;              // not needed for Customer
+  orderStatus: OrderStatus, // not needed for Customer
+
   lineItems: LineItem[],
-  orderStatus: OrderStatus,
   grandTotal: number;
   fullName: string;
   email: string;

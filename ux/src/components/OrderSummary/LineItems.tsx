@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/esm/Table';
-import { LineItem } from '../../../models/Order';
+import { LineItem } from '../../models/Order';
 
 
 interface LineItemsProps {
@@ -31,8 +31,8 @@ export const LineItems: React.FunctionComponent<LineItemsProps> = (props) => {
           </tr>
         ))}
         <tr>
-          <td colSpan={3}><span className="float-right">Distribution (Delivery):</span></td>
-          <th><span className="float-right">$5.00</span></th>
+          <td colSpan={3}><span className="float-right">Distribution ({props.distribution}):</span></td>
+          <th><span className="float-right">${props.distribution === 'delivery' ? '5' : '0'}.00</span></th>
         </tr>
         <tr className="table-primary">
           <th colSpan={3}><span className="float-right">Grand Total:</span></th>

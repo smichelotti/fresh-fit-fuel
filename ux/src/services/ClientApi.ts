@@ -1,11 +1,11 @@
 import { MenuItem } from "../models/MenuItem";
-import { CustomerOrder, Order, OrderStatus } from "../models/Order";
+import { Order, OrderStatus } from "../models/Order";
 
 /***** Customer endpoints *****/
 
 export const getCurrentMenu = async (): Promise<MenuItem[]> => httpGet(`/api/customer/current-menu`);
 
-export const submitOrder = async(order: CustomerOrder): Promise<CustomerOrder> => httpSend('/api/customer/order', 'POST', order);
+export const submitOrder = async(order: Order): Promise<Order> => httpSend('/api/customer/order', 'POST', order);
 
 
 /***** Admin endpoints *****/
@@ -21,7 +21,6 @@ export const updateMenuItem = async (item: MenuItem): Promise<MenuItem> => await
 
 // Order
 
-export const getOrders = async(): Promise<CustomerOrder[]> => httpGet('/api/orders');
 export const getOrder = async(id: string): Promise<Order> => httpGet(`/api/orders/${id}`);
 export const updateOrderStatus = async(id: string, orderStatus: OrderStatus): Promise<{orderStatus: OrderStatus}> => httpSend(`/api/orders/${id}/status`, 'PUT', { orderStatus: orderStatus });
 
