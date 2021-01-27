@@ -1,6 +1,7 @@
 export interface Order {
   id?: string;              // not needed for Customer
   orderStatus: OrderStatus, // not needed for Customer
+  orderSubmitted?: Date,    // not needed for Customer
 
   lineItems: LineItem[],
   grandTotal: number;
