@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using FreshFitFuel.Api.Models;
 using FreshFitFuel.Api.Services;
@@ -28,9 +30,9 @@ namespace FreshFitFuel.Api.Orders
         {
             log.LogInformation("Get Orders.");
             // TODO: eventually will need to provide filters for active/complete, etc.
-            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal" });
+            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal", "OrderSubmitted" });
             var items = this.mapper.Map<List<AdminOrderResult>>(orders);
-            return new OkObjectResult(items);
+            return new OkObjectResult(items.OrderByDescending(x => x.OrderSubmitted));
         }
 
         public class AdminOrderResult
@@ -39,6 +41,7 @@ namespace FreshFitFuel.Api.Orders
             public double GrandTotal { get; set; }
             public string FullName { get; set; }
             public OrderStatus OrderStatus { get; set; }
+            public DateTimeOffset OrderSubmitted { get; set; }
         }
         
         public class MappingProfile : Profile

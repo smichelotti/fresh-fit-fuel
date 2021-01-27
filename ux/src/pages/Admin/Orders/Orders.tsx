@@ -24,7 +24,8 @@ export const Orders: React.FunctionComponent = () => {
             <tr>
               <th>Name</th>
               <th>Order Status</th>
-              <td>Grand Total</td>
+              <th>Grand Total</th>
+              <th>Time received</th>
               <th></th>
             </tr>
           </thead>
@@ -36,6 +37,7 @@ export const Orders: React.FunctionComponent = () => {
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>
                 <td>${x.grandTotal.toFixed(2)}</td>
+                <td>{(new Date(x.orderSubmitted?.toString() || ''))?.toLocaleString()}</td>
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
                     <Button className="btn-sm mr-2" variant="primary">View</Button>

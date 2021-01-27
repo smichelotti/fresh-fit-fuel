@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -49,6 +50,7 @@ namespace FreshFitFuel.Api.Orders
             public string StreetAddress { get; set; }
             public string City { get; set; }
             public string ZipCode { get; set; }
+            public DateTimeOffset OrderSubmitted { get; set; }
         }
 
         public class LineItem
