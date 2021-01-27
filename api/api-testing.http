@@ -1,5 +1,6 @@
 @baseUri = http://localhost:7071
 @id = 4a491024-9970-4f48-942e-863254947e8d
+@id2 = cb684952-fba4-47cb-bf9a-6b8b683c27f5
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items
@@ -71,4 +72,31 @@ PUT {{baseUri}}/api/orders/{{id}}/status
 
 {
   "orderStatus": 1
+}
+
+### Insert new Menu
+POST {{baseUri}}/api/menus
+
+{
+  "name": "feb 2 menu",
+  "startTime": "2021-02-01T12:00:00",
+  "endTime": "2021-02-05T12:00:00",
+  "menuItemIds": [ "ntaoehuntaeohu", "bbb", "ccc" ]
+}
+
+### Get Menu
+GET {{baseUri}}/api/menus/{{id2}}
+
+### Get ALL Menus
+GET {{baseUri}}/api/menus
+
+### Update menu
+PUT {{baseUri}}/api/menus/{{id2}}
+
+{
+  "id": "{{id2}}",
+  "name": "feb 21110 menu",
+  "startTime": "2021-02-01T12:00:00",
+  "endTime": "2021-02-05T12:00:00",
+  "menuItemIds": [ "test", "bbb", "ccc" ]
 }
