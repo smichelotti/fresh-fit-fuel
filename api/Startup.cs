@@ -17,6 +17,7 @@ namespace FreshFitFuel.Api
             builder.Services.AddTransient<ServiceFactory>();
             builder.Services.AddAutoMapper(typeof(Startup));
             builder.Services.AddScoped<TableStorageContext>(p => p.GetService<ServiceFactory>().CreateTableStorageContextNew());
+            builder.Services.AddHttpClient<IEmailClient, EmailClient>();
         }
 
         private class ServiceFactory

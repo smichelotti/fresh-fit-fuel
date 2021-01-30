@@ -32,10 +32,7 @@ const schema = yup.object({
 });
 
 export const PersonalInformation: React.FunctionComponent<PersonalInformationProps> = (props) => {
-    const handleSubmit = (item: PersonalInfo, formikProps: FormikHelpers<PersonalInfo>) => {
-        props.onPersonalInfoCompleted(item);
-    }
-
+    const handleSubmit = (item: PersonalInfo, formikProps: FormikHelpers<PersonalInfo>) => props.onPersonalInfoCompleted(item);
 
     return (
         <>
@@ -106,9 +103,16 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                     <option value="pick-up" label="Pick-Up">Pick-Up</option>
                                     <option value="delivery" label="Delivery">Delivery</option>
                                 </Form.Control>
-                                <Alert className="mt-2" variant="info">
-                                    Delivery will be an extra $5 charge. We delivery within 20 miles!
-                                </Alert>
+                                {values.distributionMethod === 'pick-up' &&
+                                  <Alert className="mt-2 text-center" variant="info">
+                                  Pick-up location is near Mount Hebron High School in Ellicott City, MD.<br/>
+                                  Pick-up address sent in confirmation email.
+                                </Alert>}
+                                {values.distributionMethod === 'delivery' &&
+                                  <Alert className="mt-2 text-center" variant="warning">
+                                    Delivery will be an extra $5 charge. <br/>
+                                    We delivery within 20 miles of Ellicott City, MD!
+                                </Alert>}
                             </Form.Group>
                         </Form.Row>
 

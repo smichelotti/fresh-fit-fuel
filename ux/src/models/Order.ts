@@ -1,8 +1,11 @@
 export interface Order {
-  id?: string;              // not needed for Customer
-  orderStatus: OrderStatus, // not needed for Customer
-  orderSubmitted?: Date,    // not needed for Customer
+  // Not needed for Customer
+  id?: string;
+  orderStatus: OrderStatus,
+  orderSubmitted?: Date,
+  orderNumber?: string,
 
+  // Needed for Customer
   lineItems: LineItem[],
   grandTotal: number;
   fullName: string;
@@ -28,4 +31,8 @@ export enum OrderStatus {
   PaymentReceived,
   OrderReady,
   DistributionComplete
+}
+
+export interface OrderConfirmation {
+  orderNumber: string;
 }

@@ -16,11 +16,13 @@ namespace FreshFitFuel.Api.Customer
     {
         private TableStorageContext db;
         private IMapper mapper;
+        private IEmailClient emailClient;
 
-        public CustomerOrder(TableStorageContext db, IMapper mapper) 
+        public CustomerOrder(TableStorageContext db, IMapper mapper, IEmailClient emailClient) 
         {
             this.db = db;
             this.mapper = mapper;
+            this.emailClient = emailClient;
         }
 
         [FunctionName("InsertCustomerOrder")]
@@ -31,11 +33,11 @@ namespace FreshFitFuel.Api.Customer
             var json = await req.ReadAsStringAsync();
             var cmd = JsonConvert.DeserializeObject<CustomerOrderCommand>(json);
             // TODO: need to add validation logic here (e.g., check sub-totals, grand totals haven't been tampered with, etc.)
-            // TODO: send out confirmation email
-            // TODO: generate new "order number"
-            var entity = this.mapper.Map<Order>(cmd);
-            await this.db.Orders.AddEntityAsync(entity);
-            return new OkObjectResult(cmd);
+            var orderEntity = this.mapper.Map<Order>(cmd);
+            orderEntity.OrderNumber = OrderNumberGenerator.Generate();
+            await this.db.Orders.AddEntityAsync(orderEntity);
+            await this.emailClient.SendConfirmation(orderEntity);
+            return new OkObjectResult(new { orderNumber = orderEntity.OrderNumber });
         }
 
         public class CustomerOrderCommand

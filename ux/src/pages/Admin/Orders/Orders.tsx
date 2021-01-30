@@ -23,6 +23,7 @@ export const Orders: React.FunctionComponent = () => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Order #</th>
               <th>Order Status</th>
               <th>Grand Total</th>
               <th>Time received</th>
@@ -33,6 +34,7 @@ export const Orders: React.FunctionComponent = () => {
             {data.map(x => (
               <tr key={x.id}>
                 <td>{x.fullName}</td>
+                <td>{x.orderNumber}</td>
                 <td>
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>

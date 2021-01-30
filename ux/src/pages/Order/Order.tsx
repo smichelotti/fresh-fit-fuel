@@ -51,7 +51,7 @@ export const OrderScreen: React.FunctionComponent = () => {
 
     const placeOrder = async() => {
       const response = await submitOrder(order);
-      console.log(response);
+      setOrder({...order, orderNumber: response.orderNumber});
       setCurrStep(Step.Confirmation);
     }
 
@@ -118,13 +118,16 @@ export const OrderScreen: React.FunctionComponent = () => {
               <div className="col mx-auto">
                 <Card className="mb-2">
                   <Card.Header as="h5" className="green-bg text-white">Confirmation</Card.Header>
-                  <Card.Body>
-                    <p className="confirmation">
-                      Thank you for your order!! Meal prep is LIFEEEEE... 
+                  <Card.Body className="confirmation">
+                    <p>
+                      Thank you for your order!! 
+                      Your Order Confirmation # is: {order.orderNumber}.
+                    </p>
+                    <p>
+                      Meal prep is LIFEEEEE... 
                       I’m so happy you are experiencing it. 
-                      {/* Not only is it super convenient as a “no-thought” meal but it is also very healthy and delicious.  */}
                       <b> All pick ups or deliveries will be completed this coming Sunday. </b>
-                      Be on the lookout for an email and a Venmo request. 
+                      Be on the lookout for an email with full instructions and a Venmo request. 
                       Hope to see you back here soon!!!
                     </p>
 

@@ -30,7 +30,9 @@ namespace FreshFitFuel.Api.Orders
         {
             log.LogInformation("Get Orders.");
             // TODO: eventually will need to provide filters for active/complete, etc.
-            var orders = this.db.Orders.Query<Order>(filter: "PartitionKey eq 'default'", select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal", "OrderSubmitted" });
+            var orders = this.db.Orders.Query<Order>(
+                filter: "PartitionKey eq 'default'", 
+                select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal", "OrderSubmitted", "OrderNumber" });
             var items = this.mapper.Map<List<AdminOrderResult>>(orders);
             return new OkObjectResult(items.OrderByDescending(x => x.OrderSubmitted));
         }
@@ -41,6 +43,7 @@ namespace FreshFitFuel.Api.Orders
             public double GrandTotal { get; set; }
             public string FullName { get; set; }
             public OrderStatus OrderStatus { get; set; }
+            public string OrderNumber { get; set; }
             public DateTimeOffset OrderSubmitted { get; set; }
         }
         
