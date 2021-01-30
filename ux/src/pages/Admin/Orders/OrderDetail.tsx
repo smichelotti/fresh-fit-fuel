@@ -62,7 +62,7 @@ export const OrderDetail: React.FunctionComponent = () => {
   return (
     <div className="container">
       <Alert variant="primary" className="text-center">
-        <span className="float-left">Order Number: 123</span>
+        <span className="float-left">Order Number: {order.orderNumber}</span>
         <span>Received: {(new Date(order.orderSubmitted?.toString() || ''))?.toLocaleString()}</span>
         <div className="float-right"><OrderStatusBadge status={order.orderStatus} /></div>
       </Alert>

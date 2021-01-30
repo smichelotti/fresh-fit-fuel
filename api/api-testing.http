@@ -1,6 +1,7 @@
 @baseUri = http://localhost:7071
 @id = 4a491024-9970-4f48-942e-863254947e8d
 @id2 = cb684952-fba4-47cb-bf9a-6b8b683c27f5
+@logicAppEmailUrl = https://get-this-from-user-secrets-file.com
 
 ### Get ALL Menu items
 GET {{baseUri}}/api/menu-items
@@ -99,4 +100,16 @@ PUT {{baseUri}}/api/menus/{{id2}}
   "startTime": "2021-02-01T12:00:00",
   "endTime": "2021-02-05T12:00:00",
   "menuItemIds": [ "test", "bbb", "ccc" ]
+}
+
+
+### Confirmation email
+
+POST {{logicAppEmailUrl}}
+Content-Type: application/json
+
+{
+  "email": "steve.michelotti@gmail.com",
+  "message": "this is a test message",
+  "orderId": "123"
 }

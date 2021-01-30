@@ -1,11 +1,11 @@
 import { MenuItem } from "../models/MenuItem";
-import { Order, OrderStatus } from "../models/Order";
+import { Order, OrderConfirmation, OrderStatus } from "../models/Order";
 
 /***** Customer endpoints *****/
 
 export const getCurrentMenu = async (): Promise<MenuItem[]> => httpGet(`/api/customer/current-menu`);
 
-export const submitOrder = async(order: Order): Promise<Order> => httpSend('/api/customer/order', 'POST', order);
+export const submitOrder = async(order: Order): Promise<OrderConfirmation> => httpSend('/api/customer/order', 'POST', order);
 
 
 /***** Admin endpoints *****/
@@ -33,7 +33,7 @@ const httpGet = async <T>(url: string): Promise<T> => {
   return json;
 }
 
-const httpSend = async <T>(url: string, method: string, requestBody: T): Promise<T> => {
+const httpSend = async <TRequest, TResponse>(url: string, method: string, requestBody: TRequest): Promise<TResponse> => {
   const request = {
     method: method,
     headers: { 'Content-Type': 'application/json' },

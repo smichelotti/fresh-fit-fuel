@@ -11,6 +11,7 @@ namespace FreshFitFuel.Api.Models
         public string RowKey { get; set; } = Guid.NewGuid().ToString();
         public string MenuItemsJson { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public string OrderNumber { get; set; }
         public double GrandTotal { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
