@@ -22,7 +22,7 @@ namespace FreshFitFuel.Api.Services
             var weekNum = (totalDaysThisYear - (totalDaysThisYear % 7)) / 7;
             int dayNum = (int)now.DayOfWeek;
             var msToday = Math.Round(elapsedToday.TotalMilliseconds);
-            return $"{weekNum}-{dayNum}-{msToday}";
+            return $"{weekNum}{dayNum}{msToday}";
         }
     }
 }

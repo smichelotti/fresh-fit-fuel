@@ -50,13 +50,13 @@ POST {{baseUri}}/api/customer/order
 
 {
     "lineItems": [
-      { menuItemId: "111", quantity: 1, subTotal: 5 },
-      { menuItemId: "222", quantity: 3, subTotal: 15 },
-      { menuItemId: "333", quantity: 5, subTotal: 25.5 }
+      { "menuItemId": "111", "name": "Honey Chicken", "quantity": 1, "price": 5, "subTotal": 5 },
+      { "menuItemId": "222", "name": "Buffalo Chicken", "quantity": 3, "price": 4, "subTotal": 12 },
+      { "menuItemId": "333", "name": "Energy Balls", "quantity": 2, "price": 3.5, "subTotal": 10.5 }
     ],
-    "grandTotal": 45.5,
+    "grandTotal": 27.5,
     "fullName": "Bob Smith",
-    "email": "bob.smith@gmail.com",
+    "email": "steve.michelotti@gmail.com",
     "venmoHandle": "bobsmithiscool",
     "distributionMethod": "delivery",
     "streetAddress": "123 Main Street",
