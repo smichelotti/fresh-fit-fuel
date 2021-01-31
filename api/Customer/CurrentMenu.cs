@@ -1,4 +1,5 @@
-﻿using FreshFitFuel.Api.Models;
+﻿using System.Linq;
+using FreshFitFuel.Api.Models;
 using FreshFitFuel.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,20 @@ namespace FreshFitFuel.Api.Customer
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customer/current-menu")] HttpRequest req, ILogger log)
         {
             log.LogInformation("Customer current menu.");
-            // TODO: this need to change once we implement functionality to specify which menu is "active"
-            var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'");
-            return new OkObjectResult(items);
+            //var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'");
+            var menus = this.db.Menus.Query<Menu>("PartitionKey eq 'default'");
+            var currentMenu = menus.OrderByDescending(x => x.StartTime).First();
+            var currentMenuItemIds = currentMenu.MenuItemIds.Split(',');
+            var predicate = string.Join(" or ", currentMenuItemIds.Select(x => $"RowKey eq '{x}'"));
+            log.LogInformation($"*** predicate: {predicate}");
+            var menuItems = this.db.MenuItems.Query<MenuItem>($"PartitionKey eq 'default' and ({predicate})").ToDictionary(x => x.RowKey);
+            var response = new
+            {
+                start = currentMenu.StartTime,
+                end = currentMenu.EndTime,
+                menuItems = currentMenuItemIds.Select(x => menuItems[x])
+            };
+            return new OkObjectResult(response);
         }
     }
 }

@@ -1085,3 +1085,10 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .confirmation {
   font-size: 1.50rem;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    display: block;
+    width: 100%;
+}

@@ -1,15 +1,15 @@
 import React from 'react';
 import Button from 'react-bootstrap/esm/Button';
-import Spinner from 'react-bootstrap/esm/Spinner';
 import Table from 'react-bootstrap/esm/Table';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BigTitle } from '../../../components';
+import { AppSpinner } from '../../../components/AppSpinner/AppSpinner';
 import { MenuItem } from '../../../models/MenuItem';
 import { useFetch } from '../../../services/useFetch';
 
 export const MenuItems: React.FunctionComponent = () => {
   const { data, loading, error } = useFetch<MenuItem[]>('/api/menu-items');
-  if (loading) return <Spinner animation="border" variant="primary" />
+  if (loading) return <AppSpinner text="Loading menu items..." />
   if (error) throw error;
   
   return (
