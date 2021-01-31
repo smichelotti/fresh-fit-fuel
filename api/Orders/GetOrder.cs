@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreshFitFuel.Api.Models;
@@ -52,15 +51,6 @@ namespace FreshFitFuel.Api.Orders
             public string City { get; set; }
             public string ZipCode { get; set; }
             public DateTimeOffset OrderSubmitted { get; set; }
-        }
-
-        public class LineItem
-        {
-            public string MenuItemId { get; set; }
-            public string Name { get; set; }
-            public int Quantity { get; set; }
-            public double Price { get; set; }
-            public double SubTotal { get; set; }
         }
 
         public class MappingProfile : Profile

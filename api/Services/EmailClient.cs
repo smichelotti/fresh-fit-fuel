@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using FreshFitFuel.Api.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace FreshFitFuel.Api.Services
@@ -38,7 +34,12 @@ namespace FreshFitFuel.Api.Services
             {
                 return;
             }
-            await this.http.PostAsync(string.Empty, ToStringContent(order));
+            var request = new
+            {
+                email = order.Email,
+                message = EmailContentGenerator.GenerateEmailBody(order)
+            };
+            await this.http.PostAsync(string.Empty, ToStringContent(request));
         }
 
         private static StringContent ToStringContent<T>(T item)
