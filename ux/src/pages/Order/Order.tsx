@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
-import { MenuItem } from '../../models/MenuItem';
+// import { MenuItem } from '../../models/MenuItem';
 import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
 import { LineItem, Order, OrderStatus } from '../../models/Order';
@@ -9,6 +9,7 @@ import { OrderSummary } from '../../components/OrderSummary/OrderSummary';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/esm/Button';
+import { CustomerMenu } from '../../models/CustomerMenu';
 
 enum Step { 
   Menu,
@@ -18,14 +19,14 @@ enum Step {
 };
 
 export const OrderScreen: React.FunctionComponent = () => {
-    const { data, loading, error } = useFetch<MenuItem[]>('/api/customer/current-menu');
+    const { data, loading, error } = useFetch<CustomerMenu>('/api/customer/current-menu');
     const [currStep, setCurrStep] = useState(Step.Menu);
     const [order, setOrder] = useState({} as Order);
     const [lineItems, setLineItems] = useState([] as LineItem[]);
 
     useEffect(() => {
-      if (data.length) {
-        setLineItems(data.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
+      if (data?.menuItems?.length) {
+        setLineItems(data.menuItems.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
       }
     }, [data]);
 
@@ -73,7 +74,7 @@ export const OrderScreen: React.FunctionComponent = () => {
                 <Card className="mb-2">
                   <Card.Header as="h5" className="green-bg text-white">Menu</Card.Header>
                   <Card.Body>
-                    {data.map((item, i) => (
+                    {data.menuItems.map((item, i) => (
                       <div key={i}>
                         <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted}/>
                       </div>

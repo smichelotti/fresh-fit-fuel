@@ -45,6 +45,10 @@ PUT {{baseUri}}/api/menu-items/{{id}}
 DELETE {{baseUri}}/api/menu-items/{{id}}
 
 
+### Get Customer Menu
+GET {{baseUri}}/api/customer/current-menu
+
+
 ### Insert new Customer Order
 POST {{baseUri}}/api/customer/order
 

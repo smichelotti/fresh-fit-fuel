@@ -1,3 +1,4 @@
+import { Menu } from "../models/Menu";
 import { MenuItem } from "../models/MenuItem";
 import { Order, OrderConfirmation, OrderStatus } from "../models/Order";
 
@@ -18,6 +19,15 @@ export const getMenuItem = async (id: string): Promise<MenuItem> => httpGet(`/ap
 export const addMenuItem = async (item: MenuItem): Promise<MenuItem> => await httpSend(`/api/menu-items`, 'POST', item);
 
 export const updateMenuItem = async (item: MenuItem): Promise<MenuItem> => await httpSend(`/api/menu-items/${item.id}`, 'PUT', item);
+
+// Menus
+export const getMenus = async(): Promise<Menu[]> => httpGet(`/api/menus`);
+
+export const getMenu = async(id: string): Promise<Menu> => httpGet(`/api/menus/${id}`);
+
+export const addMenu = async(item: Menu): Promise<Menu> => await httpSend(`/api/menus`, 'POST', item);
+
+export const updateMenu = async(item: Menu): Promise<Menu> => await httpSend(`/api/menus/${item.id}`, 'PUT', item);
 
 // Order
 
