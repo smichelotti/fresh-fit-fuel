@@ -1016,8 +1016,12 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
   color: #ff9899;
 }
 
+.menu-item-image {
+  padding: 4%;
+}
+
 .menu-item-name {
-    padding: 15px;
+    padding: 15px 15px 5px 15px;
     font-size: 25px;
     color: white;
     text-align: left;
@@ -1025,6 +1029,13 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 .menu-item-desc {
     color: white;
+    padding: 5px 15px 5px 15px;
+}
+
+.menu-item-quantity-col {
+  color: white;
+  padding: 15px 5px 15px 5px;
+  margin: 0px 20px 0px 20px;
 }
 
 .add-to-cart-btn {
@@ -1059,9 +1070,6 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     background-color: #1ABC9C;
 }
 
-.menu-item-image {
-    padding: 4%;
-}
 
 .continue-btn {
     background-color: #ff9899;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Col from 'react-bootstrap/esm/Col';
-import { Alert, Button, ProgressBar, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Order, OrderStatus } from '../../../models/Order';
 import { getOrder, updateOrderStatus } from '../../../services/ClientApi';
@@ -11,6 +10,10 @@ import { AppSpinner } from '../../../components/AppSpinner/AppSpinner';
 import { LoadingState } from '../../../models/LoadingState';
 import { InlineSpinner } from '../../../components/InlineSpinner/InlineSpinner';
 import { OrderSummary } from '../../../components/OrderSummary/OrderSummary';
+import Alert from 'react-bootstrap/esm/Alert';
+import ProgressBar from 'react-bootstrap/esm/ProgressBar';
+import Button from 'react-bootstrap/esm/Button';
+import Row from 'react-bootstrap/esm/Row';
 
 interface MIParams { id: string }
 

@@ -17,10 +17,10 @@ export const HowItWorks: React.FunctionComponent = () => {
       <div id="how-it-works-content" className="container">
         
         {steps.map(x => (
-          <>
+          <div key={x.step}>
             <div className="row">
-              <div className="col-5 mx-auto">
-                <Card key={x.step} text="white" className="mb-2 green-bg">
+              <div className="col-sm-4 col-md-5 mx-auto">
+                <Card text="white" className="mb-2 green-bg">
                   <Card.Header as="h5">Step {x.step} - {x.title}</Card.Header>
                   <Card.Body>
                     <Card.Text>{x.text}</Card.Text>
@@ -35,11 +35,11 @@ export const HowItWorks: React.FunctionComponent = () => {
               </div>
             </div>}
 
-          </>
+          </div>
         ))}
 
         <div className="row">
-          <div className="col-4 mx-auto">
+          <div className="col-sm-4 mx-auto">
             <h3 className="text-center">Repeat for the next week!</h3>
           </div>
         </div>

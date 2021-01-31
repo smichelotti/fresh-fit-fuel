@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAccordionToggle } from 'react-bootstrap';
+import { useAccordionToggle } from 'react-bootstrap/esm/AccordionToggle';
 
 interface AccordionToggleProps {
     eventKey: string;

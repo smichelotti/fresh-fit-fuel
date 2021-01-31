@@ -10,7 +10,7 @@ export const Contact: React.FunctionComponent = () => {
 
       <div id="contact-content" className="container" style={{ paddingTop: '25px' }}>
         <div className="row">
-          <div className="col-md-6" style={{ display: 'flex' }}>
+          <div className="col-sm-6" style={{ display: 'flex' }}>
             <div style={{ margin: 'auto' }}>
               <h2>Social Media</h2>
               <ul className="list-unstyled">
@@ -22,13 +22,13 @@ export const Contact: React.FunctionComponent = () => {
               </ul>
             </div>
           </div>
-          <div className="col-md-6" style={{ display: 'flex' }}>
+          <div className="col-sm-6" style={{ display: 'flex' }}>
             <div style={{ margin: 'auto' }}>
               <h2>Contact Info</h2>
               <ul className="list-unstyled who">
                 <li className="contact-link">
                   <a href="mailto:freshfitfuelbyjenna@gmail.com">
-                    <i className="fa fa-envelope"></i> freshfitfuelbyjenna@gmail.com
+                    <i className="fa fa-envelope"></i> Email me
                   </a>
                 </li>
               </ul>

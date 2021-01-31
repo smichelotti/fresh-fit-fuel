@@ -1,6 +1,9 @@
 import { Formik, FormikHelpers } from 'formik';
 import React from 'react';
-import { Alert, Button, Col, Form } from 'react-bootstrap';
+import Alert from 'react-bootstrap/esm/Alert';
+import Button from 'react-bootstrap/esm/Button';
+import Col from 'react-bootstrap/esm/Col';
+import Form from 'react-bootstrap/esm/Form';
 import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
 
@@ -105,14 +108,14 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                 </Form.Control>
                                 {values.distributionMethod === 'pick-up' &&
                                   <Alert className="mt-2 text-center" variant="info">
-                                  Pick-up location is near Mount Hebron High School in Ellicott City, MD.<br/>
-                                  Pick-up address sent in confirmation email.
-                                </Alert>}
-                                {values.distributionMethod === 'delivery' &&
-                                  <Alert className="mt-2 text-center" variant="warning">
-                                    Delivery will be an extra $5 charge. <br/>
-                                    We delivery within 20 miles of Ellicott City, MD!
-                                </Alert>}
+                                    Pick-up location is near Mount Hebron High School in Ellicott City, MD.<br/>
+                                    Pick-up address sent in confirmation email.
+                                  </Alert>}
+                                  {values.distributionMethod === 'delivery' &&
+                                    <Alert className="mt-2 text-center" variant="warning">
+                                      Delivery will be an extra $5 charge. <br/>
+                                      We delivery within 20 miles of Ellicott City, MD!
+                                  </Alert>}
                             </Form.Group>
                         </Form.Row>
 

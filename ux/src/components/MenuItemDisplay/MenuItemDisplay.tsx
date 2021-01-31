@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Form } from 'react-bootstrap';
 import { MenuItem } from '../../models/MenuItem';
 import { LineItem } from '../../models/Order';
-
+import Image from 'react-bootstrap/esm/Image';
+import Form from 'react-bootstrap/esm/Form';
 interface MenuItemDisplayProps {
     item: MenuItem,
     onMenuCompleted(lineItem: LineItem): void;
@@ -29,18 +29,18 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
             <div className="container" style={{ padding: '10px' }}>
                 <div className="menu-item">
                     <div className="row">
-                        <div className="col-md-3">
-                            <img src={props.item.imageUrl} alt="logo" className="menu-item-image"/>
+                        <div className="col-sm-3">
+                            <Image src={props.item.imageUrl} className="menu-item-image" rounded />
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-sm-6">
                             <div>
                                 <p className="menu-item-name text-start">{props.item.name} - ${props.item.price.toFixed(2)}</p>
 
                                 <p className="menu-item-desc">{props.item.description}</p>
                             </div>
                         </div>
-                        <div className="col-md-3" style={{ margin: '1%' }}>
-                            <label style={{ color: 'white', float: 'left' }} htmlFor="quantity">Quantity:</label>
+                        <div className="col-sm-2 menu-item-quantity-col">
+                            <label htmlFor="quantity">Quantity:</label>
                             <Form.Control as="select" id="quantity" size="sm" onChange={onQuantityChange}>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
