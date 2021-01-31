@@ -3,10 +3,12 @@ import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../component
 import { MenuItem } from '../../models/MenuItem';
 import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
-import { Button, Card, Spinner } from 'react-bootstrap';
 import { LineItem, Order, OrderStatus } from '../../models/Order';
 import { submitOrder } from '../../services/ClientApi';
 import { OrderSummary } from '../../components/OrderSummary/OrderSummary';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import Card from 'react-bootstrap/esm/Card';
+import Button from 'react-bootstrap/esm/Button';
 
 enum Step { 
   Menu,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Image from 'react-bootstrap/esm/Image';
 
 export const Home: React.FunctionComponent = () => {
   return (
@@ -47,11 +48,12 @@ export const Home: React.FunctionComponent = () => {
         <div className="zigzag-bottom"></div>
         <div className="container">
           <div className="row">
-            <div className="col-md-6">
-              <img src="https://freshfitfuel.blob.core.windows.net/images/jenna-cooking-480-640.jpg" alt="" />
+            <div className="col-md-6 mt-1">
+              <Image src="https://freshfitfuel.blob.core.windows.net/images/jenna-cooking-480-640.jpg" style={{ margin: 'auto' }} rounded/>
+
             </div>
-            <div className="col-md-6">
-              <img src="https://freshfitfuel.blob.core.windows.net/images/stove-480-640.jpg" alt="" />
+            <div className="col-md-6 mt-1">
+              <Image src="https://freshfitfuel.blob.core.windows.net/images/stove-480-640.jpg" style={{ margin: 'auto' }} rounded/>
             </div>
           </div>
         </div>

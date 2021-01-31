@@ -1,5 +1,6 @@
 import React from 'react';
 import BigTitle from '../../components/BigTitle/BigTitle';
+import Image from 'react-bootstrap/esm/Image';
 
 export const AboutMe: React.FunctionComponent = () => {
     return (
@@ -23,8 +24,8 @@ export const AboutMe: React.FunctionComponent = () => {
                 That is why Fresh Fit Fuel is the perfect solution because you will not only have a “no-thought” meal but also a healthy one! On top of all of that, you will be supporting a new small business! 
               </p>
 
-              <div className="row mb-2">
-                  <img style={{ margin: 'auto' }} src="jennaRowing.jpg" alt=""/>
+              <div className="row mb-2 ml-1 mr-2">
+                  <Image src="jennaRowing.jpg" style={{ margin: 'auto' }} rounded/>
               </div>
             </div>
 
