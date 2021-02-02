@@ -23,6 +23,7 @@ export const OrderScreen: React.FunctionComponent = () => {
     const [currStep, setCurrStep] = useState(Step.Menu);
     const [order, setOrder] = useState({} as Order);
     const [lineItems, setLineItems] = useState([] as LineItem[]);
+    const [submitDisabled, setSubmitDisabled] = useState(false);
 
     useEffect(() => {
       if (data?.menuItems?.length) {
@@ -53,6 +54,7 @@ export const OrderScreen: React.FunctionComponent = () => {
     }
 
     const placeOrder = async() => {
+      setSubmitDisabled(true);
       const response = await submitOrder(order);
       setOrder({...order, orderNumber: response.orderNumber});
       setCurrStep(Step.Confirmation);
@@ -109,7 +111,7 @@ export const OrderScreen: React.FunctionComponent = () => {
                     <OrderSummary order={order} />
 
                     <Button variant="secondary" onClick={onBack}>Back to Personal Information</Button>
-                    <Button className="continue-btn" onClick={placeOrder}>Place Order</Button>
+                    <Button className="continue-btn" onClick={placeOrder} disabled={submitDisabled}>Place Order</Button>
                   </Card.Body>
                 </Card>
               </div>

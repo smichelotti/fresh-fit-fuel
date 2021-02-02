@@ -103,7 +103,8 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                     value={values.distributionMethod} 
                                     onChange={handleChange} 
                                 >
-                                    <option value="pick-up" label="Pick-Up">Pick-Up</option>
+                                    <option value="pick-up" label="Pick-Up">Pick-Up (Standard)</option>
+                                    <option value="pick-up at cove" label="Pick-Up (Cove)">Pick-Up (Cove)</option>
                                     <option value="delivery" label="Delivery">Delivery</option>
                                 </Form.Control>
                                 {values.distributionMethod === 'pick-up' &&
@@ -111,10 +112,14 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                     Pick-up location is near Mount Hebron High School in Ellicott City, MD.<br/>
                                     Pick-up address sent in confirmation email.
                                   </Alert>}
-                                  {values.distributionMethod === 'delivery' &&
-                                    <Alert className="mt-2 text-center" variant="warning">
-                                      Delivery will be an extra $5 charge. <br/>
-                                      We delivery within 20 miles of Ellicott City, MD!
+                                {values.distributionMethod === 'pick-up at cove' &&
+                                  <Alert className="mt-2 text-center" variant="info">
+                                    Pick-up location is Cove Fitness in Columbia, MD (FREE).
+                                  </Alert>}  
+                                {values.distributionMethod === 'delivery' &&
+                                  <Alert className="mt-2 text-center" variant="warning">
+                                    Delivery will be an extra $5 charge. <br/>
+                                    We delivery within 20 miles of Ellicott City, MD!
                                   </Alert>}
                             </Form.Group>
                         </Form.Row>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using FreshFitFuel.Api.Models;
 using Newtonsoft.Json;
@@ -17,6 +18,13 @@ namespace FreshFitFuel.Api.Services
                 html.Append("Your order will be delivered right to you between <strong>6pm-8pm on Sunday.</strong> ");
                 html.Append("We ask that you either keep a lookout for your delivery OR leave a cooler outside for your food! ");
                 html.Append("At Fresh Fit Fuel, we care about the environment and that is why all meal prep containers are 100% recyclable!");
+            }
+            else if (order.DistributionMethod == "pick-up at cove")
+            {
+                html.Append("Your order will be dropped off at the Cove fridge (by the front door) on Sunday night. ");
+                html.Append("Please pick it up the next day (Monday) or any time you can! Your order will be in a stack with your name and order number on it. ");
+                html.Append("Please bring your own bag because at Fresh Fit Fuel, we are eco-friendly and care about the environment. ");
+                html.Append("Adding on to that, all meal prep containers are 100% recyclable! ");
             }
             else
             {
