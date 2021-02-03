@@ -4,8 +4,9 @@ import { LineItem } from '../../models/Order';
 import Image from 'react-bootstrap/esm/Image';
 import Form from 'react-bootstrap/esm/Form';
 interface MenuItemDisplayProps {
-    item: MenuItem,
+    item: MenuItem;
     onMenuCompleted(lineItem: LineItem): void;
+    ordersLocked: boolean;
 }
 
 export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (props) => {
@@ -40,23 +41,24 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                             </div>
                         </div>
                         <div className="col-sm-2 menu-item-quantity-col">
-                            <label htmlFor="quantity">Quantity:</label>
-                            <Form.Control as="select" id="quantity" size="sm" onChange={onQuantityChange}>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </Form.Control>
-                            <label style={{ color: 'white' }} htmlFor="subtotal">Subtotal:</label>
-                            <p id="subtotal" style={{ color: 'white', float: 'right' }}>${subtotal}</p>
-
+                            {!props.ordersLocked && <div>
+                              <label htmlFor="quantity">Quantity:</label>
+                              <Form.Control as="select" id="quantity" size="sm" onChange={onQuantityChange}>
+                                  <option value="0">0</option>
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                                  <option value="8">8</option>
+                                  <option value="9">9</option>
+                                  <option value="10">10</option>
+                              </Form.Control>
+                              <label style={{ color: 'white' }} htmlFor="subtotal">Subtotal:</label>
+                              <p id="subtotal" style={{ color: 'white', float: 'right' }}>${subtotal}</p>
+                            </div>}
 
                             <table className="table table-sm macro-info table-bordered">
                                 <tbody>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FreshFitFuel.Api.Models;
 using FreshFitFuel.Api.Services;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,8 @@ namespace FreshFitFuel.Api.Customer
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customer/current-menu")] HttpRequest req, ILogger log)
         {
             log.LogInformation("Customer current menu.");
-            //var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'");
             var menus = this.db.Menus.Query<Menu>("PartitionKey eq 'default'");
-            var currentMenu = menus.OrderByDescending(x => x.StartTime).First();
+            var currentMenu = menus.Where(x => x.StartTime <= DateTime.UtcNow).OrderByDescending(x => x.StartTime).First();
             var currentMenuItemIds = currentMenu.MenuItemIds.Split(',');
             var predicate = string.Join(" or ", currentMenuItemIds.Select(x => $"RowKey eq '{x}'"));
             log.LogInformation($"*** predicate: {predicate}");

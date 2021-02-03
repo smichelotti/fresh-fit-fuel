@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
-// import { MenuItem } from '../../models/MenuItem';
 import { PersonalInfo } from '../../models/PersonalInfo';
 import { useFetch } from '../../services/useFetch';
 import { LineItem, Order, OrderStatus } from '../../models/Order';
@@ -10,6 +9,7 @@ import Spinner from 'react-bootstrap/esm/Spinner';
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/esm/Button';
 import { CustomerMenu } from '../../models/CustomerMenu';
+import Alert from 'react-bootstrap/esm/Alert';
 
 enum Step { 
   Menu,
@@ -24,9 +24,11 @@ export const OrderScreen: React.FunctionComponent = () => {
     const [order, setOrder] = useState({} as Order);
     const [lineItems, setLineItems] = useState([] as LineItem[]);
     const [submitDisabled, setSubmitDisabled] = useState(false);
+    const [ordersLocked, setOrdersLocked] = useState(false);
 
     useEffect(() => {
       if (data?.menuItems?.length) {
+        setOrdersLocked(new Date(data.end) < new Date());
         setLineItems(data.menuItems.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
       }
     }, [data]);
@@ -69,6 +71,9 @@ export const OrderScreen: React.FunctionComponent = () => {
       <>
         <BigTitle name='Order Now' />
         <div className="container">
+          {ordersLocked && <Alert className="mt-2 text-center" variant="danger">
+            <Alert.Heading>Orders are closed for the week. Stay tuned for the next menu!</Alert.Heading>
+          </Alert>}
 
           {currStep === Step.Menu &&
             <div className="row">
@@ -78,11 +83,11 @@ export const OrderScreen: React.FunctionComponent = () => {
                   <Card.Body>
                     {data.menuItems.map((item, i) => (
                       <div key={i}>
-                        <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted}/>
+                        <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted} ordersLocked={ordersLocked}/>
                       </div>
                     ))}
 
-                    <Button onClick={() => setCurrStep(Step.PersonalInfo)} className="continue-btn">Continue</Button>
+                    {!ordersLocked && <Button onClick={() => setCurrStep(Step.PersonalInfo)} className="continue-btn">Continue</Button>}
                   </Card.Body>
                 </Card>
               </div>

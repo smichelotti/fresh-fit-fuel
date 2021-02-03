@@ -4,8 +4,6 @@ import { BigTitle } from '../../../components';
 import { LoadingState } from '../../../models/LoadingState';
 import { Menu } from '../../../models/Menu';
 import DatePicker from 'react-datepicker';
-
-import 'react-datepicker/dist/react-datepicker.css';
 import Form from 'react-bootstrap/esm/Form';
 import Col from 'react-bootstrap/esm/Col';
 import { addMenu, getMenu, getMenuItems, updateMenu } from '../../../services/ClientApi';
@@ -15,20 +13,15 @@ import Table from 'react-bootstrap/esm/Table';
 import Button from 'react-bootstrap/esm/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 interface IdParams { id: string }
 
 const emptyMenu: Menu = {
   name: '', startTime: new Date(), endTime: new Date(), menuItemIds: []
 };
 
-// interface SelectableItem extends MenuItem{
-//   selected: boolean;
-// }
-
-interface OrderableItem extends MenuItem {
-  order: number;
-}
-
+interface OrderableItem extends MenuItem { order: number; }
 
 export const EditMenu: React.FunctionComponent = () => {
   const { id } = useParams<IdParams>();
@@ -40,11 +33,9 @@ export const EditMenu: React.FunctionComponent = () => {
   const [menuName, setMenuName] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  // const [allMenuItems, setAllMenuItems] = useState([] as SelectableItem[]);
-  const history = useHistory();
-
   const [srcItems, setSrcItems] = useState([] as MenuItem[]);
   const [destItems, setDestItems] = useState([] as OrderableItem[]);
+  const history = useHistory();
 
   useEffect(() => {
     const getItems = async() => {
@@ -52,14 +43,15 @@ export const EditMenu: React.FunctionComponent = () => {
         setLoading(LoadingState.Loading);
         if (isNew) {
           const all = await getMenuItems()
-          // const all2: SelectableItem[] = all.map(x => ({...x, selected: false}));
-          // setAllMenuItems(all2);
           setSrcItems(all);
         } else {
           const [ m, items] = await Promise.all([getMenu(id), getMenuItems()]);
           setMenu(m);
-          setSrcItems(items);
-          //setAllMenuItems(items);
+          setMenuName(m.name);
+          setStartDate(new Date(m.startTime));
+          setEndDate(new Date(m.endTime));
+          setDestItems(m.menuItemIds.map((id, i) => ({...items.find(s => s.id === id), order: i} as OrderableItem)));
+          setSrcItems(items.filter(x => !m.menuItemIds.includes(x.id || '')));
         }
         setLoading(LoadingState.Loaded);
       } catch (e) {
@@ -73,7 +65,6 @@ export const EditMenu: React.FunctionComponent = () => {
   const add = (item: MenuItem) => {
     setSrcItems(srcItems.filter(i => i.id !== item.id));
     setDestItems(destItems.concat({...item, order: destItems.length}));
-    // setDestItems(destItems.concat(item));
   };
 
   const remove = (item: MenuItem) => {
@@ -102,7 +93,6 @@ export const EditMenu: React.FunctionComponent = () => {
   };
 
   const save = async() => {
-    console.log('**save');
     const item : Menu = {
       name: menuName,
       startTime: startDate,
@@ -112,7 +102,7 @@ export const EditMenu: React.FunctionComponent = () => {
     console.log('**about to sAVE', item);
     try {
       setSaving(LoadingState.Loading);
-      const response = await (isNew ? addMenu(item) : updateMenu(item));
+      const response = await (isNew ? addMenu(item) : updateMenu({...item, id: menu.id}));
       console.log('**successful response', response);
       setSaving(LoadingState.Loaded);
       history.push('/admin/menus');
@@ -121,16 +111,6 @@ export const EditMenu: React.FunctionComponent = () => {
       setSaving(LoadingState.Error);
     }
   };
-
-  // const nameChanged = (ev: any) => {
-  //   console.log('**name changed', ev, '**val', ev.target.value);
-
-  // }
-  
-  // const onStartChange = (date: Date, ev: any) => {
-  //   console.log('**onstart change', date, ev, '**name', ev.target.name);
-  //   setStartDate(date);
-  // }
 
   if (loading === LoadingState.Loading) return <AppSpinner text="Loading menu..." />
   // if (error) throw error;
@@ -155,9 +135,8 @@ export const EditMenu: React.FunctionComponent = () => {
               <Form.Control
                 type="text"
                 name="name"
-                defaultValue={menu.name}
+                defaultValue={menuName}
                 onChange={ev => setMenuName(ev.target.value)}
-                // isInvalid={!!errors.name}
               />
               {/* <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback> */}
             </Form.Group>
@@ -187,8 +166,6 @@ export const EditMenu: React.FunctionComponent = () => {
                 <tbody>
                   {srcItems.map(i => (
                     <tr key={i.id}>
-                      {/* <td><Button variant={i.selected ? 'primary' : 'outline-primary'} size="sm" onClick={() => toggleSelected(i)}>
-                        Select</Button></td> */}
                       <td>{i.name}</td>
                       <td>{i.category}</td>
                       <td>
@@ -214,7 +191,7 @@ export const EditMenu: React.FunctionComponent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {destItems.map((i, index) => (
+                  {destItems.map((i) => (
                     <tr key={i.id}>
                       <td>
                         <Button size="sm" variant="danger" onClick={() => remove(i)}>
@@ -224,10 +201,10 @@ export const EditMenu: React.FunctionComponent = () => {
                       <td>{i.name}</td>
                       <td>{i.category}</td>
                       <td>
-                        {/* {(index !== 0) && <Button size="sm" variant="info" className="mr-1" onClick={() => up(i)}>
+                        {/* {(i.order !== 0) && <Button size="sm" variant="info" className="mr-1" onClick={() => up(i)}>
                           <i className="fa fa-arrow-up" aria-hidden="true"></i>
                         </Button>}
-                        {(index === destItems.length) && <Button size="sm" variant="info" onClick={() => down(i)}>
+                        {(i.order !== destItems.length-1) && <Button size="sm" variant="info" onClick={() => down(i)}>
                           <i className="fa fa-arrow-down" aria-hidden="true"></i>
                         </Button>} */}
 
