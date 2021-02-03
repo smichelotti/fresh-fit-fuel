@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using FreshFitFuel.Api.Models;
 using FreshFitFuel.Api.Services;
@@ -31,7 +32,7 @@ namespace FreshFitFuel.Api.Menus
             log.LogInformation("Get Menus");
             var m = this.db.Menus.Query<Menu>("PartitionKey eq 'default'");
             var items = this.mapper.Map<List<MenuInfo>>(m);
-            return new OkObjectResult(items);
+            return new OkObjectResult(items.OrderByDescending(x => x.StartTime));
         }
 
         public class MenuInfo
