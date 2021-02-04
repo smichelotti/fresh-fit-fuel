@@ -16,6 +16,7 @@ export const Orders: React.FunctionComponent = () => {
   const [orders, setOrders] = useState([] as Order[]);
   const [args, setArgs] = useState({show: false} as {show: boolean, title?: string, idToDelete?: string});
   const [updating, setUpdating] = useState(false);
+  const [grandTotal, setGrandTotal] = useState(0);
 
 
   useEffect(() => {
@@ -32,6 +33,10 @@ export const Orders: React.FunctionComponent = () => {
     };
     getAll();
   }, []);
+
+  useEffect(() => {
+    setGrandTotal(orders.reduce((total, currValue) => total + currValue.grandTotal, 0));
+  }, [orders]);
 
   const cancelOrder = async (order: Order) => setArgs({ show: true, title: `Delete order ${order.orderNumber}?`, idToDelete: order.id });
 
@@ -90,6 +95,11 @@ export const Orders: React.FunctionComponent = () => {
                 </td>
               </tr>
             ))}
+            <tr className="table-success font-weight-bold">
+              <td colSpan={3}><span className="float-right">Running Total:</span></td>
+              <td>${grandTotal.toFixed(2)}</td>
+              <td colSpan={2}></td>
+            </tr>
           </tbody>
         </Table>
       </div>
