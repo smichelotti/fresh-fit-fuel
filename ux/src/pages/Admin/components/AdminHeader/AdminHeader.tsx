@@ -17,7 +17,7 @@ export const AdminHeader: React.FunctionComponent = () => {
             <div className="logo">
                 <h1>
                   <a href="/"><img src="/jenna-logo.jpg" alt="logo" /></a>
-                  <span className="text-nowrap">Fresh Fit Meals Admin</span>
+                  <span className="text-nowrap">Fresh Fit Meals <span className="no-print">Admin</span></span>
                 </h1>
             </div>
         </div>
