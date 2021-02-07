@@ -18,7 +18,6 @@ export const AboutMe: React.FunctionComponent = () => {
               <p className="">
                 The only thing that people don’t tell you about meal prepping is that it can be time consuming and stressful to put together. 
                 That is why I created Fresh Fit Fuel… so you can have all the benefits of meal prep with none of the hassle.
-                That is why I created Fresh Fit Fuel… so you can have all the benefits of meal prep with no hassle. 
 
                 We have all experienced having “no food in the house” or you “don’t know what to eat” for a meal and end up just eating a bowl of cereal. 
                 That is why Fresh Fit Fuel is the perfect solution because you will not only have a “no-thought” meal but also a healthy one! On top of all of that, you will be supporting a new small business! 
