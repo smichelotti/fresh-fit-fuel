@@ -10,3 +10,5 @@ export const orderStatusText = (status: OrderStatus):string => {
     default: return `Invalid Order status: ${status}`;
   }
 }
+
+export const ToDateTime = (dt: Date | undefined): string => new Date(dt?.toString() || '').toLocaleString();

@@ -31,7 +31,7 @@ export const updateMenu = async(item: Menu): Promise<Menu> => await httpSend(`/a
 
 // Order
 
-export const getOrders = async(): Promise<Order[]> => httpGet(`/api/orders`);
+export const getOrders = async(menuId: string): Promise<Order[]> => httpGet(`/api/orders?menuid=${menuId}`);
 export const getOrder = async(id: string): Promise<Order> => httpGet(`/api/orders/${id}`);
 export const updateOrderStatus = async(id: string, orderStatus: OrderStatus): Promise<{orderStatus: OrderStatus}> => httpSend(`/api/orders/${id}/status`, 'PUT', { orderStatus: orderStatus });
 export const deleteOrder = async(id: string): Promise<Response> => await fetch(`/api/orders/${id}`, { method: 'DELETE'});
