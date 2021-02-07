@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreshFitFuel.Api.Models;
@@ -35,9 +37,17 @@ namespace FreshFitFuel.Api.Customer
             // TODO: need to add validation logic here (e.g., check sub-totals, grand totals haven't been tampered with, etc.)
             var orderEntity = this.mapper.Map<Order>(cmd);
             orderEntity.OrderNumber = OrderNumberGenerator.Generate();
+            orderEntity.MenuId = this.GetCurrentMenuId();
             await this.db.Orders.AddEntityAsync(orderEntity);
             await this.emailClient.SendConfirmation(orderEntity);
             return new OkObjectResult(new { orderNumber = orderEntity.OrderNumber });
+        }
+
+        private string GetCurrentMenuId()
+        {
+            var menus = this.db.Menus.Query<Menu>("PartitionKey eq 'default'");
+            var currentMenu = menus.Where(x => x.StartTime <= DateTime.UtcNow).OrderByDescending(x => x.StartTime).First();
+            return currentMenu.RowKey;
         }
 
         public class CustomerOrderCommand
