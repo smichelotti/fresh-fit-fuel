@@ -67,10 +67,10 @@ export const OrderDetail: React.FunctionComponent = () => {
       <Alert variant="primary" className="text-center">
         <span className="float-left">Order Number: {order.orderNumber}</span>
         <span>Received: {(new Date(order.orderSubmitted?.toString() || ''))?.toLocaleString()}</span>
-        <div className="float-right"><OrderStatusBadge status={order.orderStatus} /></div>
+        <div className="float-right no-print"><OrderStatusBadge status={order.orderStatus} /></div>
       </Alert>
 
-      <ProgressBar className="mb-2 order-progress">
+      <ProgressBar className="mb-2 order-progress no-print">
         <ProgressBar label="Order Received" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.OrderReceived)} />
         <ProgressBar label="Invoice Sent" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.InvoiceSent)} />
         <ProgressBar label="Payment Received" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.PaymentReceived)} />
@@ -78,7 +78,7 @@ export const OrderDetail: React.FunctionComponent = () => {
         <ProgressBar label="Distribution Complete" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.DistributionComplete)} />
       </ProgressBar>
 
-      <Row>
+      <Row className="no-print">
         <Col>
           {btnTexts.back && <Button variant="primary" size="sm" className="mb-2" onClick={() => setOrderStatus(order.orderStatus - 1)}>Back: {btnTexts.back}</Button> }
         </Col>
