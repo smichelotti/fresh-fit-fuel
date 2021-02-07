@@ -1,59 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/esm/Button';
-import Table from 'react-bootstrap/esm/Table';
-import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import { BigTitle } from '../../../components';
 import { AppSpinner } from '../../../components/AppSpinner/AppSpinner';
-import { ConfirmationDialog } from '../../../components/ConfirmationDialog/ConfirmationDialog';
-import { InlineSpinner } from '../../../components/InlineSpinner/InlineSpinner';
 import { LoadingState } from '../../../models/LoadingState';
-import { Order } from '../../../models/Order';
-import { getOrders, deleteOrder } from '../../../services/ClientApi';
-import { OrderStatusBadge } from './OrderStatusBadge';
+import { getMenus } from '../../../services/ClientApi';
+import Form from 'react-bootstrap/esm/Form';
+import { SelectItem } from '../../../models/SelectItem';
+import { ToDateTime } from '../../../services/utils';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
+import { OrdersGrid } from './OrdersGrid';
 
 export const Orders: React.FunctionComponent = () => {
   const [loading, setLoading] = useState(LoadingState.Loading);
-  const [orders, setOrders] = useState([] as Order[]);
-  const [args, setArgs] = useState({show: false} as {show: boolean, title?: string, idToDelete?: string});
-  const [updating, setUpdating] = useState(false);
-  const [grandTotal, setGrandTotal] = useState(0);
-
+  const [menus, setMenus] = useState([] as SelectItem[]);
+  const [selectedMenuId, setSelectedMenuId] = useState('');
 
   useEffect(() => {
-    const getAll = async() => {
+    const getMenusList = async() => {
       try {
         setLoading(LoadingState.Loading);
-        var items = await getOrders();
-        setOrders(items);
+        const items = await getMenus();
+        const menuList = items.map(x => ({ value: x.id || '', text: `${ToDateTime(x.startTime)} - ${ToDateTime(x.endTime)}` }))
+        setMenus(menuList);
+        setSelectedMenuId(menuList[0].value)
       } catch (e) {
         console.error(e);
       } finally {
         setLoading(LoadingState.Loaded);
       }
     };
-    getAll();
+    getMenusList();
   }, []);
-
-  useEffect(() => {
-    setGrandTotal(orders.reduce((total, currValue) => total + currValue.grandTotal, 0));
-  }, [orders]);
-
-  const cancelOrder = async (order: Order) => setArgs({ show: true, title: `Delete order ${order.orderNumber}?`, idToDelete: order.id });
-
-  const onDismiss = async(confirmed: boolean) => {
-    if (confirmed) {
-      try {
-        setUpdating(true);
-        await deleteOrder(args.idToDelete || '');
-        setOrders(orders.filter(x => x.id !== args.idToDelete));
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setUpdating(false);
-      }
-    }
-    setArgs({ show: false });
-  };
 
   if (loading === LoadingState.Loading) return <AppSpinner text="Loading..." />
   // if (error) throw error;
@@ -61,47 +38,20 @@ export const Orders: React.FunctionComponent = () => {
   return (
     <>
       <BigTitle name='Manage Orders' />
-      <ConfirmationDialog show={args.show} title={args.title} message="Are you absolutely positively sure? This cannot be undone!" yesText="Yes (Delete)" onDismiss={onDismiss} />
 
       <div className="container">
-        {updating && <InlineSpinner text="Updating..." />}
-        
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Order #</th>
-              <th>Order Status</th>
-              <th>Grand Total</th>
-              <th>Time received</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map(x => (
-              <tr key={x.id}>
-                <td>{x.fullName}</td>
-                <td>{x.orderNumber}</td>
-                <td>
-                  <OrderStatusBadge status={x.orderStatus} />
-                </td>
-                <td>${x.grandTotal.toFixed(2)}</td>
-                <td>{(new Date(x.orderSubmitted?.toString() || ''))?.toLocaleString()}</td>
-                <td>
-                  <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
-                    <Button className="btn-sm mr-2" variant="primary">View</Button>
-                  </LinkContainer>
-                  <Button className="btn-sm" variant="danger" onClick={() => cancelOrder(x)}>Delete</Button>
-                </td>
-              </tr>
-            ))}
-            <tr className="table-success font-weight-bold">
-              <td colSpan={3}><span className="float-right">Running Total:</span></td>
-              <td>${grandTotal.toFixed(2)}</td>
-              <td colSpan={2}></td>
-            </tr>
-          </tbody>
-        </Table>
+
+        <Form.Group as={Row}>
+          <Form.Label column sm={1}>Menus:</Form.Label>
+          <Col sm={5}>
+            <Form.Control as="select" id="menu" size="sm" onChange={(ev) => setSelectedMenuId(ev.target.value)}>
+              {menus.map(x => <option key={x.value} value={x.value}>{x.text}</option> )}
+            </Form.Control>
+          </Col>
+        </Form.Group>
+
+        <OrdersGrid selectedMenuId={selectedMenuId} />
+
       </div>
     </>
   );

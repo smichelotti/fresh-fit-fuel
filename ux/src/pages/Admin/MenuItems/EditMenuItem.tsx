@@ -16,7 +16,7 @@ import { LoadingState } from '../../../models/LoadingState';
 interface MIParams { id: string }
 
 const emptyMenuItem: MenuItem = {
-  name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: ''
+  name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: 'meal'
 };
 
 const schema = yup.object({
@@ -114,12 +114,14 @@ export const EditMenuItem: React.FunctionComponent = () => {
                 <Form.Group as={Col} md="4">
                   <Form.Label>Category</Form.Label>
                   <Form.Control
-                    type="text"
+                    as="select" 
                     name="category"
-                    value={values.category}
+                    value={values.category} 
                     onChange={handleChange}
-                    isInvalid={!!errors.category}
-                  />
+                    isInvalid={!!errors.category}>
+                    <option value="meal">Meal</option>
+                    <option value="snack">Snack</option>
+                  </Form.Control>
                   <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
                 </Form.Group>
 

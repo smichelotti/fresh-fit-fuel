@@ -29,9 +29,10 @@ namespace FreshFitFuel.Api.Orders
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "orders")] HttpRequest req, ILogger log)
         {
             log.LogInformation("Get Orders.");
+            var menuId = req.Query["menuid"];
             // TODO: eventually will need to provide filters for active/complete, etc.
             var orders = this.db.Orders.Query<Order>(
-                filter: "PartitionKey eq 'default'", 
+                filter: $"PartitionKey eq 'default' and MenuId eq '{menuId}'", 
                 select: new[] { "RowKey", "FullName", "OrderStatus", "GrandTotal", "OrderSubmitted", "OrderNumber" });
             var items = this.mapper.Map<List<AdminOrderResult>>(orders);
             return new OkObjectResult(items.OrderByDescending(x => x.OrderSubmitted));
