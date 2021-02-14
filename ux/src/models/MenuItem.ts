@@ -8,5 +8,11 @@ export interface MenuItem {
     calories: number,
     imageUrl: string,
     category: string,
-    price: number
+    price: number,
+    priceOptions: PriceOption[]
+}
+
+export interface PriceOption {
+  label: string;
+  priceAdj: number;
 }

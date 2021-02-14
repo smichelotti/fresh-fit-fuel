@@ -15,6 +15,15 @@ export const OrderSummary: React.FunctionComponent<OrderSummaryProps> = (props) 
     <>
       <LineItems lineItems={props.order.lineItems} distribution={props.order.distributionMethod} grandTotal={props.order.grandTotal} />
 
+      {props.order.specialInstructions &&
+        <Form.Row>
+          <Form.Group as={Col} md="11">
+            <Form.Label className="font-weight-bold">Special Instructions</Form.Label>
+            <Form.Control plaintext readOnly defaultValue={props.order.specialInstructions}/>
+          </Form.Group>
+        </Form.Row>
+      }
+
       <Form.Row>
         <Form.Group as={Col} md="4">
           <Form.Label className="font-weight-bold">Name</Form.Label>
