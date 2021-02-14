@@ -57,6 +57,13 @@ namespace FreshFitFuel.Api.Services
             html.Append($"<tr><td colspan=\"3\"><strong>Grand Total:</strong></td><td><strong>{order.GrandTotal:C}</strong></td></tr>");
             html.Append("</table>");
 
+            if (!string.IsNullOrEmpty(order.SpecialInstructions))
+            {
+                html.Append("<p>");
+                html.Append($"Special instructions: {order.SpecialInstructions}");
+                html.Append("</p>");
+            }
+
             html.Append("<p>");
             html.Append("Any questions? Email me: freshfitfuelbyjenna@gmail.com OR DM me on Instagram: @fresh.fit.fuel.");
             html.Append("</p>");

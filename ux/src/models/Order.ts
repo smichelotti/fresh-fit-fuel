@@ -15,6 +15,7 @@ export interface Order {
   streetAddress?: string;
   city?: string;
   zipCode?: string;
+  specialInstructions?: string;
 }
 
 export interface LineItem {

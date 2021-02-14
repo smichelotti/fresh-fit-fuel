@@ -10,6 +10,8 @@ import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/esm/Button';
 import { CustomerMenu } from '../../models/CustomerMenu';
 import Alert from 'react-bootstrap/esm/Alert';
+import FormGroup from 'react-bootstrap/esm/FormGroup';
+import Form from 'react-bootstrap/esm/Form';
 
 enum Step { 
   Menu,
@@ -25,6 +27,7 @@ export const OrderScreen: React.FunctionComponent = () => {
     const [lineItems, setLineItems] = useState([] as LineItem[]);
     const [submitDisabled, setSubmitDisabled] = useState(false);
     const [ordersLocked, setOrdersLocked] = useState(false);
+    const [specialInstructions, setSpecialInstructions] = useState('');
 
     useEffect(() => {
       if (data?.menuItems?.length) {
@@ -49,7 +52,8 @@ export const OrderScreen: React.FunctionComponent = () => {
           distributionMethod: info.distributionMethod,
           streetAddress: info.streetAddress1,
           city: info.city,
-          zipCode: info.zip
+          zipCode: info.zip,
+          specialInstructions: specialInstructions
       }
       setOrder(ord);
       setCurrStep(Step.Review);
@@ -86,6 +90,13 @@ export const OrderScreen: React.FunctionComponent = () => {
                         <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted} ordersLocked={ordersLocked}/>
                       </div>
                     ))}
+
+                    <FormGroup>
+                      <Form.Label>Optional special instructions <small className="text-muted">(we'll try to accomodate within reason)</small>:</Form.Label>
+                      <Form.Control as="textarea" rows={2} placeholder="e.g., hold the onions" 
+                        value={specialInstructions} 
+                        onChange={(ev) => setSpecialInstructions(ev.target.value)}/>
+                    </FormGroup>
 
                     {!ordersLocked && <Button onClick={() => setCurrStep(Step.PersonalInfo)} className="continue-btn">Continue</Button>}
                   </Card.Body>

@@ -46,6 +46,7 @@ namespace FreshFitFuel.Api.Orders
             public string Email { get; set; }
             public string VenmoHandle { get; set; }
             public string DistributionMethod { get; set; }
+            public string SpecialInstructions { get; set; }
 
             public string StreetAddress { get; set; }
             public string City { get; set; }
