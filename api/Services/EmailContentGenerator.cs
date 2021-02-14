@@ -11,7 +11,7 @@ namespace FreshFitFuel.Api.Services
         public static string GenerateEmailBody(Order order)
         {
             var html = new StringBuilder();
-            html.Append($"<p>Thank you for your order + supporting a small business! Your confirmation # is: <strong>{order.OrderNumber}</strong>.</p>");
+            html.Append($"<p>{order.FullName} - Thank you for your order + supporting a small business! Your confirmation # is: <strong>{order.OrderNumber}</strong>.</p>");
             html.Append("<p>");
             if (order.DistributionMethod == "delivery")
             {
@@ -49,6 +49,10 @@ namespace FreshFitFuel.Api.Services
                 html.Append($"<td>{item.Quantity}</td>");
                 html.Append($"<td>{item.SubTotal:C}</td>");
                 html.Append("</tr>");
+            }
+            if (order.DistributionMethod == "delivery")
+            {
+                html.Append($"<tr><td colspan=\"3\">Delivery Fee:</strong></td><td>$5.00</strong></td></tr>");
             }
             html.Append($"<tr><td colspan=\"3\"><strong>Grand Total:</strong></td><td><strong>{order.GrandTotal:C}</strong></td></tr>");
             html.Append("</table>");

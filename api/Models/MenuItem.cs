@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Azure;
 using Azure.Data.Tables;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ namespace FreshFitFuel.Api.Models
         public string ImageUrl { get; set; }
         public string Category { get; set; }
         public double Price { get; set; }
+        public string PriceOptionsJson { get; set; }
 
         // Just to satisfy ITableEntity
         [JsonIgnore]

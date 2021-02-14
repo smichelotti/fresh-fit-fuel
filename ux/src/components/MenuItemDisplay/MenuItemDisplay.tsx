@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { MenuItem } from '../../models/MenuItem';
 import { LineItem } from '../../models/Order';
 import Image from 'react-bootstrap/esm/Image';
@@ -8,21 +8,38 @@ interface MenuItemDisplayProps {
     onMenuCompleted(lineItem: LineItem): void;
     ordersLocked: boolean;
 }
+interface PricingOption {
+  label: string; priceAdj: number; checked: boolean;
+}
 
 export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (props) => {
+    const [quantity, setQuantity] = useState(0);
     const [subtotal, setSubtotal] = useState("0.00");
+    const hasPricingOptions = (props.item.priceOptions && props.item.priceOptions.length > 0);
+    const [pricingOptions, setPricingOptions] = useState((hasPricingOptions ? props.item.priceOptions.map(x => ({...x, label: `${x.label} (+$${x.priceAdj.toFixed(2)})`, checked: false })) : []) as PricingOption[]);
 
-    const onQuantityChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const st = (props.item.price * parseInt(event.target.value)).toFixed(2);
-        setSubtotal(st);
-        const lineItem: LineItem = {
-            menuItemId: props.item.id || '',
-            name: props.item.name,
-            quantity: parseInt(event.target.value),
-            price: props.item.price,
-            subTotal: parseFloat(st)
-        };
-        props.onMenuCompleted(lineItem);
+    useEffect(() => {
+      const labelSuffix = pricingOptions.filter(x => x.checked).map(x => x.label).join(', ');
+      const extraPrice = pricingOptions.reduce((total, currValue) => total + (currValue.checked ? currValue.priceAdj : 0), 0);
+      const calcPrice = props.item.price + extraPrice;
+      const st = (calcPrice * quantity).toFixed(2);
+      setSubtotal(st);
+      const lineItem: LineItem = {
+          menuItemId: props.item.id || '',
+          name: props.item.name + (labelSuffix ? ` - ${labelSuffix}` : ''),
+          quantity: quantity,
+          price: calcPrice,
+          subTotal: parseFloat(st)
+      };
+      props.onMenuCompleted(lineItem);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [quantity, pricingOptions]);
+
+    const onQuantityChange = (event: ChangeEvent<HTMLSelectElement>) => setQuantity(parseInt(event.target.value));
+
+    const checkChanged = (ev: ChangeEvent<HTMLInputElement>, option: PricingOption) => {
+      const opt = {...option, checked: ev.target.checked};
+      setPricingOptions(pricingOptions.map(x => x.label === opt.label ? opt : x));
     }
 
     return (
@@ -56,6 +73,11 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
                                   <option value="9">9</option>
                                   <option value="10">10</option>
                               </Form.Control>
+
+                              {hasPricingOptions && pricingOptions.map(x => (
+                                <Form.Check type="checkbox" key={x.label} label={x.label} onChange={(ev) => checkChanged(ev, x)} />
+                              ))}
+
                               <label style={{ color: 'white' }} htmlFor="subtotal">Subtotal:</label>
                               <p id="subtotal" style={{ color: 'white', float: 'right' }}>${subtotal}</p>
                             </div>}
