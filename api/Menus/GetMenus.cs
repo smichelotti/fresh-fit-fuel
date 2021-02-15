@@ -40,8 +40,8 @@ namespace FreshFitFuel.Api.Menus
             [JsonProperty("id")]
             public string RowKey { get; set; } = Guid.NewGuid().ToString();
             public string Name { get; set; }
-            public string StartTime { get; set; }
-            public string EndTime { get; set; }
+            public DateTimeOffset StartTime { get; set; }
+            public DateTimeOffset EndTime { get; set; }
             public string[] MenuItemIds { get; set; }
         }
 
