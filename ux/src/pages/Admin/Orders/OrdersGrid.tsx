@@ -7,7 +7,8 @@ import { ConfirmationDialog } from '../../../components/ConfirmationDialog/Confi
 import { InlineSpinner } from '../../../components/InlineSpinner/InlineSpinner';
 import { LoadingState } from '../../../models/LoadingState';
 import { Order } from '../../../models/Order';
-import { deleteOrder, getOrders } from '../../../services/ClientApi';
+import { StatsData } from '../../../models/StatsData';
+import { deleteOrder, getOrders, getOrdersStats } from '../../../services/ClientApi';
 import { ToDateTime } from '../../../services/utils';
 import { OrderStatusBadge } from './OrderStatusBadge';
 
@@ -18,6 +19,7 @@ interface OrdersGridProps {
 export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
   const [loading, setLoading] = useState(LoadingState.Loading);
   const [orders, setOrders] = useState([] as Order[]);
+  const [ordersStats, setOrdersStats] = useState([] as StatsData[]);
   const [args, setArgs] = useState({show: false} as {show: boolean, title?: string, idToDelete?: string});
 
   const [updating, setUpdating] = useState(false);
@@ -27,8 +29,9 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
     const getAll = async() => {
       try {
         setLoading(LoadingState.Loading);
-        const items = await getOrders(props.selectedMenuId);
+        const [items, stats] = await Promise.all([getOrders(props.selectedMenuId), getOrdersStats(props.selectedMenuId)])
         setOrders(items);
+        setOrdersStats(stats);
       } catch (e) {
         console.error(e);
       } finally {
@@ -101,6 +104,30 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
               <td colSpan={3}><span className="float-right">Running Total:</span></td>
               <td>${grandTotal.toFixed(2)}</td>
               <td colSpan={2}></td>
+            </tr>
+          </tbody>
+        </Table>
+
+        <hr />
+
+        <h4>Order Stats</h4>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Menu Item</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ordersStats.map(x => (
+              <tr key={x.item}>
+                <td>{x.item}</td>
+                <td>{x.count}</td>
+              </tr>
+            ))}
+            <tr className="table-success font-weight-bold">
+              <td><span className="float-right">Total Count:</span></td>
+              <td>{ordersStats.reduce((total, currValue) => total + currValue.count, 0)}</td>
             </tr>
           </tbody>
         </Table>

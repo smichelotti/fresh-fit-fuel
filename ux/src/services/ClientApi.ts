@@ -1,6 +1,7 @@
 import { Menu } from "../models/Menu";
 import { MenuItem } from "../models/MenuItem";
 import { Order, OrderConfirmation, OrderStatus } from "../models/Order";
+import { StatsData } from "../models/StatsData";
 
 /***** Customer endpoints *****/
 
@@ -32,6 +33,7 @@ export const updateMenu = async(item: Menu): Promise<Menu> => await httpSend(`/a
 // Order
 
 export const getOrders = async(menuId: string): Promise<Order[]> => httpGet(`/api/orders?menuid=${menuId}`);
+export const getOrdersStats = async(menuId: string): Promise<StatsData[]> => httpGet(`/api/orders-stats?menuid=${menuId}`);
 export const getOrder = async(id: string): Promise<Order> => httpGet(`/api/orders/${id}`);
 export const updateOrderStatus = async(id: string, orderStatus: OrderStatus): Promise<{orderStatus: OrderStatus}> => httpSend(`/api/orders/${id}/status`, 'PUT', { orderStatus: orderStatus });
 export const deleteOrder = async(id: string): Promise<Response> => await fetch(`/api/orders/${id}`, { method: 'DELETE'});
