@@ -10,7 +10,7 @@
       "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/api/order-stats",
+      "route": "/api/order-stats/*",
       "allowedRoles": ["anonymous"]
     },
     {
