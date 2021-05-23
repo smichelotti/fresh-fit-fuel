@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
 import { PersonalInfo } from '../../models/PersonalInfo';
 import { LineItem, Order, OrderStatus } from '../../models/Order';
-import { getCurrentMenu, getOrdersStats, submitOrder } from '../../services/ClientApi';
+import { getCurrentMenu, getCurrentOrdersStats, submitOrder } from '../../services/ClientApi';
 import { OrderSummary } from '../../components/OrderSummary/OrderSummary';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import Card from 'react-bootstrap/esm/Card';
@@ -35,7 +35,7 @@ export const OrderScreen: React.FunctionComponent = () => {
       const getCustMenu = async() => {
         try {
           setLoading(LoadingState.Loading);
-          const [menu, statsData] = await Promise.all([getCurrentMenu(), getOrdersStats('0894c851-1984-4790-b4ef-bc27e6c24f13')]);
+          const [menu, statsData] = await Promise.all([getCurrentMenu(), getCurrentOrdersStats()]);
           setCustMenu(menu);
           
           if (menu?.menuItems?.length) {
