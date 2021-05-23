@@ -21,6 +21,7 @@ namespace FreshFitFuel.Api.Models
         public string Category { get; set; }
         public double Price { get; set; }
         public string PriceOptionsJson { get; set; }
+        public int ItemCap { get; set; }
 
         // Just to satisfy ITableEntity
         [JsonIgnore]

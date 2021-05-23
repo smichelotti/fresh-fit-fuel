@@ -8,6 +8,7 @@ export interface MenuItem {
     calories: number,
     imageUrl: string,
     category: string,
+    itemCap: number,
     price: number,
     priceOptions: PriceOption[]
 }
