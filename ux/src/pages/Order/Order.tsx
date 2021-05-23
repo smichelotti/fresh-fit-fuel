@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BigTitle, MenuItemDisplay,  PersonalInformation } from '../../components'
 import { PersonalInfo } from '../../models/PersonalInfo';
-import { useFetch } from '../../services/useFetch';
 import { LineItem, Order, OrderStatus } from '../../models/Order';
-import { submitOrder } from '../../services/ClientApi';
+import { getCurrentMenu, getOrdersStats, submitOrder } from '../../services/ClientApi';
 import { OrderSummary } from '../../components/OrderSummary/OrderSummary';
 import Spinner from 'react-bootstrap/esm/Spinner';
 import Card from 'react-bootstrap/esm/Card';
@@ -12,6 +11,7 @@ import { CustomerMenu } from '../../models/CustomerMenu';
 import Alert from 'react-bootstrap/esm/Alert';
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import Form from 'react-bootstrap/esm/Form';
+import { LoadingState } from '../../models/LoadingState';
 
 enum Step { 
   Menu,
@@ -21,7 +21,9 @@ enum Step {
 };
 
 export const OrderScreen: React.FunctionComponent = () => {
-    const { data, loading, error } = useFetch<CustomerMenu>('/api/customer/current-menu');
+    const [custMenu, setCustMenu] = useState({} as CustomerMenu);
+    const [stats, setStats] = useState({} as Record<string, number>);
+    const [loading, setLoading] = useState(LoadingState.Loading);
     const [currStep, setCurrStep] = useState(Step.Menu);
     const [order, setOrder] = useState({} as Order);
     const [lineItems, setLineItems] = useState([] as LineItem[]);
@@ -30,11 +32,26 @@ export const OrderScreen: React.FunctionComponent = () => {
     const [specialInstructions, setSpecialInstructions] = useState('');
 
     useEffect(() => {
-      if (data?.menuItems?.length) {
-        setOrdersLocked(new Date(data.end) < new Date());
-        setLineItems(data.menuItems.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
-      }
-    }, [data]);
+      const getCustMenu = async() => {
+        try {
+          setLoading(LoadingState.Loading);
+          const [menu, statsData] = await Promise.all([getCurrentMenu(), getOrdersStats('0894c851-1984-4790-b4ef-bc27e6c24f13')]);
+          setCustMenu(menu);
+          
+          if (menu?.menuItems?.length) {
+            setOrdersLocked(new Date(menu.end) < new Date());
+            setLineItems(menu.menuItems.map((item): LineItem => ({ name: item.name, menuItemId: item.id || '', price: item.price, subTotal: 0, quantity: 0 })));
+            const statsMap : Record<string, number> = menu.menuItems.reduce((a, x) => ({...a, [x.id || '']: statsData.find((s) => s.item === x.name)?.count || 0}), {});
+            setStats(statsMap);
+          }
+          setLoading(LoadingState.Loaded);
+        } catch (e) {
+          console.error(e);
+          setLoading(LoadingState.Error);
+        }
+      };
+      getCustMenu();
+    }, []);
 
     const onMenuItemCompleted = (info: LineItem) => setLineItems(lineItems.map(item => item.menuItemId === info.menuItemId ? info : item));
     
@@ -68,8 +85,8 @@ export const OrderScreen: React.FunctionComponent = () => {
 
     const onBack = () => setCurrStep(currStep - 1);
 
-    if (loading) return <Spinner animation="border" variant="primary" />;
-    if (error) throw error;
+    if (loading === LoadingState.Loading) return <Spinner animation="border" variant="primary" />;
+    if (loading === LoadingState.Error) throw Error;
 
     return (
       <>
@@ -85,9 +102,9 @@ export const OrderScreen: React.FunctionComponent = () => {
                 <Card className="mb-2">
                   <Card.Header as="h5" className="green-bg text-white">Menu</Card.Header>
                   <Card.Body>
-                    {data.menuItems.map((item, i) => (
+                    {custMenu.menuItems.map((item, i) => (
                       <div key={i}>
-                        <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted} ordersLocked={ordersLocked}/>
+                        <MenuItemDisplay item={item} onMenuCompleted={onMenuItemCompleted} ordersLocked={ordersLocked} runningCount={stats[item.id || '']}/>
                       </div>
                     ))}
 

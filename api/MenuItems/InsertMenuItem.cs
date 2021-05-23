@@ -47,6 +47,7 @@ namespace FreshFitFuel.Api.MenuItems
             public int Calories { get; set; }
             public string ImageUrl { get; set; }
             public string Category { get; set; }
+            public int ItemCap { get; set; }
             public double Price { get; set; }
             public List<PriceOption> PriceOptions { get; set; }
 

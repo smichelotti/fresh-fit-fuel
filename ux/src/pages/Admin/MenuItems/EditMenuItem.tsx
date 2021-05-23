@@ -20,7 +20,7 @@ import Row from 'react-bootstrap/esm/Row';
 interface MIParams { id: string }
 
 const emptyMenuItem: MenuItem = {
-  name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: 'meal', priceOptions: []
+  name: '', description: '', price: 0, carbs: 0, fat: 0, protein: 0, imageUrl: '', calories: 0, category: 'meal', priceOptions: [], itemCap: 0
 };
 
 const schema = yup.object({
@@ -32,7 +32,8 @@ const schema = yup.object({
   carbs: yup.number(),
   fat: yup.number(),
   protein: yup.number(),
-  calories: yup.number()
+  calories: yup.number(),
+  itemCap: yup.number().required()
 });
 
 export const EditMenuItem: React.FunctionComponent = () => {
@@ -156,7 +157,7 @@ export const EditMenuItem: React.FunctionComponent = () => {
               </Form.Row>
 
               <Form.Row className="mt-2">
-                <Form.Group as={Col} md="5">
+                <Form.Group as={Col} md="4">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     type="text"
@@ -180,6 +181,18 @@ export const EditMenuItem: React.FunctionComponent = () => {
                     <option value="snack">Snack</option>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="1">
+                  <Form.Label>Item Cap</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="itemCap"
+                    value={values.itemCap}
+                    onChange={handleChange}
+                    isInvalid={!!errors.itemCap}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.itemCap}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group as={Col} md="1">
