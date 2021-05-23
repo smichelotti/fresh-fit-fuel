@@ -35,7 +35,7 @@ export const OrderScreen: React.FunctionComponent = () => {
       const getCustMenu = async() => {
         try {
           setLoading(LoadingState.Loading);
-          const [menu, statsData] = await Promise.all([getCurrentMenu(), getOrdersStats('afa6953c-8354-43e9-abb9-9704386cc6a2')]);
+          const [menu, statsData] = await Promise.all([getCurrentMenu(), getOrdersStats('0894c851-1984-4790-b4ef-bc27e6c24f13')]);
           setCustMenu(menu);
           
           if (menu?.menuItems?.length) {
