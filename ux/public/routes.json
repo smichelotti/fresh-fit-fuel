@@ -6,7 +6,15 @@
       "serve": "/index.html"
     },
     {
-      "route": "/api/*",
+      "route": "/api/menu-items/*",
+      "allowedRoles": ["admin"]
+    },
+    {
+      "route": "/api/menus/*",
+      "allowedRoles": ["admin"]
+    },
+    {
+      "route": "/api/orders/*",
       "allowedRoles": ["admin"]
     },
     {
