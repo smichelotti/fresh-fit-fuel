@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
 
 const emptyPersonalInfo: PersonalInfo = {
-    name: '', email: '', venmo: '', distributionMethod: 'pick-up', streetAddress1: '', city: '', zip: ''
+    name: '', email: '', venmo: '', distributionMethod: '', streetAddress1: '', city: '', zip: ''
 };
 export interface PersonalInformationProps {
     onPersonalInfoCompleted(info: PersonalInfo): void;
@@ -19,7 +19,7 @@ const schema = yup.object({
     name: yup.string().required(),
     email: yup.string().required().email(),
     venmo: yup.string().required(),
-    distributionMethod: yup.string(),
+    distributionMethod: yup.string().required(),
     streetAddress1: yup.string().when("name", {
         is: "Bob",
         then: yup.string().required()
@@ -101,12 +101,18 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                     as="select" 
                                     name="distributionMethod"
                                     value={values.distributionMethod} 
-                                    onChange={handleChange} 
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.distributionMethod && touched.distributionMethod} 
                                 >
+                                    <option value="" label="Select">Please Select an Option</option>
                                     <option value="pick-up" label="Pick-Up">Pick-Up (Standard)</option>
                                     <option value="pick-up at cove" label="Pick-Up (Cove)">Pick-Up (Cove)</option>
                                     <option value="delivery" label="Delivery">Delivery</option>
                                 </Form.Control>
+                                {values.distributionMethod === '' &&
+                                  <Alert className="mt-2 text-center" variant="warning">
+                                    Please select an option to receive your food.<br/>
+                                  </Alert>}
                                 {values.distributionMethod === 'pick-up' &&
                                   <Alert className="mt-2 text-center" variant="info">
                                     Pick-up location is near Mount Hebron High School in Ellicott City, MD.<br/>
