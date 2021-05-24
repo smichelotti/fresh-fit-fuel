@@ -6,6 +6,10 @@
       "serve": "/index.html"
     },
     {
+      "route": "/api/*",
+      "allowedRoles": ["admin"]
+    },
+    {
       "route": "/api/customer/*",
       "allowedRoles": ["anonymous"]
     },
