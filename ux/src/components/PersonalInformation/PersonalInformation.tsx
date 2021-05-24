@@ -102,7 +102,7 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                     name="distributionMethod"
                                     value={values.distributionMethod} 
                                     onChange={handleChange}
-                                    isInvalid={values.distributionMethod == ""} 
+                                    isInvalid={!!errors.distributionMethod && touched.distributionMethod} 
                                 >
                                     <option value="" label="Select">Please Select an Option</option>
                                     <option value="pick-up" label="Pick-Up">Pick-Up (Standard)</option>
