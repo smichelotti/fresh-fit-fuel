@@ -7,11 +7,9 @@ interface OrderStatusBadgetProps { status: OrderStatus };
 const getBadgeColor = (status: OrderStatus) => {
   if (status === OrderStatus.PaymentReceived) {
     return 'primary';
-  }
-  else if (status === OrderStatus.DistributionComplete) {
+  } else if (status === OrderStatus.DistributionComplete) {
     return 'success';
-  }
-  else {
+  } else {
     return 'secondary';
   }
 }
