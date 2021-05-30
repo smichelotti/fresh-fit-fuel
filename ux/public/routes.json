@@ -6,24 +6,12 @@
       "serve": "/index.html"
     },
     {
-      "route": "/api/menu-items/*",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/api/menus/*",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/api/orders/*",
-      "allowedRoles": ["admin"]
-    },
-    {
       "route": "/api/customer/*",
       "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/api/order-stats/*",
-      "allowedRoles": ["anonymous"]
+      "route": "/api/*",
+      "allowedRoles": ["admin"]
     },
     {
       "route": "/login",

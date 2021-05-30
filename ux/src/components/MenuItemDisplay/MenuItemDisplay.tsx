@@ -26,10 +26,11 @@ export const MenuItemDisplay: React.FunctionComponent<MenuItemDisplayProps> = (p
       const choiceCount = Math.min(10, props.item.itemCap - props.runningCount);
       if (choiceCount <= 0) {
         setOrdersLocked(true);
+        return;
       } 
-        const choicesList = Array.from(Array(choiceCount + 1).keys());
-        setChoices(choicesList);
-      
+
+      const choicesList = Array.from(Array(choiceCount + 1).keys());
+      setChoices(choicesList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
