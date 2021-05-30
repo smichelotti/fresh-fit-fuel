@@ -33,15 +33,44 @@ namespace FreshFitFuel.Api.Customer
             var currentMenu = menus.Where(x => x.StartTime <= DateTime.UtcNow).OrderByDescending(x => x.StartTime).First();
             var currentMenuItemIds = currentMenu.MenuItemIds.Split(',');
             var predicate = string.Join(" or ", currentMenuItemIds.Select(x => $"RowKey eq '{x}'"));
-            log.LogInformation($"*** predicate: {predicate}");
             var menuItemsDict = this.db.MenuItems.Query<MenuItem>($"PartitionKey eq 'default' and ({predicate})").ToDictionary(x => x.RowKey);
+            
             var response = new
             {
-                start = currentMenu.StartTime,
-                end = currentMenu.EndTime,
-                menuItems = currentMenuItemIds.Select(x => this.mapper.Map<MenuItemResponse>(menuItemsDict[x]))
+                CurrentMenu = new
+                {
+                    start = currentMenu.StartTime,
+                    end = currentMenu.EndTime,
+                    menuItems = currentMenuItemIds.Select(x => this.mapper.Map<MenuItemResponse>(menuItemsDict[x]))
+                },
+                Stats = GetMenuOrderStats(currentMenu.RowKey)
             };
             return new OkObjectResult(response);
+        }
+
+        private List<MenuItemStat> GetMenuOrderStats(string menuId)
+        {
+            var orders = this.db.Orders.Query<Order>(
+                filter: $"PartitionKey eq 'default' and MenuId eq '{menuId}'",
+                select: new[] { "MenuItemsJson" });
+            var items = this.mapper.Map<List<StatResult>>(orders);
+
+            var results = items.SelectMany(x => x.LineItems)
+                               .GroupBy(x => x.MenuItemId)
+                               .Select(grp => new MenuItemStat { MenuItemId = grp.Key, Count = grp.Sum(x => x.Quantity) })
+                               .ToList();
+            return results;
+        }
+
+        public class StatResult
+        {
+            public List<LineItem> LineItems { get; set; }
+        }
+
+        public class MenuItemStat
+        {
+            public string MenuItemId { get; set; }
+            public int Count { get; set; }
         }
 
         public class MenuItemResponse
@@ -73,6 +102,9 @@ namespace FreshFitFuel.Api.Customer
                 this.CreateMap<MenuItem, MenuItemResponse>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RowKey))
                     .ForMember(dest => dest.PriceOptions, opt => opt.MapFrom(src => JsonConvert.DeserializeObject<List<PriceOption>>(src.PriceOptionsJson)));
+
+                this.CreateMap<Order, StatResult>()
+                    .ForMember(dest => dest.LineItems, opt => opt.MapFrom(src => JsonConvert.DeserializeObject<List<LineItem>>(src.MenuItemsJson)));
             }
         }
     }
