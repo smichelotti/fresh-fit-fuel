@@ -42,7 +42,6 @@ namespace FreshFitFuel.Api.Models
         OrderReceived,
         InvoiceSent,
         PaymentReceived,
-        OrderReady,
         DistributionComplete
     }
 }

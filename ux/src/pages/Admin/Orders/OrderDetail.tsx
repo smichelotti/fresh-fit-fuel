@@ -74,7 +74,6 @@ export const OrderDetail: React.FunctionComponent = () => {
         <ProgressBar label="Order Received" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.OrderReceived)} />
         <ProgressBar label="Invoice Sent" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.InvoiceSent)} />
         <ProgressBar label="Payment Received" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.PaymentReceived)} />
-        <ProgressBar label="Order Ready" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.OrderReady)} />
         <ProgressBar label="Distribution Complete" now={20} max={20} variant={getProgressSegmentColor(OrderStatus.DistributionComplete)} />
       </ProgressBar>
 

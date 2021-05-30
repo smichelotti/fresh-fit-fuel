@@ -30,7 +30,6 @@ export enum OrderStatus {
   OrderReceived,
   InvoiceSent,
   PaymentReceived,
-  OrderReady,
   DistributionComplete
 }
 

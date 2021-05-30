@@ -4,8 +4,19 @@ import { orderStatusText } from '../../../services/utils';
 
 interface OrderStatusBadgetProps { status: OrderStatus };
 
+const getBadgeColor = (status: OrderStatus) => {
+  if (status === OrderStatus.PaymentReceived) {
+    return 'primary';
+  } else if (status === OrderStatus.DistributionComplete) {
+    return 'success';
+  } else {
+    return 'secondary';
+  }
+}
+
 export const OrderStatusBadge: React.FunctionComponent<OrderStatusBadgetProps> = (props) => {
-  const badgeColor = props.status === OrderStatus.DistributionComplete ? 'success' : 'secondary';
+  const badgeColor = getBadgeColor(props.status);
+
   return (
     <Badge variant={badgeColor}>{orderStatusText(props.status)}</Badge>
   );

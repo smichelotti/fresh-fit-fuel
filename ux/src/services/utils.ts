@@ -5,7 +5,6 @@ export const orderStatusText = (status: OrderStatus):string => {
     case OrderStatus.OrderReceived: return 'Order Received';
     case OrderStatus.InvoiceSent: return 'Invoice Sent';
     case OrderStatus.PaymentReceived: return 'Payment Received';
-    case OrderStatus.OrderReady: return 'Order Ready';
     case OrderStatus.DistributionComplete: return 'Distribution Complete';
     default: return `Invalid Order status: ${status}`;
   }
