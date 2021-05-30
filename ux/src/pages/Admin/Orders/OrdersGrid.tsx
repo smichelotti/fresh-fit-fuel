@@ -115,17 +115,29 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           <thead>
             <tr>
               <th>Menu Item</th>
+              <th></th>
               <th>Count</th>
             </tr>
           </thead>
           <tbody>
             {ordersStats.map(x => (
-              <tr key={x.item}>
-                <td>{x.item}</td>
-                <td>{x.count}</td>
-              </tr>
+              <>
+                <tr key={x.menuItemid} className="table-primary">
+                  <td>{x.name}</td>
+                  <td></td>
+                  <td className="font-weight-bold">{x.count}</td>
+                </tr>
+                {x.options.map(o => (
+                  <tr key={o.name}>
+                    <td></td>
+                    <td>{o.name}</td>
+                    <td>{o.count}</td>
+                  </tr>
+                ))}
+              </>
             ))}
             <tr className="table-success font-weight-bold">
+            <td></td>
               <td><span className="float-right">Total Count:</span></td>
               <td>{ordersStats.reduce((total, currValue) => total + currValue.count, 0)}</td>
             </tr>

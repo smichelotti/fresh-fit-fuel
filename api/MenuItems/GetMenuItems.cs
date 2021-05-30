@@ -1,4 +1,4 @@
-using Azure.Data.Tables;
+using System.Linq;
 using FreshFitFuel.Api.Models;
 using FreshFitFuel.Api.Services;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +21,7 @@ namespace FreshFitFuel.Api.MenuItems
             ILogger log)
         {
             log.LogInformation("Get Menu Items.");
-            var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'");
+            var items = this.db.MenuItems.Query<MenuItem>("PartitionKey eq 'default'").OrderBy(x => x.Name);
             return new OkObjectResult(items);
         }
     }
