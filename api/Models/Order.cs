@@ -12,7 +12,7 @@ namespace FreshFitFuel.Api.Models
         public string MenuItemsJson { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public string OrderNumber { get; set; }
-        public string MenuId { get; set; } // note: this should really be partition key, but too lazy to fix prod data right now
+        public string MenuId { get; set; } // note: this should really be partition key, but too lazy to fix prod data right now3
         public double GrandTotal { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
