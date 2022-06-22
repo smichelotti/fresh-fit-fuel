@@ -28,8 +28,8 @@ namespace FreshFitFuel.Api.Services
             }
             else
             {
-                html.Append($"Please pick up your order from <strong>9604 Larchmede Court, Ellicott City, MD 21042 between 4pm-6pm on Sunday</strong>. ");
-                html.Append($"When you get here, text 443-286-7199 with either your name or order number. I will come out and give you your order (MASKS ON!!). ");
+                html.Append($"Please pick up your order from <strong>Jenna's house between 4pm-6pm on Sunday</strong>. She'll send you the address after she verifies you. ");
+                html.Append($"When you get here, text 443-286-7199 with either your name or order number. I will come out and give you your order. ");
                 html.Append($"Please bring your own bag because at Fresh Fit Fuel, we are eco-friendly and care about the environment. ");
                 html.Append($"Adding on to that, all meal prep containers are 100% recyclable! ");
             }
