@@ -9,7 +9,6 @@ import { LoadingState } from '../../../models/LoadingState';
 import { Order } from '../../../models/Order';
 import { StatsData } from '../../../models/StatsData';
 import { deleteOrder, getOrders, getOrdersStats } from '../../../services/ClientApi';
-// import { ToDateTime } from '../../../services/utils';
 import { OrderStatusBadge } from './OrderStatusBadge';
 
 interface OrdersGridProps {
@@ -92,17 +91,18 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
                     <Button className="btn-sm mr-2" variant="primary">
-                      <i className="fa fa-info-circle"></i>
+                      <i className="fa fa-cutlery"></i>
                     </Button>
                   </LinkContainer>
 
-                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.streetAddress || '')}`} target="_blank" rel="noreferrer">
-                    <Button size="sm" variant="info" className="mr-2">
+                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.streetAddress || '')}`} target="_blank" rel="noreferrer" 
+                    {...(!x.streetAddress ? { className: 'disabled-link'} : {})}>
+                    <Button size="sm" variant="info" className="mr-2" disabled={!x.streetAddress}>
                       <i className="fa fa-map" aria-hidden="true"></i>
                     </Button>
                   </a>
 
-                  <a href={`sms:+14438120919?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
+                  <a href={`sms:+1${x.phone}?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
                     <Button size="sm" variant="info" className="mr-2">
                       <i className="fa fa-comment" aria-hidden="true"></i>
                     </Button>

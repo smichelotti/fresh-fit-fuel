@@ -5,5 +5,6 @@ export interface PersonalInfo {
     distributionMethod: string,
     streetAddress1: string,
     city: string,
-    zip: string
+    zip: string,
+    phone: string
 }
