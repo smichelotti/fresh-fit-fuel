@@ -75,25 +75,24 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           <thead>
             <tr>
               <th>Name</th>
-              {/* <th>Order #</th> */}
-              <th>Order Status</th>
-              <th>Grand Total</th>
+              {/* <th>Order Status</th> */}
               <th>Distribution</th>
-              <th>Time received</th>
+              <th>Grand Total</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {orders.map(x => (
               <tr key={x.id}>
-                <td>{x.fullName}</td>
-                {/* <td>{x.orderNumber}</td> */}
                 <td>
+                  {x.fullName} <br/>
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>
-                <td>${x.grandTotal.toFixed(2)}</td>
+                {/* <td>
+                  <OrderStatusBadge status={x.orderStatus} />
+                </td> */}
                 <td>{x.distributionMethod}</td>
-                <td>{ToDateTime(x.orderSubmitted)}</td>
+                <td>${x.grandTotal.toFixed(2)}</td>
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
                     <Button className="btn-sm mr-2" variant="primary">
@@ -120,9 +119,9 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
               </tr>
             ))}
             <tr className="table-success font-weight-bold">
-              <td colSpan={3}><span className="float-right">Running Total:</span></td>
+              <td colSpan={2}><span className="float-right">Running Total:</span></td>
               <td>${grandTotal.toFixed(2)}</td>
-              <td colSpan={3}></td>
+              <td colSpan={2}></td>
             </tr>
           </tbody>
         </Table>
