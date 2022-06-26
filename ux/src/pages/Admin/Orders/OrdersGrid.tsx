@@ -9,7 +9,7 @@ import { LoadingState } from '../../../models/LoadingState';
 import { Order } from '../../../models/Order';
 import { StatsData } from '../../../models/StatsData';
 import { deleteOrder, getOrders, getOrdersStats } from '../../../services/ClientApi';
-import { ToDateTime } from '../../../services/utils';
+// import { ToDateTime } from '../../../services/utils';
 import { OrderStatusBadge } from './OrderStatusBadge';
 
 interface OrdersGridProps {
@@ -75,7 +75,6 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           <thead>
             <tr>
               <th>Name</th>
-              {/* <th>Order Status</th> */}
               <th>Distribution</th>
               <th>Grand Total</th>
               <th></th>
@@ -88,9 +87,6 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
                   {x.fullName} <br/>
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>
-                {/* <td>
-                  <OrderStatusBadge status={x.orderStatus} />
-                </td> */}
                 <td>{x.distributionMethod}</td>
                 <td>${x.grandTotal.toFixed(2)}</td>
                 <td>
@@ -121,7 +117,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
             <tr className="table-success font-weight-bold">
               <td colSpan={2}><span className="float-right">Running Total:</span></td>
               <td>${grandTotal.toFixed(2)}</td>
-              <td colSpan={2}></td>
+              <td></td>
             </tr>
           </tbody>
         </Table>
