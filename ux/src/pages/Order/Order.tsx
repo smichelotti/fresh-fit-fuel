@@ -70,6 +70,7 @@ export const OrderScreen: React.FunctionComponent = () => {
           streetAddress: info.streetAddress1,
           city: info.city,
           zipCode: info.zip,
+          phone: info.phone,
           specialInstructions: specialInstructions
       }
       setOrder(ord);

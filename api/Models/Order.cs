@@ -23,6 +23,7 @@ namespace FreshFitFuel.Api.Models
         public string City { get; set; }
         public string State { get; set; } = "MD";
         public string ZipCode { get; set; }
+        public string Phone { get; set; }
         public string SpecialInstructions { get; set; }
         public DateTimeOffset OrderSubmitted { get; set; } = DateTimeOffset.UtcNow;
 

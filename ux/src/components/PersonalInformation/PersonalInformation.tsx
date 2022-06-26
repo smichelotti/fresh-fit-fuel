@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { PersonalInfo } from '../../models/PersonalInfo';
 
 const emptyPersonalInfo: PersonalInfo = {
-    name: '', email: '', venmo: '', distributionMethod: '', streetAddress1: '', city: '', zip: ''
+    name: '', email: '', venmo: '', distributionMethod: '', streetAddress1: '', city: '', zip: '', phone: ''
 };
 export interface PersonalInformationProps {
     onPersonalInfoCompleted(info: PersonalInfo): void;
@@ -18,6 +18,7 @@ export interface PersonalInformationProps {
 const schema = yup.object({
     name: yup.string().required(),
     email: yup.string().required().email(),
+    phone: yup.string().required().matches(/^\d{10}$/, { message: 'phone must be 10 digits'}),
     venmo: yup.string().required(),
     distributionMethod: yup.string().required(),
     streetAddress1: yup.string().when("name", {
@@ -56,7 +57,7 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
 
                     <Form noValidate onSubmit={handleSubmit}>
                         <Form.Row className="mt-2">
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Full Name</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -68,7 +69,7 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -80,7 +81,19 @@ export const PersonalInformation: React.FunctionComponent<PersonalInformationPro
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                             </Form.Group>
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
+                                <Form.Label>Phone</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="phone"
+                                    value={values.phone}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.phone && touched.phone}
+                                    placeholder="Phone number"
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Venmo Username</Form.Label>
                                 <Form.Control
                                     type="text"

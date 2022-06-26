@@ -9,7 +9,6 @@ import { LoadingState } from '../../../models/LoadingState';
 import { Order } from '../../../models/Order';
 import { StatsData } from '../../../models/StatsData';
 import { deleteOrder, getOrders, getOrdersStats } from '../../../services/ClientApi';
-import { ToDateTime } from '../../../services/utils';
 import { OrderStatusBadge } from './OrderStatusBadge';
 
 interface OrdersGridProps {
@@ -75,35 +74,50 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Order #</th>
-              <th>Order Status</th>
+              <th>Distribution</th>
               <th>Grand Total</th>
-              <th>Time received</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {orders.map(x => (
               <tr key={x.id}>
-                <td>{x.fullName}</td>
-                <td>{x.orderNumber}</td>
                 <td>
+                  {x.fullName} <br/>
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>
+                <td>{x.distributionMethod}</td>
                 <td>${x.grandTotal.toFixed(2)}</td>
-                <td>{ToDateTime(x.orderSubmitted)}</td>
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
-                    <Button className="btn-sm mr-2" variant="primary">View</Button>
+                    <Button className="btn-sm mr-2" variant="primary">
+                      <i className="fa fa-cutlery"></i>
+                    </Button>
                   </LinkContainer>
-                  <Button className="btn-sm" variant="danger" onClick={() => cancelOrder(x)}>Delete</Button>
+
+                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.streetAddress || '')}`} target="_blank" rel="noreferrer" 
+                    {...(!x.streetAddress ? { className: 'disabled-link'} : {})}>
+                    <Button size="sm" variant="info" className="mr-2" disabled={!x.streetAddress}>
+                      <i className="fa fa-map" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+
+                  <a href={`sms:+1${x.phone}?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
+                    <Button size="sm" variant="info" className="mr-2">
+                      <i className="fa fa-comment" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+
+                  <Button className="btn-sm" variant="danger" onClick={() => cancelOrder(x)}>
+                    <i className="fa fa-trash"></i>
+                  </Button>
                 </td>
               </tr>
             ))}
             <tr className="table-success font-weight-bold">
-              <td colSpan={3}><span className="float-right">Running Total:</span></td>
+              <td colSpan={2}><span className="float-right">Running Total:</span></td>
               <td>${grandTotal.toFixed(2)}</td>
-              <td colSpan={2}></td>
+              <td></td>
             </tr>
           </tbody>
         </Table>
@@ -121,7 +135,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           </thead>
           <tbody>
             {ordersStats.map(x => (
-              <>
+              <React.Fragment key={x.menuItemid}>
                 <tr key={x.menuItemid} className="table-primary">
                   <td>{x.name}</td>
                   <td></td>
@@ -134,7 +148,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
                     <td>{o.count}</td>
                   </tr>
                 ))}
-              </>
+              </React.Fragment>
             ))}
             <tr className="table-success font-weight-bold">
             <td></td>
