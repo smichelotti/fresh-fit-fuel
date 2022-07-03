@@ -15,7 +15,7 @@
     },
     {
       "route": "/login",
-      "serve": "/.auth/login/google"
+      "serve": "/.auth/login/google?post_login_redirect_uri=https://www.freshfitfuel.com/admin"
     },
     {
       "route": "/logout",
