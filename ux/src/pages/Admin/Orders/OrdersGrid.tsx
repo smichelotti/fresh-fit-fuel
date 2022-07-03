@@ -6,7 +6,7 @@ import { AppSpinner } from '../../../components/AppSpinner/AppSpinner';
 import { ConfirmationDialog } from '../../../components/ConfirmationDialog/ConfirmationDialog';
 import { InlineSpinner } from '../../../components/InlineSpinner/InlineSpinner';
 import { LoadingState } from '../../../models/LoadingState';
-import { Order } from '../../../models/Order';
+import { Delivery, Order } from '../../../models/Order';
 import { StatsData } from '../../../models/StatsData';
 import { deleteOrder, getOrders, getOrdersStats } from '../../../services/ClientApi';
 import { OrderStatusBadge } from './OrderStatusBadge';
@@ -19,6 +19,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
   const [loading, setLoading] = useState(LoadingState.Loading);
   const [orders, setOrders] = useState([] as Order[]);
   const [ordersStats, setOrdersStats] = useState([] as StatsData[]);
+  const [deliveries, setDeliveries] = useState({} as { deliveries: Delivery[], coveDeliveries: Delivery[]});
   const [args, setArgs] = useState({show: false} as {show: boolean, title?: string, idToDelete?: string});
 
   const [updating, setUpdating] = useState(false);
@@ -31,6 +32,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
         const [items, stats] = await Promise.all([getOrders(props.selectedMenuId), getOrdersStats(props.selectedMenuId)])
         setOrders(items);
         setOrdersStats(stats);
+        setDeliveries(createDeliveries(orders));
       } catch (e) {
         console.error(e);
       } finally {
@@ -38,13 +40,20 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
       }
     };
     getAll();
-  }, [props.selectedMenuId]);
+  }, [props.selectedMenuId, orders]);
 
   useEffect(() => {
     setGrandTotal(orders.reduce((total, currValue) => total + currValue.grandTotal, 0));
   }, [orders]);
 
   const cancelOrder = async (order: Order) => setArgs({ show: true, title: `Delete order ${order.orderNumber}?`, idToDelete: order.id });
+
+  const createDeliveries = (orders: Order[]) => {
+    return {
+      deliveries: orders.filter(o => o.distributionMethod === 'delivery').map(o => ({ name: o.fullName, phone: o.phone || '', address: o.streetAddress || '' })),
+      coveDeliveries: orders.filter(o => o.distributionMethod === 'pick-up at cove').map(o => ({ name: o.fullName, phone: o.phone || '', address: '7175 Oakland Mills Road' }))
+    };
+  };
 
   const onDismiss = async(confirmed: boolean) => {
     if (confirmed) {
@@ -61,6 +70,12 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
     setArgs({ show: false });
   };
 
+  const onDrivingMapClick = () => {
+    const qs = deliveries.deliveries.map(d => encodeURIComponent(d.address)).join('/');
+    const url = `https://maps.google.com/maps/dir/${encodeURIComponent('9604 Larchmede Court')}/${qs}/${encodeURIComponent(deliveries.coveDeliveries[0].address)}`;
+    window.open(url);
+  };
+
   if (loading === LoadingState.Loading) return <AppSpinner text="Loading Orders..." />
   // if (error) throw error;
   
@@ -74,7 +89,6 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Distribution</th>
               <th>Grand Total</th>
               <th></th>
             </tr>
@@ -86,7 +100,6 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
                   {x.fullName} <br/>
                   <OrderStatusBadge status={x.orderStatus} />
                 </td>
-                <td>{x.distributionMethod}</td>
                 <td>${x.grandTotal.toFixed(2)}</td>
                 <td>
                   <LinkContainer to={`/admin/orders/${x.id}`} exact={true}>
@@ -94,19 +107,6 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
                       <i className="fa fa-cutlery"></i>
                     </Button>
                   </LinkContainer>
-
-                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.streetAddress || '')}`} target="_blank" rel="noreferrer" 
-                    {...(!x.streetAddress ? { className: 'disabled-link'} : {})}>
-                    <Button size="sm" variant="info" className="mr-2" disabled={!x.streetAddress}>
-                      <i className="fa fa-map" aria-hidden="true"></i>
-                    </Button>
-                  </a>
-
-                  <a href={`sms:+1${x.phone}?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
-                    <Button size="sm" variant="info" className="mr-2">
-                      <i className="fa fa-comment" aria-hidden="true"></i>
-                    </Button>
-                  </a>
 
                   <Button className="btn-sm" variant="danger" onClick={() => cancelOrder(x)}>
                     <i className="fa fa-trash"></i>
@@ -165,6 +165,66 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
               <td>{ordersStats.reduce((total, currValue) => total + currValue.count, 0)}</td>
             </tr>
           </tbody>
+        </Table>
+
+        <h4>Deliveries</h4>
+
+        <Button size="sm" variant="info" className="mb-2" onClick={() => onDrivingMapClick()}>
+          <i className="fa fa-map mr-2" aria-hidden="true"></i>
+          Driving Map
+        </Button>
+
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {deliveries.deliveries.map((x, idx) => (
+              <tr key={x.name}>
+                <td>
+                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.address || '')}`} target="_blank" rel="noreferrer" >
+                    <Button size="sm" variant="info" className="mr-2">
+                      <i className="fa fa-map" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+                  {x.address}
+                </td>
+                <td>
+                  <a href={`sms:+1${x.phone}?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
+                    <Button size="sm" variant="info" className="mr-2">
+                      <i className="fa fa-comment" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+                  {x.name}
+                </td>
+              </tr>
+            ))}
+
+            {deliveries.coveDeliveries.map((x, idx) => (
+              <tr key={x.name}>
+                {(idx === 0) && <td rowSpan={deliveries.coveDeliveries.length}>
+                  <a href={`https://waze.com/ul?q=${encodeURIComponent(x.address || '')}`} target="_blank" rel="noreferrer" >
+                    <Button size="sm" variant="info" className="mr-2">
+                      <i className="fa fa-map" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+                  CrossFit Cove
+                </td>}
+                <td>
+                  <a href={`sms:+1${x.phone}?&body=Your%20Fresh%20Fit%20Fuel%20order%20has%20been%20delivered!%20%3A)`} target="_blank" rel="noreferrer">
+                    <Button size="sm" variant="info" className="mr-2">
+                      <i className="fa fa-comment" aria-hidden="true"></i>
+                    </Button>
+                  </a>
+                  {x.name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
         </Table>
 
     </>
