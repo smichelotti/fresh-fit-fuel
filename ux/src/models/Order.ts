@@ -37,3 +37,9 @@ export enum OrderStatus {
 export interface OrderConfirmation {
   orderNumber: string;
 }
+
+export interface Delivery {
+  name: string;
+  address: string;
+  phone: string;
+}
