@@ -125,34 +125,43 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
         <hr />
 
         <h4>Order Stats</h4>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Menu Item</th>
               <th></th>
+              <th>Customer</th>
               <th>Count</th>
             </tr>
           </thead>
           <tbody>
             {ordersStats.map(x => (
-              <React.Fragment key={x.menuItemid}>
-                <tr key={x.menuItemid} className="table-primary">
-                  <td>{x.name}</td>
-                  <td></td>
+              <React.Fragment key={x.menuItemId}>
+                <tr className="table-primary">
+                  <td className="font-weight-bold" colSpan={3}>{x.name}</td>
                   <td className="font-weight-bold">{x.count}</td>
                 </tr>
                 {x.options.map(o => (
-                  <tr key={o.name}>
+                  <React.Fragment key={o.name}>
+                  <tr key={o.name} className="table-warning">
                     <td></td>
                     <td>{o.name}</td>
+                    <td></td>
                     <td>{o.count}</td>
                   </tr>
+                  {o.customers.map(c => (
+                     <tr key={c.fullName}>
+                      <td colSpan={2}></td>
+                      <td>{c.fullName}</td>
+                      <td>{c.quantity}</td>
+                     </tr>
+                  ))}
+                  </React.Fragment>
                 ))}
               </React.Fragment>
             ))}
             <tr className="table-success font-weight-bold">
-            <td></td>
-              <td><span className="float-right">Total Count:</span></td>
+              <td colSpan={3}><span className="float-right">Total Count:</span></td>
               <td>{ordersStats.reduce((total, currValue) => total + currValue.count, 0)}</td>
             </tr>
           </tbody>
