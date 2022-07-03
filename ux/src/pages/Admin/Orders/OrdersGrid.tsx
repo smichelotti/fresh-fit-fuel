@@ -115,7 +115,7 @@ export const OrdersGrid: React.FunctionComponent<OrdersGridProps> = (props) => {
               </tr>
             ))}
             <tr className="table-success font-weight-bold">
-              <td colSpan={2}><span className="float-right">Running Total:</span></td>
+              <td><span className="float-right">Running Total:</span></td>
               <td>${grandTotal.toFixed(2)}</td>
               <td></td>
             </tr>
