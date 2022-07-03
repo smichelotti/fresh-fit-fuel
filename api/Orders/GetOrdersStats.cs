@@ -30,17 +30,22 @@ namespace FreshFitFuel.Api.Orders
             var menuId = req.Query["menuid"];
             var orders = this.db.Orders.Query<Order>(
                 filter: $"PartitionKey eq 'default' and MenuId eq '{menuId}'",
-                select: new[] { "MenuItemsJson" });
+                select: new[] { "FullName", "MenuItemsJson" });
             var items = this.mapper.Map<List<StatResult>>(orders);
 
-            var results = items.SelectMany(x => x.LineItems)
+            var results = items.SelectMany(x => x.LineItems, (i, j) => new { i.FullName, j.MenuItemId, j.Quantity, j.Name })
                                .GroupBy(x => x.MenuItemId)
                                .Select(grp => new { 
                                    MenuItemId = grp.Key,
                                    Name = TrimOptions(grp.First().Name),
                                    Count = grp.Sum(x => x.Quantity),
                                    Options = grp.GroupBy(x => x.Name)
-                                                .Select(optGrp => new { Name = optGrp.Key, Count = optGrp.Sum(x => x.Quantity) })
+                                                .Select(optGrp => new { 
+                                                    Name = optGrp.Key, 
+                                                    Count = optGrp.Sum(x => x.Quantity), 
+                                                    Customers = optGrp.Where(x => x.Quantity > 0)
+                                                                      .OrderBy(x => x.FullName)
+                                                                      .Select(x => new { x.FullName, x.Quantity }) })
                                                 .OrderBy(x => x.Name)
                                })
                                .OrderBy(x => x.Name)
@@ -57,6 +62,7 @@ namespace FreshFitFuel.Api.Orders
 
         public class StatResult
         {
+            public string FullName { get; set; }
             public List<LineItem> LineItems { get; set; }
         }
 
